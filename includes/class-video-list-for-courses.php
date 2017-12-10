@@ -67,12 +67,8 @@ class Video_List_For_Courses {
 	 * @since    1.0.0
 	 */
 	public function __construct() {
-		if ( defined( 'PLUGIN_NAME_VERSION' ) ) {
-			$this->version = PLUGIN_NAME_VERSION;
-		} else {
-			$this->version = '1.0.0';
-		}
-		$this->plugin_name = 'video-list-for-courses';
+		$this->version = VLFC_VERSION;
+		$this->plugin_name = VLFC_NAME;
 
 		$this->load_dependencies();
 		$this->set_locale();
@@ -154,8 +150,9 @@ class Video_List_For_Courses {
 
 		$plugin_admin = new Video_List_For_Courses_Admin( $this->get_plugin_name(), $this->get_version() );
 
-		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
-		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
+		$this->loader->add_action( 'admin_menu', $plugin_admin, 'vlfc_admin_menu');
+		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'vlfc_enqueue_styles' );
+		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'vlfc_enqueue_scripts' );
 
 	}
 

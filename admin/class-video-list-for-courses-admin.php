@@ -13,7 +13,7 @@
 /**
  * The admin-specific functionality of the plugin.
  *
- * Defines the plugin name, version, and two examples hooks for how to
+ * Defines the plugin name, version, and hooks to
  * enqueue the admin-specific stylesheet and JavaScript.
  *
  * @package    Video_List_For_Courses
@@ -59,19 +59,7 @@ class Video_List_For_Courses_Admin {
 	 *
 	 * @since    1.0.0
 	 */
-	public function enqueue_styles() {
-
-		/**
-		 * This function is provided for demonstration purposes only.
-		 *
-		 * An instance of this class should be passed to the run() function
-		 * defined in Video_List_For_Courses_Loader as all of the hooks are defined
-		 * in that particular class.
-		 *
-		 * The Video_List_For_Courses_Loader will then create the relationship
-		 * between the defined hooks and the functions defined in this
-		 * class.
-		 */
+	public function vlfc_enqueue_styles() {
 
 		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/video-list-for-courses-admin.css', array(), $this->version, 'all' );
 
@@ -82,22 +70,55 @@ class Video_List_For_Courses_Admin {
 	 *
 	 * @since    1.0.0
 	 */
-	public function enqueue_scripts() {
-
-		/**
-		 * This function is provided for demonstration purposes only.
-		 *
-		 * An instance of this class should be passed to the run() function
-		 * defined in Video_List_For_Courses_Loader as all of the hooks are defined
-		 * in that particular class.
-		 *
-		 * The Video_List_For_Courses_Loader will then create the relationship
-		 * between the defined hooks and the functions defined in this
-		 * class.
-		 */
+	public function vlfc_enqueue_scripts() {
 
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/video-list-for-courses-admin.js', array( 'jquery' ), $this->version, false );
 
+	}
+
+	/**
+	 * Create main item and subitems menu
+	 *
+	 * @since    1.0.0
+	 */
+	public function vlfc_admin_menu() {
+		global $_wp_last_object_menu;
+
+		$_wp_last_object_menu++;
+		
+		add_menu_page( __( 'Video List Courses', 'video-list-for-courses' ),
+					   __( 'Video Courses', 'video-list-for-courses' ),
+					   'manage_options', 
+					   'vlfc',
+					   array($this,'vlfc_admin_management_page'), 
+					   'dashicons-playlist-video',
+					   $_wp_last_object_menu++);
+
+		add_submenu_page( 'vlfc',
+						__( 'Edit Video Courses', 'video-list-for-courses' ),
+						__( 'Video List Courses', 'video-list-for-courses' ),
+						'manage_options', 
+						'vlfc',
+						array($this,'vlfc_admin_management_page') );
+
+		add_submenu_page( 'vlfc',
+						__( 'Add New Video Course', 'video-list-for-courses' ),
+						__( 'Add New', 'video-list-for-courses' ),
+						'manage_options', 
+						'vlfc-new',
+						array($this,'vlfc_admin_management_page') );
+
+	}
+
+	/**
+	 * Shows principal content item menu
+	 *
+	 * @since    1.0.0
+	 */
+	public function vlfc_admin_management_page(){
+		echo '<div class="wrap">';
+        echo '<h2>Submenu title</h2>';
+        echo '</div>';
 	}
 
 }
