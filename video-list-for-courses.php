@@ -28,18 +28,19 @@ if ( ! defined( 'WPINC' ) ) {
 */
 define( 'VLFC_VERSION', '1.0.0' );
 define( 'VLFC_NAME', 'video-list-for-courses' );
+define( 'VLFC_DIR', plugin_dir_path( __FILE__ ) );
 
 
 /**
  * The code that runs during plugin activation and desactivation
  */
 function activate_video_list_for_courses() {
-	require_once plugin_dir_path( __FILE__ ) . 'includes/class-video-list-for-courses-activator.php';
+	require_once VLFC_DIR . 'includes/class-video-list-for-courses-activator.php';
 	Video_List_For_Courses_Activator::activate();
 }
 
 function deactivate_video_list_for_courses() {
-	require_once plugin_dir_path( __FILE__ ) . 'includes/class-video-list-for-courses-deactivator.php';
+	require_once VLFC_DIR . 'includes/class-video-list-for-courses-desactivator.php';
 	Video_List_For_Courses_Deactivator::deactivate();
 }
 
@@ -51,7 +52,7 @@ register_deactivation_hook( __FILE__, 'deactivate_video_list_for_courses' );
  * The core plugin class that is used to define internationalization,
  * admin-specific hooks, and public-facing site hooks.
  */
-require plugin_dir_path( __FILE__ ) . 'includes/class-video-list-for-courses.php';
+require VLFC_DIR . 'includes/class-video-list-for-courses.php';
 
 function run_video_list_for_courses() {
 

@@ -99,24 +99,24 @@ class Video_List_For_Courses {
 		 * The class responsible for orchestrating the actions and filters of the
 		 * core plugin.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-video-list-for-courses-loader.php';
+		require_once VLFC_DIR . 'includes/class-video-list-for-courses-loader.php';
 
 		/**
 		 * The class responsible for defining internationalization functionality
 		 * of the plugin.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-video-list-for-courses-i18n.php';
+		require_once VLFC_DIR . 'includes/class-video-list-for-courses-i18n.php';
 
 		/**
 		 * The class responsible for defining all actions that occur in the admin area.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-video-list-for-courses-admin.php';
+		require_once VLFC_DIR . 'admin/class-video-list-for-courses-admin.php';
 
 		/**
 		 * The class responsible for defining all actions that occur in the public-facing
 		 * side of the site.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-video-list-for-courses-public.php';
+		require_once VLFC_DIR . 'public/class-video-list-for-courses-public.php';
 
 		$this->loader = new Video_List_For_Courses_Loader();
 

@@ -13,4 +13,22 @@
  */
 ?>
 
-<!-- This file should primarily consist of HTML with a little bit of PHP. -->
+
+<div class="wrap">
+
+<h1 class="wp-heading-inline"><?php
+	echo esc_html( __( 'Video List For Courses', 'video-list-for-courses' ) );
+?></h1>
+
+<hr class="wp-header-end">
+
+
+<form method="get" action="">
+	<input type="hidden" name="page" value="<?php echo esc_attr( $_REQUEST['page'] ); ?>" />
+	<?php //$list_table->search_box( __( 'Search Courses', 'video-list-for-courses' ), 'wpcf7-contact' ); ?>
+	<?php //$list_table->display(); ?>
+</form>
+
+
+</div>
+
