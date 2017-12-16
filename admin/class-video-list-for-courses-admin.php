@@ -20,7 +20,7 @@
  * @subpackage Video_List_For_Courses/admin
  * @author     Jhon Marreros Guzmán <admin@decodecms.com>
  */
-class Video_List_For_Courses_Admin {
+class VLFC_Video_List_For_Courses_Admin {
 
 	/**
 	 * The ID of this plugin.

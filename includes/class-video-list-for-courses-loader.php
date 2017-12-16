@@ -21,7 +21,7 @@
  * @subpackage Video_List_For_Courses/includes
  * @author     Jhon Marreros Guzmán <admin@decodecms.com>
  */
-class Video_List_For_Courses_Loader {
+class VLFC_Video_List_For_Courses_Loader {
 
 	/**
 	 * The array of actions registered with WordPress.

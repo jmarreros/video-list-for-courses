@@ -27,7 +27,7 @@
  * @subpackage Video_List_For_Courses/includes
  * @author     Jhon Marreros Guzmán <admin@decodecms.com>
  */
-class Video_List_For_Courses {
+class VLFC_Video_List_For_Courses {
 
 	/**
 	 * The loader that's responsible for maintaining and registering all hooks that power
@@ -118,7 +118,7 @@ class Video_List_For_Courses {
 		 */
 		require_once VLFC_DIR . 'public/class-video-list-for-courses-public.php';
 
-		$this->loader = new Video_List_For_Courses_Loader();
+		$this->loader = new VLFC_Video_List_For_Courses_Loader();
 
 	}
 
@@ -133,7 +133,7 @@ class Video_List_For_Courses {
 	 */
 	private function set_locale() {
 
-		$plugin_i18n = new Video_List_For_Courses_i18n();
+		$plugin_i18n = new VLFC_Video_List_For_Courses_i18n();
 
 		$this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'load_plugin_textdomain' );
 
@@ -148,7 +148,7 @@ class Video_List_For_Courses {
 	 */
 	private function define_admin_hooks() {
 
-		$plugin_admin = new Video_List_For_Courses_Admin( $this->get_plugin_name(), $this->get_version() );
+		$plugin_admin = new VLFC_Video_List_For_Courses_Admin( $this->get_plugin_name(), $this->get_version() );
 
 		$this->loader->add_action( 'admin_menu', $plugin_admin, 'vlfc_admin_menu');
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'vlfc_enqueue_styles' );
@@ -165,7 +165,7 @@ class Video_List_For_Courses {
 	 */
 	private function define_public_hooks() {
 
-		$plugin_public = new Video_List_For_Courses_Public( $this->get_plugin_name(), $this->get_version() );
+		$plugin_public = new VLFC_Video_List_For_Courses_Public( $this->get_plugin_name(), $this->get_version() );
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );

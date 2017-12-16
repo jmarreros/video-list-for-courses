@@ -20,7 +20,7 @@
  * @subpackage Video_List_For_Courses/includes
  * @author     Jhon Marreros Guzmán <admin@decodecms.com>
  */
-class Video_List_For_Courses_Deactivator {
+class VLFC_Video_List_For_Courses_Deactivator {
 
 	/**
 	 * Short Description. (use period)

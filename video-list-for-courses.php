@@ -48,15 +48,15 @@ register_activation_hook( __FILE__, 'activate_video_list_for_courses' );
 register_deactivation_hook( __FILE__, 'deactivate_video_list_for_courses' );
 
 
-/**
- * The core plugin class that is used to define internationalization,
- * admin-specific hooks, and public-facing site hooks.
- */
+// /**
+//  * The core plugin class that is used to define internationalization,
+//  * admin-specific hooks, and public-facing site hooks.
+//  */
 require VLFC_DIR . 'includes/class-video-list-for-courses.php';
 
 function run_video_list_for_courses() {
 
-	$plugin = new Video_List_For_Courses();
+	$plugin = new VLFC_Video_List_For_Courses();
 	$plugin->run();
 
 }
