@@ -29,7 +29,7 @@ class VLFC_Video_List_For_Courses_Deactivator {
 	 *
 	 * @since    1.0.0
 	 */
-	public static function deactivate() {
+	public static function desactivate() {
 
 	}
 

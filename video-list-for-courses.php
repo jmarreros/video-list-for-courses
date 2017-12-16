@@ -34,18 +34,18 @@ define( 'VLFC_DIR', plugin_dir_path( __FILE__ ) );
 /**
  * The code that runs during plugin activation and desactivation
  */
-function activate_video_list_for_courses() {
+function vlfc_activate() {
 	require_once VLFC_DIR . 'includes/class-video-list-for-courses-activator.php';
-	Video_List_For_Courses_Activator::activate();
+	VLFC_Video_List_For_Courses_Activator::activate();
 }
 
-function deactivate_video_list_for_courses() {
+function vlfc_desactivate() {
 	require_once VLFC_DIR . 'includes/class-video-list-for-courses-desactivator.php';
-	Video_List_For_Courses_Deactivator::deactivate();
+	VLFC_Video_List_For_Courses_Deactivator::desactivate();
 }
 
-register_activation_hook( __FILE__, 'activate_video_list_for_courses' );
-register_deactivation_hook( __FILE__, 'deactivate_video_list_for_courses' );
+register_activation_hook( __FILE__, 'vlfc_activate' );
+register_deactivation_hook( __FILE__, 'vlfc_desactivate' );
 
 
 // /**

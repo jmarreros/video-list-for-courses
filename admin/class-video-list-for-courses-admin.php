@@ -55,6 +55,16 @@ class VLFC_Video_List_For_Courses_Admin {
 	}
 
 	/**
+	 * Register the custom post type
+	 *
+	 * @since    1.0.0
+	 */
+	public function vlfc_register_post_type(){
+		include_once VLFC_DIR . 'includes/class-video-list-for-courses-post-type.php';
+		VLFC_CPT::register_post_type();
+	}
+
+	/**
 	 * Register the stylesheets for the admin area.
 	 *
 	 * @since    1.0.0

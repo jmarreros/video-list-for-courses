@@ -150,6 +150,7 @@ class VLFC_Video_List_For_Courses {
 
 		$plugin_admin = new VLFC_Video_List_For_Courses_Admin( $this->get_plugin_name(), $this->get_version() );
 
+		$this->loader->add_action( 'init', $plugin_admin, 'vlfc_register_post_type');
 		$this->loader->add_action( 'admin_menu', $plugin_admin, 'vlfc_admin_menu');
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'vlfc_enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'vlfc_enqueue_scripts' );

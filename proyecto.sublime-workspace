@@ -523,9 +523,36 @@
 			"file": "includes/class-video-list-for-courses.php",
 			"settings":
 			{
-				"buffer_size": 5932,
+				"buffer_size": 5837,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "admin/includes/class-video-list-for-courses-admin-table.php",
+			"settings":
+			{
+				"buffer_size": 2469,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "admin/partials/video-list-for-courses-admin-display.php",
+			"settings":
+			{
+				"buffer_size": 743,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "includes/class-video-list-for-courses-cpt.php",
+			"settings":
+			{
+				"buffer_size": 1030,
+				"encoding": "UTF-8",
+				"line_ending": "Unix",
+				"name": "<?php"
 			}
 		}
 	],
@@ -679,10 +706,23 @@
 	[
 		"/Users/jmarreros/www/encurso/wordpress_49/wp-content/plugins/video-list-for-courses",
 		"/Users/jmarreros/www/encurso/wordpress_49/wp-content/plugins/video-list-for-courses/admin",
+		"/Users/jmarreros/www/encurso/wordpress_49/wp-content/plugins/video-list-for-courses/admin/includes",
+		"/Users/jmarreros/www/encurso/wordpress_49/wp-content/plugins/video-list-for-courses/admin/partials",
 		"/Users/jmarreros/www/encurso/wordpress_49/wp-content/plugins/video-list-for-courses/includes"
 	],
 	"file_history":
 	[
+		"/Users/jmarreros/www/encurso/wordpress_49/wp-content/plugins/video-list-for-courses/video-list-for-courses.php",
+		"/Users/jmarreros/www/encurso/wordpress_49/wp-content/plugins/video-list-for-courses/public/class-video-list-for-courses-public.php",
+		"/Users/jmarreros/www/encurso/wordpress_49/wp-content/plugins/video-list-for-courses/admin/class-video-list-for-courses-admin.php",
+		"/Users/jmarreros/www/encurso/wordpress_49/wp-content/plugins/video-list-for-courses/admin/partials/video-list-for-courses-admin-display.php",
+		"/Users/jmarreros/www/encurso/wordpress_49/wp-content/plugins/video-list-for-courses/includes/class-video-list-for-courses.php",
+		"/Users/jmarreros/www/encurso/wordpress_49/wp-content/plugins/video-list-for-courses/includes/class-video-list-for-courses-loader.php",
+		"/Users/jmarreros/www/encurso/wordpress_49/wp-content/plugins/video-list-for-courses/includes/class-video-list-for-courses-activator.php",
+		"/Users/jmarreros/www/encurso/wordpress_49/wp-content/plugins/video-list-for-courses/includes/class-video-list-for-courses-desactivator.php",
+		"/Users/jmarreros/www/encurso/wordpress_49/wp-content/plugins/video-list-for-courses/includes/class-video-list-for-courses-i18n.php",
+		"/Users/jmarreros/www/encurso/wordpress_49/wp-content/plugins/video-list-for-courses/admin/includes/class-video-list-for-courses-admin-table.php",
+		"/Users/jmarreros/www/encurso/wordpress_49/wp-content/plugins/video-list-for-courses/admin/classes",
 		"/Users/jmarreros/www/encurso/wordpress_49/wp-content/plugins/video-list-for-courses/public/js/video-list-for-courses-public.js",
 		"/Users/jmarreros/www/encurso/wordpress_49/wp-content/themes/adbreak/functions.php",
 		"/Users/jmarreros/www/encurso/wordpress_49/wp-content/themes/twentyseventeen/functions.php",
@@ -692,11 +732,7 @@
 		"/Users/jmarreros/Desktop/related-posts-thumbnails/related-posts-thumbnails.php",
 		"/Users/jmarreros/Desktop/contact-form-7/settings.php",
 		"/Users/jmarreros/www/encurso/wordpress_49/wp-content/plugins/video-list-for-courses/admin/css/video-list-for-courses-admin.css",
-		"/Users/jmarreros/www/encurso/wordpress_49/wp-content/plugins/video-list-for-courses/public/class-video-list-for-courses-public.php",
 		"/Users/jmarreros/www/encurso/wordpress_49/wp-content/plugins/video-list-for-courses/public/css/video-list-for-courses-public.css",
-		"/Users/jmarreros/www/encurso/wordpress_49/wp-content/plugins/video-list-for-courses/admin/class-video-list-for-courses-admin.php",
-		"/Users/jmarreros/www/encurso/wordpress_49/wp-content/plugins/video-list-for-courses/video-list-for-courses.php",
-		"/Users/jmarreros/www/encurso/wordpress_49/wp-content/plugins/video-list-for-courses/includes/class-video-list-for-courses.php",
 		"/Users/jmarreros/Desktop/video-list-for-courses/video-list-for-courses.php",
 		"/Users/jmarreros/Desktop/video-list-for-courses/index.php",
 		"/Users/jmarreros/Desktop/video-list-for-courses/includes/class-video-list-for-courses-i18n.php",
@@ -803,14 +839,7 @@
 		"/Users/jmarreros/Desktop/javascriptES6/es6.io/02 - Arrow functions/exercises/Exercise 1.html",
 		"/Users/jmarreros/Desktop/javascriptES6/es6.io/02 - Arrow functions/when-not-to-use-arrows.html",
 		"/Users/jmarreros/www/localhost/webempresa/packwordpress/epimeteo/wp-content/themes/epimeteo_g5/scss/epimeteo/_showcase.scss",
-		"/Users/jmarreros/www/localhost/webempresa/packwordpress/epimeteo/wp-content/themes/epimeteo_g5/custom/css-compiled/epimeteo.css",
-		"/Users/jmarreros/www/localhost/webempresa/packwordpress/epimeteo/wp-content/themes/epimeteo_g5/scss/epimeteo/_typography.scss",
-		"/Users/jmarreros/www/localhost/webempresa/packwordpress/epimeteo/wp-content/themes/epimeteo_g5/scss/epimeteo/_nav.scss",
-		"/Users/jmarreros/www/localhost/webempresa/packwordpress/epimeteo/wp-content/themes/epimeteo_g5/scss/epimeteo/_offcanvas.scss",
-		"/Users/jmarreros/www/localhost/webempresa/packwordpress/epimeteo/wp-config.php",
-		"/Users/jmarreros/Desktop/bash/estructura.sh",
-		"/Users/jmarreros/www/localhost/webempresa/packwordpress/epimeteo/wp-content/themes/epimeteo_g5/searchform.php",
-		"/Users/jmarreros/www/localhost/webempresa/packwordpress/epimeteo/wp-content/themes/epimeteo_g5/views/searchform.html.twig"
+		"/Users/jmarreros/www/localhost/webempresa/packwordpress/epimeteo/wp-content/themes/epimeteo_g5/custom/css-compiled/epimeteo.css"
 	],
 	"find":
 	{
@@ -821,6 +850,7 @@
 		"height": 182.0,
 		"where_history":
 		[
+			""
 		]
 	},
 	"find_state":
@@ -828,6 +858,16 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"get_column_info",
+			"desactivate_video_list_for_courses",
+			"activate_video_list_for_courses",
+			"Video_List_For_Courses_Activator",
+			"define_public_hooks",
+			"//\t",
+			"\t\t$this->set_locale();\n\t\t$this->define_admin_hooks();\n\t\t$this->define_public_hooks();",
+			"plugin_dir",
+			"plugin_dir_path",
+			"class-video-list-for-courses-deactivator"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -845,24 +885,24 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 2,
 			"sheets":
 			[
 				{
 					"buffer": 0,
 					"file": "includes/class-video-list-for-courses.php",
-					"semi_transient": true,
+					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 5932,
+						"buffer_size": 5837,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								4223,
-								4195
+								771,
+								798
 							]
 						],
 						"settings":
@@ -871,11 +911,96 @@
 							"translate_tabs_to_spaces": false,
 							"word_wrap": false
 						},
+						"translation.x": 1.0,
+						"translation.y": 2428.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "admin/includes/class-video-list-for-courses-admin-table.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2469,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2271,
+								2175
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.sublime-syntax"
+						},
 						"translation.x": 0.0,
-						"translation.y": 4043.0,
+						"translation.y": 1649.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "admin/partials/video-list-for-courses-admin-display.php",
+					"semi_transient": true,
+					"settings":
+					{
+						"buffer_size": 743,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								264,
+								264
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "includes/class-video-list-for-courses-cpt.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1030,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								604,
+								586
+							]
+						],
+						"settings":
+						{
+							"auto_name": "<?php",
+							"syntax": "Packages/PHP/PHP.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 482.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
 					"type": "text"
 				}
 			]
