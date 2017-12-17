@@ -39,28 +39,52 @@ class VLFC_Video_List_For_Courses_Admin_Table extends WP_List_Table{
 		) );
 	}
 
-	public static function define_columns() {
+	// -- General functions columns
+	public function get_columns() {
+		$this->screen->post_type;
 		$columns = array(
 			'cb' => '<input type="checkbox" />',
 			'title' => __( 'Courses', 'video-list-for-courses' ),
 			'shortcode' => __( 'Shortcode', 'video-list-for-courses' ),
-			'lock' => __( 'Lock', 'video-list-for-courses' ),
-			'date' => __( 'Date', 'video-list-for-courses' ),
 			'author' => __( 'Author', 'video-list-for-courses' ),
+			'date' => __( 'Date', 'video-list-for-courses' )
 		);
 
 		return $columns;
 	}
 
-	function get_columns() {
-		return get_column_headers( get_current_screen() );
+	// function get_columns() {
+	// 	return get_column_headers( get_current_screen() );
+	// }
+
+	function get_sortable_columns() {
+		$columns = array(
+			'title' => array( 'title', true ),
+			'author' => array( 'author', false ),
+			'date' => array( 'date', false ),
+		);
+
+		return $columns;
+	}
+
+	// -- End General functions columns --
+
+	function get_bulk_actions() {
+		$actions = array(
+			'delete' => __( 'Delete', 'video-list-for-courses' ),
+		);
+
+		return $actions;
 	}
 
 	function prepare_items() {
 		$current_screen = get_current_screen();
 		$per_page = 20;
 
-		$this->_column_headers = $this->get_column_info();
+		$columns = $this->get_columns();
+		$hidden = array();
+		$sortable = array();
+		$this->_column_headers = array($columns, $hidden, $sortable);
 
 		$args = array(
 			'posts_per_page' => $per_page,
@@ -69,31 +93,10 @@ class VLFC_Video_List_For_Courses_Admin_Table extends WP_List_Table{
 			'offset' => ( $this->get_pagenum() - 1 ) * $per_page,
 		);
 
-		if ( ! empty( $_REQUEST['s'] ) ) {
-			$args['s'] = $_REQUEST['s'];
-		}
 
-		if ( ! empty( $_REQUEST['orderby'] ) ) {
-			if ( 'title' == $_REQUEST['orderby'] ) {
-				$args['orderby'] = 'title';
-			} elseif ( 'author' == $_REQUEST['orderby'] ) {
-				$args['orderby'] = 'author';
-			} elseif ( 'date' == $_REQUEST['orderby'] ) {
-				$args['orderby'] = 'date';
-			}
-		}
+		$this->items = VLFC_CPT::find( $args );
 
-		if ( ! empty( $_REQUEST['order'] ) ) {
-			if ( 'asc' == strtolower( $_REQUEST['order'] ) ) {
-				$args['order'] = 'ASC';
-			} elseif ( 'desc' == strtolower( $_REQUEST['order'] ) ) {
-				$args['order'] = 'DESC';
-			}
-		}
-
-		$this->items = WPCF7_ContactForm::find( $args );
-
-		$total_items = WPCF7_ContactForm::count();
+		$total_items = VLFC_CPT::count();
 		$total_pages = ceil( $total_items / $per_page );
 
 
@@ -103,5 +106,86 @@ class VLFC_Video_List_For_Courses_Admin_Table extends WP_List_Table{
 			'per_page' => $per_page,
 		) );
 	}
+
+	//-- Especific columns
+
+	function column_cb( $item ) {
+		return sprintf(
+			'<input type="checkbox" name="%1$s[]" value="%2$s" />',
+			$this->_args['singular'],
+			$item->id() );
+	}
+
+	function column_title( $item ) {
+		$url = admin_url( 'admin.php?page=vlfc&post=' . absint( $item->id() ) ); // vlfc -> add_menu
+		$edit_link = add_query_arg( array( 'action' => 'edit' ), $url );
+
+		$output = sprintf(
+			'<a class="row-title" href="%1$s" title="%2$s">%3$s</a>',
+			esc_url( $edit_link ),
+			esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;', 'video-list-for-courses' ),
+				$item->title() ) ),
+			esc_html( $item->title() )
+		);
+
+		$output = sprintf( '<strong>%s</strong>', $output );
+
+		$actions = array(
+			'edit' => sprintf( '<a href="%1$s">%2$s</a>',
+				esc_url( $edit_link ),
+				esc_html( __( 'Edit', 'video-list-for-courses' ) ) ) );
+
+		$output .= $this->row_actions( $actions );
+
+		return $output;
+	}
+
+	function column_author( $item ) {
+		$post = get_post( $item->id() );
+
+		if ( ! $post ) {
+			return;
+		}
+
+		$author = get_userdata( $post->post_author );
+
+		if ( false === $author ) {
+			return;
+		}
+
+		return esc_html( $author->display_name );
+	}
+
+	function column_shortcode( $item ) {
+		return 'xxx';
+	}
+
+	function column_date( $item ) {
+		$post = get_post( $item->id() );
+
+		if ( ! $post ) {
+			return;
+		}
+
+		$t_time = mysql2date( __( 'Y/m/d g:i:s A', 'contact-form-7' ),
+			$post->post_date, true );
+		$m_time = $post->post_date;
+		$time = mysql2date( 'G', $post->post_date )
+			- get_option( 'gmt_offset' ) * 3600;
+
+		$time_diff = time() - $time;
+
+		if ( $time_diff > 0 && $time_diff < 24*60*60 ) {
+			/* translators: %s: time since the creation of the contact form */
+			$h_time = sprintf(
+				__( '%s ago', 'contact-form-7' ), human_time_diff( $time ) );
+		} else {
+			$h_time = mysql2date( __( 'Y/m/d', 'contact-form-7' ), $m_time );
+		}
+
+		return '<abbr title="' . $t_time . '">' . $h_time . '</abbr>';
+	}
+
+	//-- End Especific columns
 
 }
