@@ -11,6 +11,8 @@
  * @package    Video_List_For_Courses
  * @subpackage Video_List_For_Courses/admin/partials
  */
+
+include_once VLFC_DIR . 'includes/class-video-list-for-courses-post-type.php';
 ?>
 
 
@@ -25,8 +27,8 @@
 
 <form method="get" action="">
 	<input type="hidden" name="page" value="<?php echo esc_attr( $_REQUEST['page'] ); ?>" />
-	<?php //$list_table->search_box( __( 'Search Courses', 'video-list-for-courses' ), 'wpcf7-contact' ); ?>
-	<?php //$list_table->display(); ?>
+	<?php $list_table->search_box( __( 'Search Courses', 'video-list-for-courses' ), 'vlfc_search' ); ?>
+	<?php $list_table->display(); ?>
 </form>
 
 

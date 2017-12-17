@@ -26,7 +26,18 @@ if ( ! class_exists( 'WP_List_Table' ) ) {
 }
 
 
+require_once VLFC_DIR . 'includes/class-video-list-for-courses-post-type.php';
+
+
 class VLFC_Video_List_For_Courses_Admin_Table extends WP_List_Table{
+
+	function __construct() {
+		parent::__construct( array(
+			'singular' => 'post',
+			'plural' => 'posts',
+			'ajax' => false,
+		) );
+	}
 
 	public static function define_columns() {
 		$columns = array(
@@ -41,12 +52,8 @@ class VLFC_Video_List_For_Courses_Admin_Table extends WP_List_Table{
 		return $columns;
 	}
 
-	function __construct() {
-		parent::__construct( array(
-			'singular' => 'post',
-			'plural' => 'posts',
-			'ajax' => false,
-		) );
+	function get_columns() {
+		return get_column_headers( get_current_screen() );
 	}
 
 	function prepare_items() {
@@ -84,16 +91,11 @@ class VLFC_Video_List_For_Courses_Admin_Table extends WP_List_Table{
 			}
 		}
 
-		// TODO: Falta llenar los datos
+		$this->items = WPCF7_ContactForm::find( $args );
 
+		$total_items = WPCF7_ContactForm::count();
+		$total_pages = ceil( $total_items / $per_page );
 
-		// $this->items = WPCF7_ContactForm::find( $args );
-
-		// $total_items = WPCF7_ContactForm::count();
-		// $total_pages = ceil( $total_items / $per_page );
-
-		$total_items = 20;
-		$total_pages = 2;
 
 		$this->set_pagination_args( array(
 			'total_items' => $total_items,

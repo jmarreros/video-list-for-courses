@@ -31,6 +31,23 @@ class VLFC_Video_List_For_Courses_Activator {
 	 */
 	public static function activate() {
 
+		// TODO : Inserción de ejemplo
+
+		// $args = [
+		// 	'post_title' => 'Curso Ejemplo',
+		// 	'post_content' => 'Contenido HTML de ejemplo también :)',
+		// 	'post_status' => 'publish',
+		// 	'post_type' => 'vlfc_video_courses'
+		// ];
+		
+		// $post_id = wp_insert_post($args);
+
+		// if ( is_wp_error($post_id) ){
+		//   echo $post_id->get_error_message();
+		// }
+
+		// --- Fin insersión ejemplo ---
+
 	}
 
 }

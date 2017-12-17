@@ -56,8 +56,12 @@ require VLFC_DIR . 'includes/class-video-list-for-courses.php';
 
 function run_video_list_for_courses() {
 
+	
 	$plugin = new VLFC_Video_List_For_Courses();
 	$plugin->run();
 
 }
 run_video_list_for_courses();
+
+
+

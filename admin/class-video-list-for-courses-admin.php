@@ -126,9 +126,12 @@ class VLFC_Video_List_For_Courses_Admin {
 	 * @since    1.0.0
 	 */
 	public function vlfc_admin_management_page() {
+		include_once VLFC_DIR . 'includes/class-video-list-for-courses-admin-table.php';
 
-		include_once 'partials/video-list-for-courses-admin-display.php';
-
+		$list_table = new VLFC_Video_List_For_Courses_Admin_Table();
+		$list_table->prepare_items();
+		
+		include_once VLFC_DIR . 'admin/partials/video-list-for-courses-admin-display.php';
 	}
 
 }
