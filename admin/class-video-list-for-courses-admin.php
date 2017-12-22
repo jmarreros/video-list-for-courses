@@ -100,7 +100,7 @@ class VLFC_Video_List_For_Courses_Admin {
 					   __( 'Video Courses', 'video-list-for-courses' ),
 					   'manage_options', 
 					   'vlfc',
-					   array($this,'vlfc_admin_management_page'), 
+					   array($this, 'vlfc_admin_management_page'), 
 					   'dashicons-playlist-video',
 					   $_wp_last_object_menu++);
 
@@ -109,14 +109,14 @@ class VLFC_Video_List_For_Courses_Admin {
 						__( 'Video List Courses', 'video-list-for-courses' ),
 						'manage_options', 
 						'vlfc',
-						array($this,'vlfc_admin_management_page') );
+						array($this, 'vlfc_admin_management_page') );
 
 		add_submenu_page( 'vlfc',
 						__( 'Add New Video Course', 'video-list-for-courses' ),
 						__( 'Add New', 'video-list-for-courses' ),
 						'manage_options', 
 						'vlfc-new',
-						array($this,'vlfc_admin_management_page') );
+						array($this, 'vlfc_admin_new_page') );
 
 	}
 
@@ -131,7 +131,20 @@ class VLFC_Video_List_For_Courses_Admin {
 		$list_table = new VLFC_Video_List_For_Courses_Admin_Table();
 		$list_table->prepare_items();
 		
-		include_once VLFC_DIR . 'admin/partials/video-list-for-courses-admin-display.php';
+		include_once VLFC_DIR . 'admin/partials/admin-display.php';
+	}
+
+	/**
+	 * Shows new content page for a course
+	 *
+	 * @since    1.0.0
+	 */
+	public function vlfc_admin_new_page() {
+		include_once VLFC_DIR . 'includes/class-video-list-for-courses-post-type.php';
+
+		$course = new VLFC_CPT(); //create new course object 
+		
+		include_once VLFC_DIR . 'admin/partials/admin-edit.php';
 	}
 
 }

@@ -25,10 +25,8 @@ class VLFC_CPT{
 
 	private static $found_items = 0;
 	private $id = 0;
-	private $name = '';
-	private $title = '';
-
-
+	private $title = 'Default title';
+	private $content = '';
 
 	public static function register_post_type() {
 		register_post_type( self::post_type, array(
@@ -72,38 +70,45 @@ class VLFC_CPT{
 		return $objs;
 	}
 
-	private function __construct ( $id = 0){
-		$post = get_post( $id );
+	public function __construct ( $id = 0){
+		if ( ! empty($id) ){
+			$post = get_post( $id );
 
-		if ( $post && self::post_type == get_post_type( $post ) ){
-			$this->id = $post->ID;
-			$this->name = $post->post_name;
-			$this->title = $post->post_title;
+			if ( $post && self::post_type == get_post_type( $post ) ){
+				$this->id = $post->ID;
+				$this->title = $post->post_title;
+				$this->content = $post->post_content;
+			}
+
 		}
-
 	}
+
 
 	public function id() {
 		return $this->id;
 	}
 
-	public function name() {
-		return $this->name;
-	}
-
+	
 	public function title() {
 		return $this->title;
 	}
 
+	public function content() {
+		return $this->content;
+	}
 
-		// public static function get_instance( $post ) {
+	public function initial() {
+		return empty( $this->id );
+	}
+
+	// public static function get_instance( $post = 0 ) {
 	// 	$post = get_post( $post );
 
 	// 	if ( ! $post || self::post_type != get_post_type( $post ) ) {
 	// 		return false;
 	// 	}
 
-	// 	return self::$current = new self( $post );
+	// 	return new self( $post );
 	// }
 
 

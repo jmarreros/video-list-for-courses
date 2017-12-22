@@ -30,7 +30,6 @@ define( 'VLFC_VERSION', '1.0.0' );
 define( 'VLFC_NAME', 'video-list-for-courses' );
 define( 'VLFC_DIR', plugin_dir_path( __FILE__ ) );
 
-
 /**
  * The code that runs during plugin activation and desactivation
  */
@@ -62,6 +61,3 @@ function run_video_list_for_courses() {
 
 }
 run_video_list_for_courses();
-
-
-
