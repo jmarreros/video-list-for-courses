@@ -1,3 +1,7 @@
 /**
  * All of the CSS for admin area
  */
+
+ #wp-content-editor-container textarea{
+ 	width: 100%;
+ }

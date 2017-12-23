@@ -20,6 +20,13 @@
  * @subpackage Video_List_For_Courses/admin
  * @author     Jhon Marreros Guzmán <admin@decodecms.com>
  */
+
+
+require_once VLFC_DIR . 'includes/class-video-list-for-courses-post-type.php';
+require_once VLFC_DIR . 'includes/class-video-list-for-courses-admin-table.php';
+require_once VLFC_DIR . 'helpers/functions.php';
+
+
 class VLFC_Video_List_For_Courses_Admin {
 
 	/**
@@ -60,7 +67,6 @@ class VLFC_Video_List_For_Courses_Admin {
 	 * @since    1.0.0
 	 */
 	public function vlfc_register_post_type(){
-		include_once VLFC_DIR . 'includes/class-video-list-for-courses-post-type.php';
 		VLFC_CPT::register_post_type();
 	}
 
@@ -71,7 +77,7 @@ class VLFC_Video_List_For_Courses_Admin {
 	 */
 	public function vlfc_enqueue_styles() {
 
-		wp_enqueue_style( $this->plugin_name, VLFC_DIR . 'css/video-list-for-courses-admin.css', array(), $this->version, 'all' );
+		wp_enqueue_style( $this->plugin_name, VLFC_URL . 'admin/css/video-list-for-courses-admin.css', array(), $this->version, 'all' );
 
 	}
 
@@ -82,7 +88,7 @@ class VLFC_Video_List_For_Courses_Admin {
 	 */
 	public function vlfc_enqueue_scripts() {
 
-		wp_enqueue_script( $this->plugin_name, VLFC_DIR . 'js/video-list-for-courses-admin.js', array( 'jquery' ), $this->version, false );
+		wp_enqueue_script( $this->plugin_name, VLFC_URL . 'admin/js/video-list-for-courses-admin.js', array( 'jquery' ), $this->version, false );
 
 	}
 
@@ -104,12 +110,16 @@ class VLFC_Video_List_For_Courses_Admin {
 					   'dashicons-playlist-video',
 					   $_wp_last_object_menu++);
 
-		add_submenu_page( 'vlfc',
+
+		$edit = add_submenu_page( 'vlfc',
 						__( 'Edit Video Courses', 'video-list-for-courses' ),
 						__( 'Video List Courses', 'video-list-for-courses' ),
 						'manage_options', 
 						'vlfc',
 						array($this, 'vlfc_admin_management_page') );
+
+		add_action( 'load-' . $edit, array( $this, 'vlfc_load_admin_edit_page' ) ); //load before show edit page
+
 
 		add_submenu_page( 'vlfc',
 						__( 'Add New Video Course', 'video-list-for-courses' ),
@@ -126,12 +136,22 @@ class VLFC_Video_List_For_Courses_Admin {
 	 * @since    1.0.0
 	 */
 	public function vlfc_admin_management_page() {
-		include_once VLFC_DIR . 'includes/class-video-list-for-courses-admin-table.php';
 
-		$list_table = new VLFC_Video_List_For_Courses_Admin_Table();
-		$list_table->prepare_items();
-		
-		include_once VLFC_DIR . 'admin/partials/admin-display.php';
+		// edit course
+		if ( $course = VLFC_CPT::get_current() ){
+
+			include_once VLFC_DIR . 'admin/partials/admin-edit.php';
+
+		}
+		// list courses
+		else {
+
+			$list_table = new VLFC_Video_List_For_Courses_Admin_Table();
+			$list_table->prepare_items();
+			
+			include_once VLFC_DIR . 'admin/partials/admin-display.php';			
+		}
+
 	}
 
 	/**
@@ -140,11 +160,32 @@ class VLFC_Video_List_For_Courses_Admin {
 	 * @since    1.0.0
 	 */
 	public function vlfc_admin_new_page() {
-		include_once VLFC_DIR . 'includes/class-video-list-for-courses-post-type.php';
-
-		$course = new VLFC_CPT(); //create new course object 
+		//create new course object 
+		$course = VLFC_CPT::get_instance(0); 
 		
 		include_once VLFC_DIR . 'admin/partials/admin-edit.php';
 	}
 
+
+	/**
+	 * load before, edit page content page for a course
+	 *
+	 * @since    1.0.0
+	 */
+	public function vlfc_load_admin_edit_page() {
+		$action = vlfc_current_action();
+
+		switch ( $action ) {
+
+			case 'edit':
+				$id = $_GET['post'] ;
+				VLFC_CPT::get_instance( $id );
+				break;
+			
+			default:
+				break;
+
+		}
+		
+	}
 }

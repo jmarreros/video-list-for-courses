@@ -50,7 +50,7 @@
 <input 
 	name="post_title" 
 	size="30" 
-	value="<?php $course->initial() ? '' : $course->title(); ?>" 
+	value="<?php echo $course->initial() ? '' : $course->title(); ?>" 
 	id="title" 
 	spellcheck="true" 
 	autocomplete="off" 
@@ -62,6 +62,15 @@
 </div><!-- inside -->
 
 </div><!-- #titlediv -->
+
+<div id="wp-content-editor-container" class="wp-editor-container">
+	<textarea class="wp-editor-area" 
+			autocomplete="off" 
+			cols="40" 
+			name="content" 
+			id="content"><?php echo $course->initial() ? '' : $course->content(); ?></textarea>
+</div><!-- wp-content-editor-container -->
+
 </div><!-- #post-body-content -->
 
 
@@ -99,7 +108,7 @@
 
 		<div id="major-publishing-actions">
 			<?php
-				if ( ! $post->initial() ) :
+				if ( ! $course->initial() ) :
 					$delete_nonce = wp_create_nonce( 'vlfc-delete-course_' . $course_id );
 			?>
 			<div id="delete-action">
@@ -114,13 +123,18 @@
 			<div id="publishing-action">
 				<span class="spinner"></span>
 				<?php 
-					$nonce = wp_create_nonce( 'vlfc-save-course_' . $course_id );
+					$save_nonce = wp_create_nonce( 'vlfc-save-course_' . $course_id );
+					$onclick = sprintf(
+								"this.form._wpnonce.value = '%s';"
+								. " this.form.action.value = 'save';"
+								. " return true;",
+								$save_nonce );
 				?>
 				<input type="submit" 
 						class="button-primary" 
 						name="vlfc-save" 
-						value="" <?php  // TODO: Complete options ?> 
-						onclick="" />
+						value="<?php echo esc_attr( __( 'Save', 'video-list-for-courses' )) ?>"
+						onclick="<?php echo $onclick ?>" />
 			</div><!-- #publishing-action -->
 			<div class="clear"></div>
 

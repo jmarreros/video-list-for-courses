@@ -24,6 +24,8 @@ class VLFC_CPT{
 	const post_type = 'vlfc_video_courses';
 
 	private static $found_items = 0;
+	private static $current = null;
+
 	private $id = 0;
 	private $title = 'Default title';
 	private $content = '';
@@ -70,7 +72,7 @@ class VLFC_CPT{
 		return $objs;
 	}
 
-	public function __construct ( $id = 0){
+	private function __construct ( $id ){
 		if ( ! empty($id) ){
 			$post = get_post( $id );
 
@@ -101,15 +103,13 @@ class VLFC_CPT{
 		return empty( $this->id );
 	}
 
-	// public static function get_instance( $post = 0 ) {
-	// 	$post = get_post( $post );
+	public static function get_current() {
+		return self::$current;
+	}
 
-	// 	if ( ! $post || self::post_type != get_post_type( $post ) ) {
-	// 		return false;
-	// 	}
-
-	// 	return new self( $post );
-	// }
+	public static function get_instance( $id = 0 ) {
+		return self::$current = new self( $id );
+	}
 
 
 }
