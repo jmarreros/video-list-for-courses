@@ -5,3 +5,13 @@
  #wp-content-editor-container textarea{
  	width: 100%;
  }
+
+ #minor-publishing-actions{
+ 	padding-bottom: 20px;
+ }
+
+.delete.submitdelete{
+	background: transparent;
+ 	border:none; 	
+ 	cursor: pointer;
+ }

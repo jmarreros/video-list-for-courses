@@ -35,8 +35,8 @@
 	id="wpcf7-admin-form-element" >
 
 
-<input type="hidden" id="post_ID" name="post_ID" value="<?php echo (int) $course_id; ?>" />
-<input type="hidden" id="hiddenaction" name="action" value="save" />
+<input type="hidden" id="course_id" name="course_id" value="<?php echo (int) $course_id; ?>" />
+<input type="hidden" id="action" name="action" value="" />
 
 
 <div id="poststuff">
@@ -82,13 +82,6 @@
 	<div class="inside">
 	<div class="submitbox" id="submitpost">
 
-<!-- 		<div class="hidden">
-			<input type="submit" 
-					class="button-primary" 
-					name="vlfc-save" 
-					value="<?php echo esc_attr( __( 'Save', 'video-list-for-courses' ) ); ?>" />
-		</div> -->
-
 		<div id="minor-publishing-actions"> 			
 		
 			<div id="duplicate-action">
@@ -123,18 +116,15 @@
 			<div id="publishing-action">
 				<span class="spinner"></span>
 				<?php 
-					$save_nonce = wp_create_nonce( 'vlfc-save-course_' . $course_id );
-					$onclick = sprintf(
-								"this.form._wpnonce.value = '%s';"
-								. " this.form.action.value = 'save';"
-								. " return true;",
-								$save_nonce );
+					$nonce_save = wp_create_nonce( 'vlfc-save-course_' . $course_id );
+					$action_save = $course->initial() ? 'new' : 'edit'; 
 				?>
 				<input type="submit" 
 						class="button-primary" 
 						name="vlfc-save" 
-						value="<?php echo esc_attr( __( 'Save', 'video-list-for-courses' )) ?>"
-						onclick="<?php echo $onclick ?>" />
+						value="<?php echo esc_attr( __( 'Save', 'video-list-for-courses' )) ?>"						
+						<?php echo "onclick=\"this.form._wpnonce.value = '$nonce_save'; this.form.action.value = '$action_save'; return true;\""; ?>
+						/>
 			</div><!-- #publishing-action -->
 			<div class="clear"></div>
 
