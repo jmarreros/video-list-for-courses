@@ -76,9 +76,9 @@ class VLFC_Video_List_For_Courses_Admin {
 	 * @since    1.0.0
 	 */
 	public function vlfc_enqueue_styles() {
-
-		wp_enqueue_style( $this->plugin_name, VLFC_URL . 'admin/css/video-list-for-courses-admin.css', array(), $this->version, 'all' );
-
+		if ( $this->is_page_vlfc() ){
+			wp_enqueue_style( $this->plugin_name, VLFC_URL . 'admin/css/video-list-for-courses-admin.css', array(), $this->version, 'all' );			
+		}
 	}
 
 	/**
@@ -87,9 +87,9 @@ class VLFC_Video_List_For_Courses_Admin {
 	 * @since    1.0.0
 	 */
 	public function vlfc_enqueue_scripts() {
-
-		wp_enqueue_script( $this->plugin_name, VLFC_URL . 'admin/js/video-list-for-courses-admin.js', array( 'jquery' ), $this->version, false );
-
+		if ( $this->is_page_vlfc() ){
+			wp_enqueue_script( $this->plugin_name, VLFC_URL . 'admin/js/video-list-for-courses-admin.js', array( 'jquery' ), $this->version, false );
+		}
 	}
 
 	/**
@@ -106,7 +106,7 @@ class VLFC_Video_List_For_Courses_Admin {
 					   __( 'Video Courses', 'video-list-for-courses' ),
 					   'manage_options', 
 					   'vlfc',
-					   array($this, 'vlfc_admin_management_page'), 
+					   array( $this, 'vlfc_admin_management_page' ), 
 					   'dashicons-playlist-video',
 					   $_wp_last_object_menu++);
 
@@ -116,7 +116,7 @@ class VLFC_Video_List_For_Courses_Admin {
 						__( 'Video List Courses', 'video-list-for-courses' ),
 						'manage_options', 
 						'vlfc',
-						array($this, 'vlfc_admin_management_page') );
+						array( $this, 'vlfc_admin_management_page') );
 
 		add_action( 'load-' . $edit, array( $this, 'vlfc_load_admin_edit_page' ) ); //load before show edit page
 
@@ -131,7 +131,7 @@ class VLFC_Video_List_For_Courses_Admin {
 	}
 
 	/**
-	 * Shows principal content item menu
+	 * Shows principal content item menu, alsa shows detail course for editing
 	 *
 	 * @since    1.0.0
 	 */
@@ -175,17 +175,57 @@ class VLFC_Video_List_For_Courses_Admin {
 	public function vlfc_load_admin_edit_page() {
 		$action = vlfc_current_action();
 
-		switch ( $action ) {
-
-			case 'edit':
-				$id = $_GET['post'] ;
-				VLFC_CPT::get_instance( $id );
-				break;
-			
-			default:
-				break;
-
+		if ($action == 'edit') {
+			$id = $_GET['post'] ;
+			VLFC_CPT::get_instance( $id );
 		}
 		
 	}
+
+
+	/*
+	Actions functions, New, Edit, Delete, Duplicate
+	*/
+	public function vlfc_edit_course(){
+		status_header(200);
+	    die("Server received '{$_REQUEST['action']}' from your browser.");
+	}
+
+	public function vlfc_new_course(){
+		status_header(200);
+	    die("Server received '{$_REQUEST['action']}' from your browser.");
+	}
+
+	public function vlfc_delete_course(){
+		status_header(200);
+	    die("Server received '{$_REQUEST['action']}' from your browser.");
+	}
+
+	public function vlfc_duplicate_course(){
+		status_header(200);
+	    die("Server received '{$_REQUEST['action']}' from your browser.");
+	}
+
+
+	public function vlfc_admin_show_message() {
+
+		// if ( empty( $_REQUEST['message'] ) ) {
+		// 	return;
+		// }
+
+		echo "Mensaje desde hook ".$_REQUEST['message'];
+		return;
+	}
+
+
+	/**
+	 * validate if we are in a vlfc page, for loading scripts
+	 *
+	 * @since    1.0.0
+	 */
+	private function is_page_vlfc(){
+		$page = $_REQUEST['page'];
+		return ($page == 'vlfc' || $page == 'vlfc-new');
+	}
+
 }

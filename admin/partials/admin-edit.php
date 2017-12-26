@@ -37,11 +37,11 @@ include_once VLFC_DIR . 'admin/partials/admin-actions.php';
 
 <form method="post" 
 	action="<?php echo esc_url( admin_url('admin-post.php') ); ?>"
-	id="wpcf7-admin-form-element" >
+	id="vlfc-admin-form-element" >
 
 
 <input type="hidden" id="course_id" name="course_id" value="<?php echo (int) $course_id; ?>" />
-<input type="hidden" id="action" name="action" value="vlfc_edit_course" />
+<input type="hidden" id="action" name="action" value="" />
 <input type="hidden" id="_wpnonce" name="_wpnonce" value="" />
 
 
@@ -93,44 +93,46 @@ include_once VLFC_DIR . 'admin/partials/admin-actions.php';
 			<div id="duplicate-action">
 			<?php
 				if ( ! $course->initial() ) :
-					$copy_nonce = wp_create_nonce( 'vlfc-copy-course_' . $course_id );
+					$nonce_duplicate = wp_create_nonce( 'vlfc-duplicate-course_' . $course_id );
+					$action_duplicate = 'vlfc_duplicate_action'; 
 			?>
-				<input type="submit" 
-						name="vlfc-copy" 
-						class="copy button" 
-						value="<?php echo esc_attr( __( 'Duplicate', 'video-list-for-courses' ) ); ?>" 
-						<?php echo "onclick=\"this.form._wpnonce.value = '$copy_nonce'; this.form.action.value = 'copy'; return true;\""; ?> />
+					<input type="submit" 
+							name="vlfc-copy" 
+							class="copy button" 
+							value="<?php echo esc_attr( __( 'Duplicate', 'video-list-for-courses' ) ); ?>" 
+							<?php echo "onclick=\"this.form._wpnonce.value = '$nonce_duplicate'; this.form.action.value = '$action_duplicate'; return true;\""; ?> />
 			<?php endif; ?>
 			</div><!-- #duplicate-action -->
 
 		</div><!-- #minor-publishing-actions -->
 
 		<div id="major-publishing-actions">
+			
 			<?php
 				if ( ! $course->initial() ) :
-					$delete_nonce = wp_create_nonce( 'vlfc-delete-course_' . $course_id );
+					$nonce_delete = wp_create_nonce( 'vlfc-delete-course_' . $course_id );
+					$action_delete = 'vlfc_delete_action'; 
 			?>
-			<div id="delete-action">
-				<input type="submit" 
-						name="vlfc-delete" 
-						class="delete submitdelete" 
-						value="<?php echo esc_attr( __( 'Delete', 'video-list-for-courses' ) ); ?>" 
-						<?php echo "onclick=\"if (confirm('" . esc_js( __( "You are about to delete this course.\n  'Cancel' to stop, 'OK' to delete.", 'video-list-for-courses' ) ) . "')) {this.form._wpnonce.value = '$delete_nonce'; this.form.action.value = 'delete'; return true;} return false;\""; ?> />
-			</div><!-- #delete-action -->
+				<div id="delete-action">
+					<input type="submit" 
+							name="vlfc-delete" 
+							class="delete submitdelete" 
+							value="<?php echo esc_attr( __( 'Delete', 'video-list-for-courses' ) ); ?>" 
+							<?php echo "onclick=\"if (confirm('" . esc_js( __( "You are about to delete this course.\n  'Cancel' to stop, 'OK' to delete.", 'video-list-for-courses' ) ) . "')) {this.form._wpnonce.value = '$nonce_delete'; this.form.action.value = '$action_delete'; return true;} return false;\""; ?> />
+				</div><!-- #delete-action -->
 			<?php endif; ?>
 
 			<div id="publishing-action">
 				<span class="spinner"></span>
 				<?php 
 					$nonce_save = wp_create_nonce( 'vlfc-save-course_' . $course_id );
-					$action_save = $course->initial() ? 'vlfc_new_course' : 'vlfc_edit_course'; 
+					$action_save = $course->initial() ? 'vlfc_new_action' : 'vlfc_edit_action'; 
 				?>
 				<input type="submit" 
 						class="button-primary" 
 						name="vlfc-save" 
 						value="<?php echo esc_attr( __( 'Save', 'video-list-for-courses' )) ?>"						
-						<?php// echo "onclick=\"this.form._wpnonce.value = '$nonce_save'; this.form.action.value = '$action_save'; return true;\""; ?>
-						/>
+						<?php echo "onclick=\"this.form._wpnonce.value = '$nonce_save'; this.form.action.value = '$action_save'; return true;\""; ?> />
 			</div><!-- #publishing-action -->
 			<div class="clear"></div>
 
