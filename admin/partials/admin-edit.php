@@ -12,7 +12,8 @@
  * @subpackage Video_List_For_Courses/admin/partials
  */
 
-//include_once VLFC_DIR . 'includes/class-video-list-for-courses-post-type.php';
+include_once VLFC_DIR . 'admin/partials/admin-actions.php';
+
 ?>
 
 <div class="wrap">
@@ -29,14 +30,19 @@
 <hr class="wp-header-end">
 
 
+<?php 
+	// Show messages for the user
+	do_action( 'vlfc_admin_messages' ); 
+?>
 
 <form method="post" 
-	action="<?php echo esc_url( add_query_arg( array( 'post' => $course_id ), menu_page_url( 'vlfc', false ) ) ); ?>" 
+	action="<?php echo esc_url( admin_url('admin-post.php') ); ?>"
 	id="wpcf7-admin-form-element" >
 
 
 <input type="hidden" id="course_id" name="course_id" value="<?php echo (int) $course_id; ?>" />
-<input type="hidden" id="action" name="action" value="" />
+<input type="hidden" id="action" name="action" value="vlfc_edit_course" />
+<input type="hidden" id="_wpnonce" name="_wpnonce" value="" />
 
 
 <div id="poststuff">
@@ -117,13 +123,13 @@
 				<span class="spinner"></span>
 				<?php 
 					$nonce_save = wp_create_nonce( 'vlfc-save-course_' . $course_id );
-					$action_save = $course->initial() ? 'new' : 'edit'; 
+					$action_save = $course->initial() ? 'vlfc_new_course' : 'vlfc_edit_course'; 
 				?>
 				<input type="submit" 
 						class="button-primary" 
 						name="vlfc-save" 
 						value="<?php echo esc_attr( __( 'Save', 'video-list-for-courses' )) ?>"						
-						<?php echo "onclick=\"this.form._wpnonce.value = '$nonce_save'; this.form.action.value = '$action_save'; return true;\""; ?>
+						<?php// echo "onclick=\"this.form._wpnonce.value = '$nonce_save'; this.form.action.value = '$action_save'; return true;\""; ?>
 						/>
 			</div><!-- #publishing-action -->
 			<div class="clear"></div>
