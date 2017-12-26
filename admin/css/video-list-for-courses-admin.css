@@ -4,6 +4,7 @@
 
  #wp-content-editor-container textarea{
  	width: 100%;
+ 	border: none;
  }
 
  #minor-publishing-actions{
@@ -15,3 +16,4 @@
  	border:none; 	
  	cursor: pointer;
  }
+

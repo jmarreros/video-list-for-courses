@@ -12,7 +12,7 @@
  * @subpackage Video_List_For_Courses/admin/partials
  */
 
-include_once VLFC_DIR . 'admin/partials/admin-actions.php';
+// include_once VLFC_DIR . 'admin/partials/admin-actions.php';
 
 ?>
 
@@ -40,9 +40,9 @@ include_once VLFC_DIR . 'admin/partials/admin-actions.php';
 	id="vlfc-admin-form-element" >
 
 
-<input type="hidden" id="course_id" name="course_id" value="<?php echo (int) $course_id; ?>" />
-<input type="hidden" id="action" name="action" value="" />
-<input type="hidden" id="_wpnonce" name="_wpnonce" value="" />
+	<input type="hidden" id="course_id" name="course_id" value="<?php echo (int) $course_id; ?>" />
+	<input type="hidden" id="action" name="action" value="" />
+	<input type="hidden" id="_wpnonce" name="_wpnonce" value="" />
 
 
 <div id="poststuff">
@@ -50,17 +50,22 @@ include_once VLFC_DIR . 'admin/partials/admin-actions.php';
 <div id="post-body-content">
 <div id="titlediv">
 <div id="titlewrap">
-<label class="screen-reader-text" id="title-prompt-text" for="title">
-	<?php echo esc_html( __( 'Enter title here', 'video-list-for-courses' ) ); ?>
-</label>
-<input 
-	name="post_title" 
-	size="30" 
-	value="<?php echo $course->initial() ? '' : $course->title(); ?>" 
-	id="title" 
-	spellcheck="true" 
-	autocomplete="off" 
-	type="text">
+
+	<label class="screen-reader-text" id="title-prompt-text" for="title">
+		<?php echo esc_html( __( 'Enter title here', 'video-list-for-courses' ) ); ?>
+	</label>
+
+	<input 
+		name="course_title" 
+		size="30" 
+		value="<?php echo $course->initial() ? '' : $course->title(); ?>" 
+		id="title" 
+		spellcheck="true" 
+		autocomplete="off" 
+		required
+		type="text" 
+	/>
+
 </div><!-- #titlewrap -->
 
 <div class="inside">
@@ -70,16 +75,21 @@ include_once VLFC_DIR . 'admin/partials/admin-actions.php';
 </div><!-- #titlediv -->
 
 <div id="wp-content-editor-container" class="wp-editor-container">
+
 	<textarea class="wp-editor-area" 
 			autocomplete="off" 
 			cols="40" 
-			name="content" 
+			name="course_content" 
 			id="content"><?php echo $course->initial() ? '' : $course->content(); ?></textarea>
+
 </div><!-- wp-content-editor-container -->
 
 </div><!-- #post-body-content -->
 
 
+
+<!------ Lateral Box ------>
+<!-- ------------------- --> 
 <div id="postbox-container-1" class="postbox-container">
 
 	<div id="submitdiv" class="postbox">
@@ -100,7 +110,9 @@ include_once VLFC_DIR . 'admin/partials/admin-actions.php';
 							name="vlfc-copy" 
 							class="copy button" 
 							value="<?php echo esc_attr( __( 'Duplicate', 'video-list-for-courses' ) ); ?>" 
-							<?php echo "onclick=\"this.form._wpnonce.value = '$nonce_duplicate'; this.form.action.value = '$action_duplicate'; return true;\""; ?> />
+							<?php echo "onclick=\"this.form._wpnonce.value = '$nonce_duplicate'; this.form.action.value = '$action_duplicate'; return true;\""; ?> 
+					/>
+
 			<?php endif; ?>
 			</div><!-- #duplicate-action -->
 
@@ -134,6 +146,8 @@ include_once VLFC_DIR . 'admin/partials/admin-actions.php';
 						value="<?php echo esc_attr( __( 'Save', 'video-list-for-courses' )) ?>"						
 						<?php echo "onclick=\"this.form._wpnonce.value = '$nonce_save'; this.form.action.value = '$action_save'; return true;\""; ?> />
 			</div><!-- #publishing-action -->
+
+
 			<div class="clear"></div>
 
 
@@ -146,6 +160,11 @@ include_once VLFC_DIR . 'admin/partials/admin-actions.php';
 
 
 </div><!-- #postbox-container-1 -->
+
+<!------ End Lateral Box ------>
+<!-- ----------------------- --> 
+
+
 
 </div><!-- #post-body -->
 <br class="clear" />
