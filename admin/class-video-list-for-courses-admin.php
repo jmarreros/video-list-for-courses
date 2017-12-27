@@ -193,51 +193,63 @@ class VLFC_Video_List_For_Courses_Admin {
 	 */
 	public function vlfc_new_course(){
 
-		$course_id = $_REQUEST['course_id'];
-		$course_title = $_REQUEST['course_title'];
-		$course_content = $_REQUEST['course_content'];
-		$course_wpnonce = $_REQUEST['_wpnonce'];
-
-		if ( ! isset( $course_wpnonce ) || 
-			 ! wp_verify_nonce( $course_wpnonce, 'vlfc-save-course_' . $course_id ) ) {
-			die("Security check, not valid nonce 🖐");
-		}
-
-		$args = [
-			'post_title' => $course_title,
-			'post_content' => $course_content,
-			'post_status' => 'publish',
-			'post_type' => 'vlfc_video_courses'
-		];
+		$args = $this->get_args_parameters();
 		
 		// Insert new course in  wp_post table
 		$course_id = wp_insert_post( $args , true );
 
-		if ( ! is_wp_error( $course_id ) ){
-			$url = admin_url( 'admin.php?page=vlfc&post=' . absint( $course_id ) ); 
-			$link = add_query_arg( array( 'action' => 'edit', 'message' => 'success' ), $url );
-		}
-		else {
-			$url = admin_url( 'admin.php?page=vlfc-new' ); 
-			$link = add_query_arg( array( 'action' => 'new', 'message' => 'failed' , 'failmessage' => urlencode($course_id->get_error_message()) ), $url );
-		}
+		// Get link redirection
+		$link = $this->get_link_redirection( $course_id );
 
 		wp_redirect( $link );
 		exit;
 
 	} // --  vlfc_new_course --
 
-
-
+	
+	/**
+	 *  Edit a Course
+	 *
+	 * @since    1.0.0
+	 */
 	public function vlfc_edit_course(){
-		status_header(200);
-	    die("Server received '{$_REQUEST['action']}' from your browser.");
-	}
 
+		$args = $this->get_args_parameters();
+		
+		// Update course in  wp_post table
+		$course_id = wp_update_post( $args , true );
+
+		// Get link redirection
+		$link = $this->get_link_redirection( $course_id );
+
+		wp_redirect( $link );
+		exit;
+
+	} // --  vlfc_edit_course --
+
+
+	/**
+	 *  Delete a course from the wp_posts table
+	 *
+	 * @since    1.0.0
+	 */
 	public function vlfc_delete_course(){
-		status_header(200);
-	    die("Server received '{$_REQUEST['action']}' from your browser.");
-	}
+
+		$course_id = $_REQUEST['course_id'];
+		$course_wpnonce = $_REQUEST['_wpnonce'];
+		$nonce_name = 'vlfc-delete-course_';
+
+		if ( ! isset( $course_wpnonce ) || 
+			 ! wp_verify_nonce( $course_wpnonce, $nonce_name . $course_id ) ) {
+			die("Security check, not valid nonce 🖐");
+		}
+
+	    $course = wp_delete_post($course_id, true); //return a post object , or false
+
+	    // TODO : reportar mensaje de eliminado correctamente.
+	    
+
+	} // -- vlfc_delete_course --
 
 	public function vlfc_duplicate_course(){
 		status_header(200);
@@ -249,23 +261,24 @@ class VLFC_Video_List_For_Courses_Admin {
 
 
 	/**
-	 * Shows the messages, success and failed
+	 * Shows the messages, success and failed, 
+	 * based in the Hook: vlfc_admin_messages
 	 *
 	 * @since    1.0.0
 	 */
 	public function vlfc_admin_show_message() {
 
-		if ( empty( $_REQUEST['message'] ) ) {
+		if ( empty( $_REQUEST['state'] ) ) {
 			return;
 		}
 
-		if ( 'success' == $_REQUEST['message'] ) {
+		if ( 'success' == $_REQUEST['state'] ) {
 			$updated_message = __( "Course Saved.", "video-list-for-courses" );
 			echo sprintf( '<div id="message" class="updated notice notice-success is-dismissible"><p>%s</p></div>', esc_html( $updated_message ) );
 		}
 
-		if ( 'failed' == $_REQUEST['message'] ) {
-			$fail_message = isset( $_REQUEST['failmessage'] ) ? " " . $_REQUEST['failmessage'] : '' ;
+		if ( 'failed' == $_REQUEST['state'] ) {
+			$fail_message = isset( $_REQUEST['message'] ) ? " " . $_REQUEST['message'] : '' ;
 			$updated_message = __( "There was an error saving the course.", "video-list-for-courses" );
 			echo sprintf( '<div id="message" class="notice notice-error is-dismissible"><p>%s</p></div>', esc_html( $updated_message ).$fail_message  );
 		}
@@ -279,11 +292,64 @@ class VLFC_Video_List_For_Courses_Admin {
 	 * @since    1.0.0
 	 */
 	private function is_page_vlfc(){
+
 		if ( isset($_REQUEST['page']) ){
 			$page = $_REQUEST['page'];
 			return ($page == 'vlfc' || $page == 'vlfc-new');	
 		}
 		return false;
+
 	}
+
+	/**
+	* Get args for insert and edit course
+	*
+	* @since    1.0.0
+	*/
+	private function get_args_parameters() {
+
+		$course_id = $_REQUEST['course_id'];
+		$course_title = $_REQUEST['course_title'];
+		$course_content = $_REQUEST['course_content'];
+		$course_wpnonce = $_REQUEST['_wpnonce'];
+		$nonce_name = 'vlfc-save-course_';
+
+		if ( ! isset( $course_wpnonce ) || 
+			 ! wp_verify_nonce( $course_wpnonce, $nonce_name . $course_id ) ) {
+			die("Security check, not valid nonce 🖐");
+		}
+
+		$args = [
+			'ID' => $course_id,
+			'post_title' => $course_title,
+			'post_content' => $course_content,
+			'post_status' => 'publish',
+			'post_type' => 'vlfc_video_courses'
+		];
+
+		return $args;
+	}
+
+	/**
+	*  Validate the parameter $course_id, if it's a number, it's ok, report success
+	*  if it's and error object report the error, finally it return the link
+	*
+	* @since    1.0.0
+	*/
+	private function get_link_redirection( $course_id ) {
+
+		if ( ! is_wp_error( $course_id ) ){
+			$url = admin_url( 'admin.php?page=vlfc&post=' . absint( $course_id ) ); 
+			$link = add_query_arg( array( 'action' => 'edit', 'state' => 'success' ), $url );
+		}
+		else {
+			$url = admin_url( 'admin.php?page=vlfc-new' ); 
+			$link = add_query_arg( array( 'state' => 'failed' , 'message' => urlencode($course_id->get_error_message()) ), $url );
+		}
+
+		return $link;
+	}
+
+
 
 }
