@@ -132,10 +132,18 @@ class VLFC_Video_List_For_Courses {
 
 		$plugin_admin = new VLFC_Video_List_For_Courses_Admin( $this->get_plugin_name(), $this->get_version() );
 
+		//general hooks
 		$this->loader->add_action( 'init', $plugin_admin, 'vlfc_register_post_type');
 		$this->loader->add_action( 'admin_menu', $plugin_admin, 'vlfc_admin_menu');
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'vlfc_enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'vlfc_enqueue_scripts' );
+
+		//actions hooks
+		$this->loader->add_action( 'vlfc_admin_messages', $plugin_admin, 'vlfc_admin_show_message' );
+		$this->loader->add_action( 'admin_post_vlfc_edit_action', $plugin_admin, 'vlfc_edit_course' );
+		$this->loader->add_action( 'admin_post_vlfc_new_action', $plugin_admin, 'vlfc_new_course' );
+		$this->loader->add_action( 'admin_post_vlfc_delete_action', $plugin_admin, 'vlfc_delete_course' );
+		$this->loader->add_action( 'admin_post_vlfc_duplicate_action', $plugin_admin, 'vlfc_duplicate_course' );
 
 	}
 

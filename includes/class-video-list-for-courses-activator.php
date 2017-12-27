@@ -47,7 +47,6 @@ class VLFC_Video_List_For_Courses_Activator {
 		// }
 
 		// --- Fin insersión ejemplo ---
-
 	}
 
 }
