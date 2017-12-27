@@ -103,7 +103,7 @@
 			<div id="duplicate-action">
 			<?php
 				if ( ! $course->initial() ) :
-					$nonce_duplicate = wp_create_nonce( 'vlfc-duplicate-course_' . $course_id );
+					$nonce_duplicate = wp_create_nonce( 'vlfc-save-course_' . $course_id );
 					$action_duplicate = 'vlfc_duplicate_action'; 
 			?>
 					<input type="submit" 

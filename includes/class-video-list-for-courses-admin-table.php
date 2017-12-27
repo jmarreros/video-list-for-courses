@@ -83,7 +83,8 @@ class VLFC_Video_List_For_Courses_Admin_Table extends WP_List_Table{
 
 		$columns = $this->get_columns();
 		$hidden = array();
-		$sortable = array();
+		$sortable = $this->get_sortable_columns();
+
 		$this->_column_headers = array($columns, $hidden, $sortable);
 
 		$args = array(
@@ -93,7 +94,31 @@ class VLFC_Video_List_For_Courses_Admin_Table extends WP_List_Table{
 			'offset' => ( $this->get_pagenum() - 1 ) * $per_page,
 		);
 
+		//for searching
+		if ( ! empty( $_REQUEST['s'] ) ) {
+			$args['s'] = $_REQUEST['s'];
+		}
 
+		//order
+		if ( ! empty( $_REQUEST['orderby'] ) ) {
+			if ( 'title' == $_REQUEST['orderby'] ) {
+				$args['orderby'] = 'title';
+			} elseif ( 'author' == $_REQUEST['orderby'] ) {
+				$args['orderby'] = 'author';
+			} elseif ( 'date' == $_REQUEST['orderby'] ) {
+				$args['orderby'] = 'date';
+			}
+		}
+
+		if ( ! empty( $_REQUEST['order'] ) ) {
+			if ( 'asc' == strtolower( $_REQUEST['order'] ) ) {
+				$args['order'] = 'ASC';
+			} elseif ( 'desc' == strtolower( $_REQUEST['order'] ) ) {
+				$args['order'] = 'DESC';
+			}
+		}
+
+		// execute the query
 		$this->items = VLFC_CPT::find( $args );
 
 		$total_items = VLFC_CPT::count();
@@ -161,27 +186,14 @@ class VLFC_Video_List_For_Courses_Admin_Table extends WP_List_Table{
 	}
 
 	function column_date( $item ) {
-		$post = get_post( $item->id() );
+		$course = get_post( $item->id() );
 
-		if ( ! $post ) {
+		if ( ! $course ) {
 			return;
 		}
 
-		$t_time = mysql2date( __( 'Y/m/d g:i:s A', 'contact-form-7' ),
-			$post->post_date, true );
-		$m_time = $post->post_date;
-		$time = mysql2date( 'G', $post->post_date )
-			- get_option( 'gmt_offset' ) * 3600;
-
-		$time_diff = time() - $time;
-
-		if ( $time_diff > 0 && $time_diff < 24*60*60 ) {
-			/* translators: %s: time since the creation of the contact form */
-			$h_time = sprintf(
-				__( '%s ago', 'contact-form-7' ), human_time_diff( $time ) );
-		} else {
-			$h_time = mysql2date( __( 'Y/m/d', 'contact-form-7' ), $m_time );
-		}
+		$t_time = mysql2date( __( 'Y/m/d g:i:s A', 'video-list-for-courses' ), $course->post_date, true );
+		$h_time = mysql2date( __( 'd/m/Y', 'video-list-for-courses' ), $course->post_date, true );
 
 		return '<abbr title="' . $t_time . '">' . $h_time . '</abbr>';
 	}

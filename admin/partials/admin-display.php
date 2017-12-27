@@ -22,8 +22,27 @@ include_once VLFC_DIR . 'includes/class-video-list-for-courses-post-type.php';
 	echo esc_html( __( 'Video List For Courses', 'video-list-for-courses' ) );
 ?></h1>
 
+
+<?php
+
+	echo sprintf( '<a href="%1$s" class="add-new-h2">%2$s</a>',
+		esc_url( menu_page_url( 'vlfc-new', false ) ),
+		esc_html( __( 'Add New', 'video-list-for-courses' ) ) );
+
+	if ( ! empty( $_REQUEST['s'] ) ) {
+		echo sprintf( '<span class="subtitle">'
+			. __( 'Search results for &#8220;%s&#8221;', 'contact-form-7' )
+			. '</span>', esc_html( $_REQUEST['s'] ) );
+	}
+?>
+
 <hr class="wp-header-end">
 
+
+<?php 
+	// Show messages for the user
+	do_action( 'vlfc_admin_messages' ); 
+?>
 
 <form method="get" action="">
 	<input type="hidden" name="page" value="<?php echo esc_attr( $_REQUEST['page'] ); ?>" />

@@ -199,7 +199,7 @@ class VLFC_Video_List_For_Courses_Admin {
 		$course_id = wp_insert_post( $args , true );
 
 		// Get link redirection
-		$link = $this->get_link_redirection( $course_id );
+		$link = $this->get_link_redirection_save( $course_id );
 
 		wp_redirect( $link );
 		exit;
@@ -220,7 +220,7 @@ class VLFC_Video_List_For_Courses_Admin {
 		$course_id = wp_update_post( $args , true );
 
 		// Get link redirection
-		$link = $this->get_link_redirection( $course_id );
+		$link = $this->get_link_redirection_save( $course_id );
 
 		wp_redirect( $link );
 		exit;
@@ -236,25 +236,44 @@ class VLFC_Video_List_For_Courses_Admin {
 	public function vlfc_delete_course(){
 
 		$course_id = $_REQUEST['course_id'];
-		$course_wpnonce = $_REQUEST['_wpnonce'];
-		$nonce_name = 'vlfc-delete-course_';
+		$nonce_name = 'vlfc-delete-course_' . $course_id;
 
-		if ( ! isset( $course_wpnonce ) || 
-			 ! wp_verify_nonce( $course_wpnonce, $nonce_name . $course_id ) ) {
-			die("Security check, not valid nonce 🖐");
-		}
+		$this->validate_nonce( $nonce_name );
 
-	    $course = wp_delete_post($course_id, true); //return a post object , or false
+		//return a post object , or false, second parameter to force delete
+	    $course = wp_delete_post( $course_id, true ); 
 
-	    // TODO : reportar mensaje de eliminado correctamente.
-	    
+	    $link = $this->get_link_redirection_delete( $course );
+
+	    wp_redirect( $link );
+		exit;
 
 	} // -- vlfc_delete_course --
 
+
+	/**
+	 *  Duplicate a course in ta wp_posts table
+	 *
+	 * @since    1.0.0
+	 */
 	public function vlfc_duplicate_course(){
-		status_header(200);
-	    die("Server received '{$_REQUEST['action']}' from your browser.");
-	}
+		$args = $this->get_args_parameters();
+
+		$args['ID'] = 0;		
+		$args['post_title'] = $args['post_title'].' - Copy';
+
+		// duplicate course in  wp_post table
+		$course_id = wp_insert_post( $args , true );
+
+		// Get link redirection
+		$link = $this->get_link_redirection_save( $course_id );
+
+		wp_redirect( $link );
+		exit;
+
+	} // -- vlfc_duplicate_course --
+
+
 	/*
 	-----------------------------------------------
 	*/
@@ -272,15 +291,17 @@ class VLFC_Video_List_For_Courses_Admin {
 			return;
 		}
 
-		if ( 'success' == $_REQUEST['state'] ) {
-			$updated_message = __( "Course Saved.", "video-list-for-courses" );
-			echo sprintf( '<div id="message" class="updated notice notice-success is-dismissible"><p>%s</p></div>', esc_html( $updated_message ) );
-		}
-
-		if ( 'failed' == $_REQUEST['state'] ) {
-			$fail_message = isset( $_REQUEST['message'] ) ? " " . $_REQUEST['message'] : '' ;
-			$updated_message = __( "There was an error saving the course.", "video-list-for-courses" );
-			echo sprintf( '<div id="message" class="notice notice-error is-dismissible"><p>%s</p></div>', esc_html( $updated_message ).$fail_message  );
+		switch ( $_REQUEST['state'] ) {
+			case 'success':
+					$message = __( "Course Saved.", "video-list-for-courses" );
+					$message = isset( $_REQUEST['message'] ) ? $_REQUEST['message'] : $message ;
+					echo sprintf( '<div id="message" class="updated notice notice-success is-dismissible"><p>%s</p></div>', esc_html( $message ) );
+					break;
+			case 'failed':
+					$message = __( "There was an error.", "video-list-for-courses" );
+					$message = isset( $_REQUEST['message'] ) ? $_REQUEST['message'] : $message ;
+					echo sprintf( '<div id="message" class="notice notice-error is-dismissible"><p>%s</p></div>', esc_html( $message ) );
+					break;
 		}
 
 	}
@@ -311,13 +332,9 @@ class VLFC_Video_List_For_Courses_Admin {
 		$course_id = $_REQUEST['course_id'];
 		$course_title = $_REQUEST['course_title'];
 		$course_content = $_REQUEST['course_content'];
-		$course_wpnonce = $_REQUEST['_wpnonce'];
-		$nonce_name = 'vlfc-save-course_';
+		$nonce_name = 'vlfc-save-course_' . $course_id;
 
-		if ( ! isset( $course_wpnonce ) || 
-			 ! wp_verify_nonce( $course_wpnonce, $nonce_name . $course_id ) ) {
-			die("Security check, not valid nonce 🖐");
-		}
+		$this->validate_nonce( $nonce_name );
 
 		$args = [
 			'ID' => $course_id,
@@ -330,21 +347,50 @@ class VLFC_Video_List_For_Courses_Admin {
 		return $args;
 	}
 
+	private function validate_nonce( $nonce_name ) {
+		$course_wpnonce = $_REQUEST['_wpnonce'];
+
+		if ( ! isset( $course_wpnonce ) || 
+			 ! wp_verify_nonce( $course_wpnonce, $nonce_name ) ) {
+			die("Security check, not valid nonce 🖐");
+		}
+	}
+
 	/**
 	*  Validate the parameter $course_id, if it's a number, it's ok, report success
 	*  if it's and error object report the error, finally it return the link
 	*
 	* @since    1.0.0
 	*/
-	private function get_link_redirection( $course_id ) {
+	private function get_link_redirection_save( $course_id ) {
 
-		if ( ! is_wp_error( $course_id ) ){
+		if ( ! is_wp_error( $course_id ) ) {
 			$url = admin_url( 'admin.php?page=vlfc&post=' . absint( $course_id ) ); 
 			$link = add_query_arg( array( 'action' => 'edit', 'state' => 'success' ), $url );
 		}
 		else {
 			$url = admin_url( 'admin.php?page=vlfc-new' ); 
 			$link = add_query_arg( array( 'state' => 'failed' , 'message' => urlencode($course_id->get_error_message()) ), $url );
+		}
+
+		return $link;
+	}
+
+	/**
+	*  Validate the object delete, if it's an object, it's ok, report success
+	*  if it's false, report the error, finally it return the link
+	*
+	* @since    1.0.0
+	*/
+	private function get_link_redirection_delete( $delete ){
+		$url = admin_url( 'admin.php?page=vlfc' );
+
+		if ( $delete ) {
+			$message = __( "The course was removed", "video-list-for-courses" );
+			$link = add_query_arg( array( 'state' => 'success', 'message' => urlencode($message) ), $url );
+		}
+		else {
+			$link = add_query_arg( array( 'state' => 'failed'), $url );			
 		}
 
 		return $link;
