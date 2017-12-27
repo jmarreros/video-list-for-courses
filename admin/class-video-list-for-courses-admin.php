@@ -279,8 +279,11 @@ class VLFC_Video_List_For_Courses_Admin {
 	 * @since    1.0.0
 	 */
 	private function is_page_vlfc(){
-		$page = $_REQUEST['page'];
-		return ($page == 'vlfc' || $page == 'vlfc-new');
+		if ( isset($_REQUEST['page']) ){
+			$page = $_REQUEST['page'];
+			return ($page == 'vlfc' || $page == 'vlfc-new');	
+		}
+		return false;
 	}
 
 }
