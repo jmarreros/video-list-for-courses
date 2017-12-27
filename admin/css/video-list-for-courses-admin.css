@@ -5,3 +5,12 @@
  #wp-content-editor-container textarea{
  	width: 100%;
  }
+
+ .delete.submitdelete{
+ 	border: none;
+ 	cursor: pointer;
+ }
+
+ #minor-publishing-actions{
+	padding-bottom: 20px;
+ }

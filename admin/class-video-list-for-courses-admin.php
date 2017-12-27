@@ -28,7 +28,6 @@ require_once VLFC_DIR . 'helpers/functions.php';
 
 
 class VLFC_Video_List_For_Courses_Admin {
-
 	/**
 	 * The ID of this plugin.
 	 *
@@ -182,6 +181,10 @@ class VLFC_Video_List_For_Courses_Admin {
 				VLFC_CPT::get_instance( $id );
 				break;
 			
+			case 'save':
+				$id = isset( $_POST['post_ID'] ) ? $_POST['post_ID'] : '-1';
+				check_admin_referer( 'vlfc-save-course_' . $id );
+
 			default:
 				break;
 
