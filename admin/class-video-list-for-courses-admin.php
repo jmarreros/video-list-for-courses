@@ -257,7 +257,8 @@ class VLFC_Video_List_For_Courses_Admin {
 	 * @since    1.0.0
 	 */
 	public function vlfc_duplicate_course(){
-		$args = $this->get_args_parameters();
+
+		$args = $this->get_args_parameters( true ); // true = get from db
 
 		$args['ID'] = 0;		
 		$args['post_title'] = $args['post_title'].' - Copy';
@@ -327,13 +328,20 @@ class VLFC_Video_List_For_Courses_Admin {
 	*
 	* @since    1.0.0
 	*/
-	private function get_args_parameters() {
+	private function get_args_parameters( $get_from_db = false ) {
 
-		$course_id = $_REQUEST['course_id'];
-		$course_title = $_REQUEST['course_title'];
-		$course_content = $_REQUEST['course_content'];
+		if ( ! $get_from_db ){
+			$course_id = $_REQUEST['course_id'];
+			$course_title = $_REQUEST['course_title'];
+			$course_content = $_REQUEST['course_content'];
+		} else {
+			$course_id = $_REQUEST['course_id'];
+			$course = VLFC_CPT::get_instance( $course_id ); //course object from db
+			$course_title = $course->title();
+			$course_content = $course->content();
+		}
+
 		$nonce_name = 'vlfc-save-course_' . $course_id;
-
 		$this->validate_nonce( $nonce_name );
 
 		$args = [

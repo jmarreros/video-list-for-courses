@@ -35,8 +35,8 @@
 	do_action( 'vlfc_admin_messages' ); 
 ?>
 
-<form method="post" 
-	action="<?php echo esc_url( admin_url('admin-post.php') ); ?>"
+<form method="get" 
+	action="<?php echo admin_url('admin-post.php'); ?>"
 	id="vlfc-admin-form-element" >
 
 
@@ -105,7 +105,7 @@
 				if ( ! $course->initial() ) :
 					$nonce_duplicate = wp_create_nonce( 'vlfc-save-course_' . $course_id );
 					$action_duplicate = 'vlfc_duplicate_action'; 
-			?>
+			?>			
 					<input type="submit" 
 							name="vlfc-copy" 
 							class="copy button" 

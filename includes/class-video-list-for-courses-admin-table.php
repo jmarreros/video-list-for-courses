@@ -41,7 +41,7 @@ class VLFC_Video_List_For_Courses_Admin_Table extends WP_List_Table{
 
 	// -- General functions columns
 	public function get_columns() {
-		$this->screen->post_type;
+		//$this->screen->post_type;
 		$columns = array(
 			'cb' => '<input type="checkbox" />',
 			'title' => __( 'Courses', 'video-list-for-courses' ),
@@ -78,7 +78,7 @@ class VLFC_Video_List_For_Courses_Admin_Table extends WP_List_Table{
 	}
 
 	function prepare_items() {
-		$current_screen = get_current_screen();
+		//$current_screen = get_current_screen();
 		$per_page = 20;
 
 		$columns = $this->get_columns();
@@ -142,23 +142,32 @@ class VLFC_Video_List_For_Courses_Admin_Table extends WP_List_Table{
 	}
 
 	function column_title( $item ) {
+
+		//link
 		$url = admin_url( 'admin.php?page=vlfc&post=' . absint( $item->id() ) ); // vlfc -> add_menu
 		$edit_link = add_query_arg( array( 'action' => 'edit' ), $url );
 
 		$output = sprintf(
-			'<a class="row-title" href="%1$s" title="%2$s">%3$s</a>',
+			'<strong><a class="row-title" href="%1$s" title="%2$s">%3$s</a></strong>',
 			esc_url( $edit_link ),
-			esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;', 'video-list-for-courses' ),
-				$item->title() ) ),
+			esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;', 'video-list-for-courses' ), $item->title() ) ),
 			esc_html( $item->title() )
 		);
 
-		$output = sprintf( '<strong>%s</strong>', $output );
+		// actions
+		$course_id = absint( $item->id() );
+		$url_duplicate = add_query_arg( array( 'action' => 'vlfc_duplicate_action', 'course_id' => $course_id ), admin_url('admin-post.php') ); //admin-post.php
+		$duplicate_link = wp_nonce_url( $url_duplicate, 'vlfc-save-course_' . $course_id );
 
 		$actions = array(
-			'edit' => sprintf( '<a href="%1$s">%2$s</a>',
-				esc_url( $edit_link ),
-				esc_html( __( 'Edit', 'video-list-for-courses' ) ) ) );
+						'edit' => sprintf( '<a href="%1$s">%2$s</a>',
+											esc_url( $edit_link ),
+											esc_html( __( 'Edit', 'video-list-for-courses' ) ) ),
+						'duplicate' => sprintf('<a href="%1$s">%2$s</a>',
+											esc_url( $duplicate_link ),
+											esc_html( __( 'Duplicate', 'video-list-for-courses' ) ) ) 
+						);
+
 
 		$output .= $this->row_actions( $actions );
 
@@ -166,13 +175,13 @@ class VLFC_Video_List_For_Courses_Admin_Table extends WP_List_Table{
 	}
 
 	function column_author( $item ) {
-		$post = get_post( $item->id() );
+		$course = get_post( $item->id() );
 
-		if ( ! $post ) {
+		if ( ! $course ) {
 			return;
 		}
 
-		$author = get_userdata( $post->post_author );
+		$author = get_userdata( $course->post_author );
 
 		if ( false === $author ) {
 			return;
