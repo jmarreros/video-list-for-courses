@@ -152,4 +152,8 @@ class VLFC_CPT{
 		return wp_update_post( $args , true );
 	}
 
+	public static function delete_course( $course_id ) {
+		return wp_delete_post( $course_id, true );
+	}
+
 }

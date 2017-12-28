@@ -24,3 +24,16 @@ function vlfc_current_post(){
 
 	return false;
 }
+
+// Validate for loading scripts css and js in admin area
+function is_page_vlfc(){
+
+	if ( isset($_REQUEST['page']) ){
+		$page = $_REQUEST['page'];
+		return ($page == 'vlfc' || $page == 'vlfc-new');	
+	}
+	return false;
+
+}
+
+

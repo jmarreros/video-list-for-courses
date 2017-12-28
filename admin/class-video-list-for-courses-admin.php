@@ -75,7 +75,7 @@ class VLFC_Video_List_For_Courses_Admin {
 	 * @since    1.0.0
 	 */
 	public function vlfc_enqueue_styles() {
-		if ( $this->is_page_vlfc() ){
+		if ( is_page_vlfc() ){
 			wp_enqueue_style( $this->plugin_name, VLFC_URL . 'admin/css/video-list-for-courses-admin.css', array(), $this->version, 'all' );			
 		}
 	}
@@ -86,7 +86,7 @@ class VLFC_Video_List_For_Courses_Admin {
 	 * @since    1.0.0
 	 */
 	public function vlfc_enqueue_scripts() {
-		if ( $this->is_page_vlfc() ){
+		if ( is_page_vlfc() ){
 			wp_enqueue_script( $this->plugin_name, VLFC_URL . 'admin/js/video-list-for-courses-admin.js', array( 'jquery' ), $this->version, false );
 		}
 	}
@@ -169,29 +169,9 @@ class VLFC_Video_List_For_Courses_Admin {
 	 * @since    1.0.0
 	 */
 	public function vlfc_new_course(){
+		$this->option_save_course( 0 ); // 0 new course
+	} 
 
-		$course = VLFC_CPT::get_instance(0); // New course object
-
-		// validate nonce
-		$nonce_name = 'vlfc-save-course_' . $course->id();
-		$this->validate_nonce( $nonce_name );
-		
-		// fill values		
-		$course->set_title( $_REQUEST['course_title'] );
-		$course->set_content( $_REQUEST['course_content'] );
-
-		//insert
-		$course_id = $course->save_course();
-
-		// Get link redirection
-		$link = $this->get_link_redirection_save( $course_id );
-
-		wp_redirect( $link );
-		exit;
-
-	} // --  vlfc_new_course --
-
-	
 	/**
 	 *  Edit a Course
 	 *
@@ -199,17 +179,44 @@ class VLFC_Video_List_For_Courses_Admin {
 	 */
 	public function vlfc_edit_course(){
 		$post_id = vlfc_current_post();
-		$course = VLFC_CPT::get_instance( $post_id ); // get the course object
+		$this->option_save_course( $post_id ); // $post_id edit course
+	}
 
-		// validate nonces
+	/**
+	 *  Duplicate a course in ta wp_posts table
+	 *
+	 * @since    1.0.0
+	 */
+	public function vlfc_duplicate_course(){
+		$post_id = vlfc_current_post();
+		$this->option_save_course( $post_id, true ); // $post_id , true for duplicating
+	} 
+
+
+	/**
+	 *  Auxiliar function for new, edit and duplicate course
+	 *
+	 * @since    1.0.0
+	 */
+	private function option_save_course( $id , $duplicate = false ){
+		$course = VLFC_CPT::get_instance( $id ); // get and existing object o new object
+
+		// validate nonce
 		$nonce_name = 'vlfc-save-course_' . $course->id();
 		$this->validate_nonce( $nonce_name );
-
-		// update values		
-		$course->set_title( $_REQUEST['course_title'] );
-		$course->set_content( $_REQUEST['course_content'] );
 		
-		// Update course
+		if ( $duplicate ){
+			// change values
+			$course->set_id(0);
+			$course->set_title( $course->title() . ' - Copy');
+		}
+		else{
+			// fill values		
+			$course->set_title( $_REQUEST['course_title'] );
+			$course->set_content( $_REQUEST['course_content'] );			
+		}
+
+		// insert or update
 		$course_id = $course->save_course();
 
 		// Get link redirection
@@ -217,9 +224,7 @@ class VLFC_Video_List_For_Courses_Admin {
 
 		wp_redirect( $link );
 		exit;
-
-	} // --  vlfc_edit_course --
-
+	}
 
 	/**
 	 *  Delete a course from the wp_posts table
@@ -228,13 +233,14 @@ class VLFC_Video_List_For_Courses_Admin {
 	 */
 	public function vlfc_delete_course(){
 
-		$course_id = $_REQUEST['course_id'];
-		$nonce_name = 'vlfc-delete-course_' . $course_id;
+		$course_id = vlfc_current_post();
 
+		// validate nonce
+		$nonce_name = 'vlfc-delete-course_' . $course_id;
 		$this->validate_nonce( $nonce_name );
 
 		//return a post object , or false, second parameter to force delete
-	    $course = wp_delete_post( $course_id, true ); 
+	    $course = VLFC_CPT::delete_course( $course_id ); 
 
 	    $link = $this->get_link_redirection_delete( $course );
 
@@ -242,30 +248,6 @@ class VLFC_Video_List_For_Courses_Admin {
 		exit;
 
 	} // -- vlfc_delete_course --
-
-
-	/**
-	 *  Duplicate a course in ta wp_posts table
-	 *
-	 * @since    1.0.0
-	 */
-	public function vlfc_duplicate_course(){
-
-		// $args = $this->get_object_course( false ); // not action save from form
-
-		// $args['ID'] = 0;		
-		// $args['post_title'] = $args['post_title'].' - Copy';
-
-		// // duplicate course in  wp_post table
-		// $course_id = wp_insert_post( $args , true );
-
-		// // Get link redirection
-		// $link = $this->get_link_redirection_save( $course_id );
-
-		// wp_redirect( $link );
-		// exit;
-
-	} // -- vlfc_duplicate_course --
 
 
 	/*
@@ -302,47 +284,10 @@ class VLFC_Video_List_For_Courses_Admin {
 
 
 	/**
-	 * validate if we are in a vlfc page, for loading scripts
-	 *
-	 * @since    1.0.0
-	 */
-	private function is_page_vlfc(){
-
-		if ( isset($_REQUEST['page']) ){
-			$page = $_REQUEST['page'];
-			return ($page == 'vlfc' || $page == 'vlfc-new');	
-		}
-		return false;
-
-	}
-
-	/**
-	* Get args for insert and edit course
-	* use action_save, for saving values from the form
+	*  Security funcion for validating nonces
 	*
 	* @since    1.0.0
 	*/
-	private function get_object_course( $course_id = 0, $update_values = true ) {
-
-		$course = VLFC_CPT::get_instance( $course_id ); //course object from db
-
-		if ( $update_values ){
-			$course->set_title( $_REQUEST['course_title'] );
-			$course->set_content( $_REQUEST['course_content'] );
-		}
-
-		return $course;
-		// $args = [
-		// 	'ID' => $course->id(),
-		// 	'post_title' => $course->title(),
-		// 	'post_content' => $course->content(),
-		// 	'post_status' => 'publish',
-		// 	'post_type' => 'vlfc_video_courses'
-		// ];
-
-		// return $args;
-	}
-
 	private function validate_nonce( $nonce_name ) {
 		$course_wpnonce = $_REQUEST['_wpnonce'];
 
@@ -362,7 +307,7 @@ class VLFC_Video_List_For_Courses_Admin {
 
 		if ( ! is_wp_error( $course_id ) ) {
 			$url = admin_url( 'admin.php?page=vlfc&post=' . absint( $course_id ) ); 
-			$link = add_query_arg( array( 'action' => 'edit', 'state' => 'success' ), $url );
+			$link = add_query_arg( array( 'option' => 'edit', 'state' => 'success' ), $url );
 		}
 		else {
 			$url = admin_url( 'admin.php?page=vlfc-new' ); 
