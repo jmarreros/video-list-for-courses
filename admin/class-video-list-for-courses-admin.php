@@ -117,15 +117,12 @@ class VLFC_Video_List_For_Courses_Admin {
 						'vlfc',
 						array( $this, 'vlfc_admin_management_page') );
 
-		add_action( 'load-' . $edit, array( $this, 'vlfc_load_admin_edit_page' ) ); //load before show edit page
-
-
 		add_submenu_page( 'vlfc',
 						__( 'Add New Video Course', 'video-list-for-courses' ),
 						__( 'Add New', 'video-list-for-courses' ),
 						'manage_options', 
 						'vlfc-new',
-						array($this, 'vlfc_admin_new_page') );
+						array($this, 'vlfc_admin_management_page') );
 
 	}
 
@@ -136,50 +133,30 @@ class VLFC_Video_List_For_Courses_Admin {
 	 */
 	public function vlfc_admin_management_page() {
 
-		// edit course
-		if ( $course = VLFC_CPT::get_current() ){
+		$option = vlfc_current_option();
 
-			include_once VLFC_DIR . 'admin/partials/admin-edit.php';
+		switch ( $option ) {
+			case 'new':
+				$course = VLFC_CPT::get_instance(0);
+				include_once VLFC_DIR . 'admin/partials/admin-edit.php';
+				break;
 
-		}
-		// list courses
-		else {
-
-			$list_table = new VLFC_Video_List_For_Courses_Admin_Table();
-			$list_table->prepare_items();
-			
-			include_once VLFC_DIR . 'admin/partials/admin-display.php';			
+			case 'edit':
+				$post_id = vlfc_current_post();
+				if ( $post_id ){
+					$course = VLFC_CPT::get_instance( $post_id );
+					include_once VLFC_DIR . 'admin/partials/admin-edit.php';
+				}
+				break;
+			default: // List courses
+				$list_table = new VLFC_Video_List_For_Courses_Admin_Table();
+				$list_table->prepare_items();
+				include_once VLFC_DIR . 'admin/partials/admin-display.php';
+				break;
 		}
 
 	}
 
-	/**
-	 * Shows new content page for a course
-	 *
-	 * @since    1.0.0
-	 */
-	public function vlfc_admin_new_page() {
-		//create new course object 
-		$course = VLFC_CPT::get_instance(0); 
-		
-		include_once VLFC_DIR . 'admin/partials/admin-edit.php';
-	}
-
-
-	/**
-	 * load before, edit page content page for a course
-	 *
-	 * @since    1.0.0
-	 */
-	public function vlfc_load_admin_edit_page() {
-		$action = vlfc_current_action();
-
-		if ($action == 'edit') {
-			$id = $_GET['post'] ;
-			VLFC_CPT::get_instance( $id );
-		}
-		
-	}
 
 	/*
 	Actions functions, New, Edit, Delete, Duplicate
@@ -193,10 +170,18 @@ class VLFC_Video_List_For_Courses_Admin {
 	 */
 	public function vlfc_new_course(){
 
-		$args = $this->get_args_parameters();
+		$course = VLFC_CPT::get_instance(0); // New course object
+
+		// validate nonce
+		$nonce_name = 'vlfc-save-course_' . $course->id();
+		$this->validate_nonce( $nonce_name );
 		
-		// Insert new course in  wp_post table
-		$course_id = wp_insert_post( $args , true );
+		// fill values		
+		$course->set_title( $_REQUEST['course_title'] );
+		$course->set_content( $_REQUEST['course_content'] );
+
+		//insert
+		$course_id = $course->save_course();
 
 		// Get link redirection
 		$link = $this->get_link_redirection_save( $course_id );
@@ -213,11 +198,19 @@ class VLFC_Video_List_For_Courses_Admin {
 	 * @since    1.0.0
 	 */
 	public function vlfc_edit_course(){
+		$post_id = vlfc_current_post();
+		$course = VLFC_CPT::get_instance( $post_id ); // get the course object
 
-		$args = $this->get_args_parameters();
+		// validate nonces
+		$nonce_name = 'vlfc-save-course_' . $course->id();
+		$this->validate_nonce( $nonce_name );
+
+		// update values		
+		$course->set_title( $_REQUEST['course_title'] );
+		$course->set_content( $_REQUEST['course_content'] );
 		
-		// Update course in  wp_post table
-		$course_id = wp_update_post( $args , true );
+		// Update course
+		$course_id = $course->save_course();
 
 		// Get link redirection
 		$link = $this->get_link_redirection_save( $course_id );
@@ -258,19 +251,19 @@ class VLFC_Video_List_For_Courses_Admin {
 	 */
 	public function vlfc_duplicate_course(){
 
-		$args = $this->get_args_parameters( true ); // true = get from db
+		// $args = $this->get_object_course( false ); // not action save from form
 
-		$args['ID'] = 0;		
-		$args['post_title'] = $args['post_title'].' - Copy';
+		// $args['ID'] = 0;		
+		// $args['post_title'] = $args['post_title'].' - Copy';
 
-		// duplicate course in  wp_post table
-		$course_id = wp_insert_post( $args , true );
+		// // duplicate course in  wp_post table
+		// $course_id = wp_insert_post( $args , true );
 
-		// Get link redirection
-		$link = $this->get_link_redirection_save( $course_id );
+		// // Get link redirection
+		// $link = $this->get_link_redirection_save( $course_id );
 
-		wp_redirect( $link );
-		exit;
+		// wp_redirect( $link );
+		// exit;
 
 	} // -- vlfc_duplicate_course --
 
@@ -325,34 +318,29 @@ class VLFC_Video_List_For_Courses_Admin {
 
 	/**
 	* Get args for insert and edit course
+	* use action_save, for saving values from the form
 	*
 	* @since    1.0.0
 	*/
-	private function get_args_parameters( $get_from_db = false ) {
+	private function get_object_course( $course_id = 0, $update_values = true ) {
 
-		if ( ! $get_from_db ){
-			$course_id = $_REQUEST['course_id'];
-			$course_title = $_REQUEST['course_title'];
-			$course_content = $_REQUEST['course_content'];
-		} else {
-			$course_id = $_REQUEST['course_id'];
-			$course = VLFC_CPT::get_instance( $course_id ); //course object from db
-			$course_title = $course->title();
-			$course_content = $course->content();
+		$course = VLFC_CPT::get_instance( $course_id ); //course object from db
+
+		if ( $update_values ){
+			$course->set_title( $_REQUEST['course_title'] );
+			$course->set_content( $_REQUEST['course_content'] );
 		}
 
-		$nonce_name = 'vlfc-save-course_' . $course_id;
-		$this->validate_nonce( $nonce_name );
+		return $course;
+		// $args = [
+		// 	'ID' => $course->id(),
+		// 	'post_title' => $course->title(),
+		// 	'post_content' => $course->content(),
+		// 	'post_status' => 'publish',
+		// 	'post_type' => 'vlfc_video_courses'
+		// ];
 
-		$args = [
-			'ID' => $course_id,
-			'post_title' => $course_title,
-			'post_content' => $course_content,
-			'post_status' => 'publish',
-			'post_type' => 'vlfc_video_courses'
-		];
-
-		return $args;
+		// return $args;
 	}
 
 	private function validate_nonce( $nonce_name ) {

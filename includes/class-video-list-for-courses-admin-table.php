@@ -145,7 +145,7 @@ class VLFC_Video_List_For_Courses_Admin_Table extends WP_List_Table{
 
 		//link
 		$url = admin_url( 'admin.php?page=vlfc&post=' . absint( $item->id() ) ); // vlfc -> add_menu
-		$edit_link = add_query_arg( array( 'action' => 'edit' ), $url );
+		$edit_link = add_query_arg( array( 'option' => 'edit' ), $url );
 
 		$output = sprintf(
 			'<strong><a class="row-title" href="%1$s" title="%2$s">%3$s</a></strong>',

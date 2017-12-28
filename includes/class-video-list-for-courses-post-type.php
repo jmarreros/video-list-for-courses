@@ -26,9 +26,9 @@ class VLFC_CPT{
 	private static $found_items = 0;
 	private static $current = null;
 
-	private $id = 0;
-	private $title = 'Default title';
-	private $content = '';
+	private $id;
+	private $title;
+	private $content;
 
 	public static function register_post_type() {
 		register_post_type( self::post_type, array(
@@ -74,22 +74,25 @@ class VLFC_CPT{
 
 	private function __construct ( $id ){
 		if ( ! empty($id) ){
-			$post = get_post( $id );
+			$post = get_post( $id ); // get from db
 
 			if ( $post && self::post_type == get_post_type( $post ) ){
-				$this->id = $post->ID;
-				$this->title = $post->post_title;
-				$this->content = $post->post_content;
+				$this->set_id( $post->ID );
+				$this->set_title( $post->post_title );
+				$this->set_content( $post->post_content );
 			}
-
+		}
+		else {
+			$this->set_id( 0 );
+			$this->set_title( '' );
+			$this->set_content( '' );
 		}
 	}
 
-
+	// return values
 	public function id() {
 		return $this->id;
 	}
-
 	
 	public function title() {
 		return $this->title;
@@ -98,6 +101,24 @@ class VLFC_CPT{
 	public function content() {
 		return $this->content;
 	}
+
+	// set values
+	public function set_id( $id ){
+		$this->id = $id;
+	}
+
+	public function set_title( $title ){
+		if ( '' === $title ) {
+			$title = __( 'Untitled', 'video-list-for-courses' );
+		}
+		$this->title = $title;
+	}
+
+	public function set_content( $content ){
+		$this->content = $content;
+	}
+
+
 
 	public function initial() {
 		return empty( $this->id );
@@ -111,5 +132,24 @@ class VLFC_CPT{
 		return self::$current = new self( $id );
 	}
 
+	// for insert, update, delete, duplicate
+
+	public function save_course(){
+		$args = [
+			'ID' => $this->id(),
+			'post_title' => $this->title(),
+			'post_content' => $this->content(),
+			'post_status' => 'publish',
+			'post_type' => 'vlfc_video_courses'
+		];
+
+		// new course
+		if ( $this->id() == 0 ){
+			return wp_insert_post( $args , true );
+		}
+
+		// edit a course
+		return wp_update_post( $args , true );
+	}
 
 }
