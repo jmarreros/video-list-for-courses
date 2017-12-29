@@ -36,4 +36,20 @@ function is_page_vlfc(){
 
 }
 
+// Get current bulk action
+function current_bulk_action() {
+    if ( isset( $_REQUEST['filter_action'] ) && ! empty( $_REQUEST['filter_action'] ) )
+        return false;
+ 
+    if ( isset( $_REQUEST['action'] ) && -1 != $_REQUEST['action'] )
+        return $_REQUEST['action'];
+ 
+    if ( isset( $_REQUEST['action2'] ) && -1 != $_REQUEST['action2'] )
+        return $_REQUEST['action2'];
+ 
+    return false;
+}
+
+
+
 

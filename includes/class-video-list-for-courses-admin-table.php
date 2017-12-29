@@ -33,8 +33,8 @@ class VLFC_Video_List_For_Courses_Admin_Table extends WP_List_Table{
 
 	function __construct() {
 		parent::__construct( array(
-			'singular' => 'post',
-			'plural' => 'posts',
+			'singular' => 'course',
+			'plural' => 'courses',
 			'ajax' => false,
 		) );
 	}
@@ -43,7 +43,7 @@ class VLFC_Video_List_For_Courses_Admin_Table extends WP_List_Table{
 	public function get_columns() {
 		//$this->screen->post_type;
 		$columns = array(
-			'cb' => '<input type="checkbox" />',
+			'cb' => '',
 			'title' => __( 'Courses', 'video-list-for-courses' ),
 			'shortcode' => __( 'Shortcode', 'video-list-for-courses' ),
 			'author' => __( 'Author', 'video-list-for-courses' ),

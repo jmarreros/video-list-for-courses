@@ -110,8 +110,8 @@ class VLFC_Video_List_For_Courses_Admin {
 					   $_wp_last_object_menu++);
 
 
-		$edit = add_submenu_page( 'vlfc',
-						__( 'Edit Video Courses', 'video-list-for-courses' ),
+		$list = add_submenu_page( 'vlfc',
+						__( 'Video List Courses', 'video-list-for-courses' ),
 						__( 'Video List Courses', 'video-list-for-courses' ),
 						'manage_options', 
 						'vlfc',
@@ -123,6 +123,8 @@ class VLFC_Video_List_For_Courses_Admin {
 						'manage_options', 
 						'vlfc-new',
 						array($this, 'vlfc_admin_management_page') );
+
+		add_action( 'load-' . $list, array( $this, 'vlfc_load_video_list_for_courses' ) );
 
 	}
 
@@ -154,6 +156,51 @@ class VLFC_Video_List_For_Courses_Admin {
 				include_once VLFC_DIR . 'admin/partials/admin-display.php';
 				break;
 		}
+
+	}
+
+	/**
+	 * For working with bulk action, delete
+	 *
+	 * @since    1.0.0
+	 */
+	public function vlfc_load_video_list_for_courses(){
+		$bulk_action = current_bulk_action();
+		
+		if ( 'delete' == $bulk_action ){
+
+			check_admin_referer('bulk-courses'); // validate nonce, "courses" plural from the constructor table
+
+			if ( ! empty( $_REQUEST['course']) ){
+
+				$courses = $_REQUEST['course']; //Delete array courses
+				$i = 0;
+
+				foreach ($courses as $course) {
+					$course = VLFC_CPT::delete_course($course);
+					if ( ! $course ) break;
+					$i++;
+				}
+
+				if ( $i == count( $courses ) ){
+					$message = sprintf( _n( '%d course deleted', '%d courses deleted', $i, 'video-list-for-courses' ), $i );
+					$link = $this->get_link_redirection_delete( true , $message );
+				} else {
+					$message = __( 'Some courses could not be deleted' , 'video-list-for-courses' );
+					$link = $this->get_link_redirection_delete( false, $message );
+				}
+
+			}
+			else{
+				$message = __( 'No courses selected', 'video-list-for-courses' );
+				$link = $this->get_link_redirection_delete( false, $message );
+			}
+
+			wp_safe_redirect( $link );
+			exit;
+
+		} // delete bulk_action
+
 
 	}
 
@@ -222,7 +269,7 @@ class VLFC_Video_List_For_Courses_Admin {
 		// Get link redirection
 		$link = $this->get_link_redirection_save( $course_id );
 
-		wp_redirect( $link );
+		wp_safe_redirect( $link );
 		exit;
 	}
 
@@ -244,7 +291,7 @@ class VLFC_Video_List_For_Courses_Admin {
 
 	    $link = $this->get_link_redirection_delete( $course );
 
-	    wp_redirect( $link );
+	    wp_safe_redirect( $link );
 		exit;
 
 	} // -- vlfc_delete_course --
@@ -270,12 +317,12 @@ class VLFC_Video_List_For_Courses_Admin {
 		switch ( $_REQUEST['state'] ) {
 			case 'success':
 					$message = __( "Course Saved.", "video-list-for-courses" );
-					$message = isset( $_REQUEST['message'] ) ? $_REQUEST['message'] : $message ;
+					$message = isset( $_REQUEST['message'] ) && ! empty($_REQUEST['message']) ? $_REQUEST['message'] : $message ;
 					echo sprintf( '<div id="message" class="updated notice notice-success is-dismissible"><p>%s</p></div>', esc_html( $message ) );
 					break;
 			case 'failed':
 					$message = __( "There was an error.", "video-list-for-courses" );
-					$message = isset( $_REQUEST['message'] ) ? $_REQUEST['message'] : $message ;
+					$message = isset( $_REQUEST['message']) && ! empty($_REQUEST['message']) ? $_REQUEST['message'] : $message ;
 					echo sprintf( '<div id="message" class="notice notice-error is-dismissible"><p>%s</p></div>', esc_html( $message ) );
 					break;
 		}
@@ -323,15 +370,15 @@ class VLFC_Video_List_For_Courses_Admin {
 	*
 	* @since    1.0.0
 	*/
-	private function get_link_redirection_delete( $delete ){
+	private function get_link_redirection_delete( $delete, $message = '' ){
 		$url = admin_url( 'admin.php?page=vlfc' );
 
 		if ( $delete ) {
-			$message = __( "The course was removed", "video-list-for-courses" );
+			$message = empty( $message ) ? __( "The course was removed", "video-list-for-courses" ) : $message;
 			$link = add_query_arg( array( 'state' => 'success', 'message' => urlencode($message) ), $url );
 		}
 		else {
-			$link = add_query_arg( array( 'state' => 'failed'), $url );			
+			$link = add_query_arg( array( 'state' => 'failed', 'message' => urlencode($message) ), $url );			
 		}
 
 		return $link;
