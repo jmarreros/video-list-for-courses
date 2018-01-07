@@ -46,6 +46,20 @@
 	line-height: 26px;
 }
 
+.controls textarea,
+.control-name label,
+.control-name input{
+	width: 100%;
+}
+
+.controls .remove{
+	color:#dc3232;
+}
+
+.control-check-lock,
+.control-check-header{
+	text-align: right;
+}
 
 ul.list-items{
 	list-style: none;
@@ -57,6 +71,11 @@ ul.list-items{
 
 li.item{
 	margin-top:2px;
+}
+
+li.item label{
+	font-size: 13px;
+	font-style: italic;
 }
 
 li.item .links{
@@ -118,6 +137,7 @@ li.item .controls{
 	box-shadow: 0 1px 1px rgba(0,0,0,.04);
 }
 
+#video-container.hide,
 #wp-content-editor-container,
 li.item .hide{
 	display: none;
@@ -141,16 +161,55 @@ li.item .controls .control-options::after{
 
 
 /* right elements */
+
 #video-container{
-	background: lightyellow;
+	background-color:#fff;
+	margin-left: 10px;
+	margin-right: -12px;
+	margin-top:36px;
+	border: 1px dotted #d3d3d3;
 }
 
+#video-container .title{
+	text-align: center;
+	font-weight: bold;
+	padding: 10px;
+}
+
+#video-container .notes{
+	padding:10px;
+}
+
+
+#video-container .video {
+    overflow:hidden;
+    padding-bottom:56.25%;
+    position:relative;
+    height:0;
+}
+
+#video-container .video iframe {
+    left:0;
+    top:0;
+    height:100%;
+    width:100%;
+    position:absolute;
+}
+
+#video-container .title img{
+	margin-left: 10px;
+}
 
 @media ( max-width: 768px ){
 	#list-container,
 	#video-container{
 		width:100%;
 		float: none;
+	}
+
+	#video-container{
+		margin-left: 0px;
+		margin-right: 0px;
 	}
 }
 

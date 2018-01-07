@@ -8,7 +8,7 @@ const template = `
 	</div>
 	<div class="controls hide">
 		<p class="control-name">
-			<label>Name</label><input type="text" value=""/>
+			<label>Item name</label><input type="text" value=""/>
 		</p>
 		<p class="control-check-header">
 			<input type="checkbox"><label>Is header?</label>
@@ -100,6 +100,7 @@ window.addEventListener('load', function(){
 					const item = e.target.parentNode.parentNode.parentNode.parentNode;
 					item.parentNode.removeChild(item);
 					reorder_list(items);
+					document.getElementById('video-container').classList.add('hide');
 				}
 
 			}
@@ -110,6 +111,9 @@ window.addEventListener('load', function(){
 				const isheader = e.target.classList.contains('isheader');
 				
 				if ( ! isheader ){
+
+					document.getElementById('video-container').classList.remove('hide');
+
 
 					let item = e.target.parentNode.parentNode;
 					if ( ! item.classList.contains('item') ){
@@ -205,6 +209,7 @@ window.addEventListener('load', function(){
 
 	}
 
+	document.getElementById('video-container').classList.add('hide');
 
 }); //window.load
 

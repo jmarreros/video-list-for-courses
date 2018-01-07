@@ -8,7 +8,7 @@
 		</ul>
 
 	</div>
-	<div id="video-container">
+	<div id="video-container" class="hide">
 		<div class="title"></div>
 		<div class="video"></div>
 		<div class="notes"></div>
