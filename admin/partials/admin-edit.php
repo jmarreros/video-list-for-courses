@@ -128,7 +128,7 @@
 			?>
 				<div id="delete-action">
 					<input type="submit" 
-							name="vlfc-delete" 
+							name="vlfc-delete"
 							class="delete submitdelete" 
 							value="<?php echo esc_attr( __( 'Delete', 'video-list-for-courses' ) ); ?>" 
 							<?php echo "onclick=\"if (confirm('" . esc_js( __( "You are about to delete this course.\n  'Cancel' to stop, 'OK' to delete.", 'video-list-for-courses' ) ) . "')) {this.form._wpnonce.value = '$nonce_delete'; this.form.action.value = '$action_delete'; return true;} return false;\""; ?> />
@@ -143,7 +143,8 @@
 				?>
 				<input type="submit" 
 						class="button-primary" 
-						name="vlfc-save" 
+						name="vlfc-save"
+						id = "vlfc-save"
 						value="<?php echo esc_attr( __( 'Save', 'video-list-for-courses' )) ?>"						
 						<?php echo "onclick=\"this.form._wpnonce.value = '$nonce_save'; this.form.action.value = '$action_save'; return true;\""; ?> />
 			</div><!-- #publishing-action -->

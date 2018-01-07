@@ -2,7 +2,7 @@
 // template
 const template = `
 <li class="item">
-	<div class="links my-handle">
+	<div class="links my-handle menu-item-handle">
 		<a href="#" class="item-link"></a>
 		<a href="#" class="item-arrow down"></a>
 	</div>
@@ -38,7 +38,7 @@ let items = null; // dynamic items objects
 window.addEventListener('load', function(){
 	
 	const content = document.getElementById('content');
-	if ( content.value ){
+	if ( content && content.value ){
 		obj_items = JSON.parse(content.value);	
 	}
 	
@@ -107,29 +107,38 @@ window.addEventListener('load', function(){
 			// preview link
 			if ( e.target.matches('.control-options .preview') || e.target.matches('.links .item-link') ){
 				
-				let item = e.target.parentNode.parentNode;
-				if ( ! item.classList.contains('item') ){
-					item = e.target.parentNode.parentNode.parentNode.parentNode;
+				const isheader = e.target.classList.contains('isheader');
+				
+				if ( ! isheader ){
+
+					let item = e.target.parentNode.parentNode;
+					if ( ! item.classList.contains('item') ){
+						item = e.target.parentNode.parentNode.parentNode.parentNode;
+					}
+
+					const loading = document.createElement('img');
+					loading.src = vars_wp.assets_path + 'loading.gif';
+
+					const title = document.querySelector('#video-container .title');
+					title.innerHTML = item.querySelector('.control-name input').value;
+					title.appendChild(loading);
+
+					const video = document.querySelector('#video-container .video');
+					video.innerHTML = item.querySelector('.control-code textarea').value;
+					
+					const notes = document.querySelector('#video-container .notes');
+					notes.innerHTML = item.querySelector('.control-notes textarea').value;
+
+					setTimeout(function(){
+						loading.parentNode.removeChild(loading);
+					}, 400);
 				}
+				else{
+					e.preventDefault();
+				} 
 
-				const loading = document.createElement('img');
-				loading.src = vars_wp.assets_path + 'loading.gif';
+			}// preview - link
 
-				const title = document.querySelector('#video-container .title');
-				title.innerHTML = item.querySelector('.control-name input').value;
-				title.appendChild(loading);
-
-				const video = document.querySelector('#video-container .video');
-				video.innerHTML = item.querySelector('.control-code textarea').value;
-				
-				const notes = document.querySelector('#video-container .notes');
-				notes.innerHTML = item.querySelector('.control-notes textarea').value;
-
-				setTimeout(function(){
-					loading.parentNode.removeChild(loading);
-				}, 400);
-				
-			}
 
 		} ); // click event listener
 
@@ -177,6 +186,23 @@ window.addEventListener('load', function(){
 		obj_items.forEach( function( obj_item, index) {
 			add_course( obj_item );
 		});
+	}
+
+
+	//Submit event save
+	const save = document.getElementById('vlfc-save');
+	if ( save ){
+		save.addEventListener('click', function(e) {
+			e.preventDefault();
+
+		  	const final_items = update_object();
+		  	const content = document.getElementById('content');
+		  	content.value = JSON.stringify(final_items);
+		  	
+		  	// send submit form
+			document.getElementById('vlfc-admin-form-element').submit();
+		});
+
 	}
 
 
@@ -309,14 +335,6 @@ function update_object(){
 
 
 
-
-
-
-// Get the data from the texarea content
-// window.addEventListener('load', function(){
-
-	
-// });
 
 
 

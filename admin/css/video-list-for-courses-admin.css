@@ -24,6 +24,10 @@
 /* ---------------------- */
 
 
+#general-container{
+	padding-top: 20px;
+}
+
 #list-container,
 #video-container{
 	width:50%;
@@ -31,10 +35,17 @@
 }
 
 /* left elements*/
-#list-container .add-item{
-	widows: 100;
+
+.add-item-container{
 	text-align: right;
+	margin-bottom: 8px;
 }
+
+#add-item span:before{
+	font-size: 16px;
+	line-height: 26px;
+}
+
 
 ul.list-items{
 	list-style: none;
@@ -49,7 +60,6 @@ li.item{
 }
 
 li.item .links{
-	background: #cdcdcd;
 	display: block;
 	padding: 10px;
 }
@@ -59,9 +69,15 @@ li.item .links .item-link{
 	float: left;
 	width: 95%;
 }
+	
+li.item .links .item-link:focus{
+	box-shadow: none;
+}
 
 li.item .links .item-arrow::after{
 	content: "▲";
+	font-size: 12px;
+	color:#72777C;
 	text-align: center;
 	text-decoration: none;
 	float: right;
@@ -84,6 +100,7 @@ li.item .links .item-link.isheader{
 	text-transform: uppercase;
 	cursor:default;
 	color:black;
+	font-weight: bold;
 }
 
 li.item .links .item-link:not(.isheader).islock::before{
@@ -95,9 +112,13 @@ li.item .links .item-link:not(.isheader).islock::before{
 
 li.item .controls{
 	padding: 10px;
-	background: #dedede;
+	background: #fff;
+	border:1px solid #e5e5e5;
+	border-top:none;
+	box-shadow: 0 1px 1px rgba(0,0,0,.04);
 }
 
+#wp-content-editor-container,
 li.item .hide{
 	display: none;
 }
@@ -124,6 +145,14 @@ li.item .controls .control-options::after{
 	background: lightyellow;
 }
 
+
+@media ( max-width: 768px ){
+	#list-container,
+	#video-container{
+		width:100%;
+		float: none;
+	}
+}
 
 
 
