@@ -76,7 +76,7 @@ class VLFC_Video_List_For_Courses_Admin {
 	 */
 	public function vlfc_enqueue_styles() {
 		if ( is_page_vlfc() ){
-			wp_enqueue_style( $this->plugin_name, VLFC_URL . 'admin/css/video-list-for-courses-admin.css', array(), $this->version, 'all' );			
+			wp_enqueue_style( $this->plugin_name, VLFC_URL . 'admin/css/video-list-for-courses-admin.css', array(), $this->version, 'all' );
 		}
 	}
 
@@ -87,7 +87,14 @@ class VLFC_Video_List_For_Courses_Admin {
 	 */
 	public function vlfc_enqueue_scripts() {
 		if ( is_page_vlfc() ){
+			wp_enqueue_script( 'vlfc_sortable', VLFC_URL . 'admin/js/sortable.min.js', null , $this->version, false );	
 			wp_enqueue_script( $this->plugin_name, VLFC_URL . 'admin/js/video-list-for-courses-admin.js', array( 'jquery' ), $this->version, false );
+
+			$params = array (
+				'assets_path' => VLFC_URL.'admin/assets/'
+			);
+			//pass values PHP to Javascript
+			wp_localize_script($this->plugin_name,'vars_wp',$params);
 		}
 	}
 

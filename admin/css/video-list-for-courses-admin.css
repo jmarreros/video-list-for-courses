@@ -17,3 +17,113 @@
  	cursor: pointer;
  }
 
+
+
+
+/* Estilos para los ítems */
+/* ---------------------- */
+
+
+#list-container,
+#video-container{
+	width:50%;
+	float: left;
+}
+
+/* left elements*/
+#list-container .add-item{
+	widows: 100;
+	text-align: right;
+}
+
+ul.list-items{
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: block;
+	width: 100%;
+}
+
+li.item{
+	margin-top:2px;
+}
+
+li.item .links{
+	background: #cdcdcd;
+	display: block;
+	padding: 10px;
+}
+
+li.item .links .item-link{
+	text-decoration: none;
+	float: left;
+	width: 95%;
+}
+
+li.item .links .item-arrow::after{
+	content: "▲";
+	text-align: center;
+	text-decoration: none;
+	float: right;
+	width: 5%;
+}
+
+li.item .links .item-arrow.down::after{
+	content: "▼";
+}
+
+
+li.item .links::after{
+	content: "";
+	display: block;
+	clear: both;
+}
+
+li.item .links .item-link.isheader:hover,
+li.item .links .item-link.isheader{
+	text-transform: uppercase;
+	cursor:default;
+	color:black;
+}
+
+li.item .links .item-link:not(.isheader).islock::before{
+	content:"🔒";
+	display: inline-block;
+	margin-right: 6px;
+}
+
+
+li.item .controls{
+	padding: 10px;
+	background: #dedede;
+}
+
+li.item .hide{
+	display: none;
+}
+
+
+/* items links footer */
+li.item .controls .control-options > div:first-child{
+	float:left;
+}
+
+li.item .controls .control-options > div:last-child{
+	float:right;
+}
+
+li.item .controls .control-options::after{
+	content:"";
+	display: block;
+	clear:both;
+}
+
+
+/* right elements */
+#video-container{
+	background: lightyellow;
+}
+
+
+
+

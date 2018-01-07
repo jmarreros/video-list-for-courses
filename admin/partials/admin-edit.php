@@ -84,6 +84,7 @@
 
 </div><!-- wp-content-editor-container -->
 
+	<?php include VLFC_DIR . '/admin/partials/admin-list.php';?>
 </div><!-- #post-body-content -->
 
 
