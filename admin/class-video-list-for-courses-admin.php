@@ -70,6 +70,29 @@ class VLFC_Video_List_For_Courses_Admin {
 	}
 
 	/**
+	 * Register the custom post type
+	 *
+	 * @since    1.0.0
+	 */
+	public function vlfc_register_shortcode(){
+		add_shortcode( VLFC_SHORTCODE, array( $this, 'vlfc_add_shortcode' ) );
+	}
+
+
+	/**
+	*  To show the shortcode transformation
+	*
+	* @since    1.0.0
+	*/
+	public function vlfc_add_shortcode( $atts ){
+		$id = $atts['id'];
+
+		return "hola video courses, el id es : ". $id;
+	}
+
+
+
+	/**
 	 * Register the stylesheets for the admin area.
 	 *
 	 * @since    1.0.0
@@ -391,6 +414,6 @@ class VLFC_Video_List_For_Courses_Admin {
 		return $link;
 	}
 
-
+	
 
 }

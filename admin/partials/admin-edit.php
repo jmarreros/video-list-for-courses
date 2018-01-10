@@ -68,9 +68,15 @@
 
 </div><!-- #titlewrap -->
 
-<div class="inside">
-	<?php //Para colocar le shortcode cuando es una edición ?>
-</div><!-- inside -->
+<?php if ( $course_id ): ?>
+	<div class="inside shortcode">
+	<?php 
+		// Show Shortcode
+		echo __( 'Copia este código y pégalo en el contenido de una entrada:', 'video-list-for-courses' );
+		echo " <strong>[ ".VLFC_SHORTCODE." id=".$course_id." ]</strong>";
+	?>
+	</div><!-- inside -->
+<?php endif; ?>
 
 </div><!-- #titlediv -->
 
