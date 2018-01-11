@@ -101,6 +101,7 @@ window.addEventListener('load', function(){
 					item.parentNode.removeChild(item);
 					reorder_list(items);
 					document.getElementById('video-container').classList.add('hide');
+					if ( items.childElementCount == 0 ) add_empty_class();
 				}
 
 			}
@@ -181,7 +182,8 @@ window.addEventListener('load', function(){
 	const addnew =  document.getElementById('add-item');
 	if ( addnew ) {
 			addnew.addEventListener('click', function(){
-			add_course();
+				add_empty_class(false);
+				add_course();
 		});
 	}
 
@@ -190,6 +192,9 @@ window.addEventListener('load', function(){
 		obj_items.forEach( function( obj_item, index) {
 			add_course( obj_item );
 		});
+	}
+	else{
+		add_empty_class();
 	}
 
 
@@ -213,7 +218,12 @@ window.addEventListener('load', function(){
 
 }); //window.load
 
-
+function add_empty_class( empty = true){
+	if ( empty )
+		document.getElementById('list-items').classList.add('empty');
+	else
+		document.getElementById('list-items').classList.remove('empty');
+}
 
 // show/hide controls when is header
 function set_header( item , toogle = true , isheader = false ){
@@ -319,7 +329,6 @@ function reorder_list( items ){
 
 
 // update object data, pass data to object
-
 function update_object(){
 	let obj_items = new Array();
 
@@ -340,26 +349,6 @@ function update_object(){
 
 
 
-
-
-
-
-
-
-
-
-
-
-// Save temp button
-// const btn = document.getElementById('save');
-
-// btn.addEventListener('click', function(){
-// 	const items_finales = update_object();
-
-// 	// save temp local storage
-// 	localStorage.setItem('item_courses', JSON.stringify(items_finales));
-
-// });
 
 
 

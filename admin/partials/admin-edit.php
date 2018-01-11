@@ -72,7 +72,7 @@
 	<div class="inside shortcode">
 	<?php 
 		// Show Shortcode
-		echo __( 'Copia este código y pégalo en el contenido de una entrada:', 'video-list-for-courses' );
+		echo __( 'Copy and paste this shortcode in a entry content:', 'video-list-for-courses' );
 		echo " <strong>[ ".VLFC_SHORTCODE." id=".$course_id." ]</strong>";
 	?>
 	</div><!-- inside -->

@@ -81,6 +81,12 @@ ul.list-items{
 	width: 100%;
 }
 
+
+ul.list-items.empty{
+	min-height: 36px;
+	border:1px dotted gray;
+}
+
 li.item{
 	margin-top:2px;
 }
