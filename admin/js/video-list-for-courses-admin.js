@@ -271,7 +271,7 @@ function add_course( obj_item = null ){
 
 // for update item with object values
 function update_values( item, obj_item ){
-	item.setAttribute('data-old-id', obj_item.idcurso);
+	item.setAttribute('data-old-id', obj_item.id_item);
 
 	item.querySelector('.links .item-link').innerText = obj_item.name;
 	item.querySelector('.control-name input').value = obj_item.name;
@@ -335,7 +335,7 @@ function update_object(){
 	items.querySelectorAll('.item').forEach( function ( item, index){
 			obj_items.push(
 				{
-					idcurso: index,
+					id_item: index,
 					name: item.querySelector('.control-name input').value,
 					isheader: item.querySelector('.control-check-header input').checked,
 					islock: item.querySelector('.control-check-lock input').checked,

@@ -87,6 +87,8 @@ class VLFC_Video_List_For_Courses_Admin {
 	public function vlfc_add_shortcode( $atts ){
 		$id = $atts['id'];
 
+		$course = VLFC_CPT::get_instance( $id );
+
 		ob_start();
         include_once VLFC_DIR."/public/partials/public-display.php";
     	return ob_get_clean();

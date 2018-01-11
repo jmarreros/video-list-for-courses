@@ -162,6 +162,8 @@ class VLFC_Video_List_For_Courses {
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
 
+		$this->loader->add_action( 'wp_ajax_nopriv_vlfc_ajax_get_data', $plugin_public, 'vlfc_ajax_send_data_object' );
+		$this->loader->add_action( 'wp_ajax_vlfc_ajax_get_data', $plugin_public, 'vlfc_ajax_send_data_object' );
 	}
 
 	/**

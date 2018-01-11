@@ -20,6 +20,11 @@
  * @subpackage Video_List_For_Courses/public
  * @author     Jhon Marreros Guzmán <admin@decodecms.com>
  */
+
+require_once VLFC_DIR . 'includes/class-video-list-for-courses-post-type.php';
+//require_once VLFC_DIR . 'helpers/functions.php';
+
+
 class VLFC_Video_List_For_Courses_Public {
 
 	/**
@@ -71,9 +76,35 @@ class VLFC_Video_List_For_Courses_Public {
 	 * @since    1.0.0
 	 */
 	public function enqueue_scripts() {
-
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/video-list-for-courses.js', array( 'jquery' ), $this->version, false );
-
+		wp_localize_script( $this->plugin_name,'vlfc_vars',['ajaxurl'=>admin_url('admin-ajax.php')]);
 	}
+
+	/**
+	 * Function to send Ajax data
+	 *
+	 * @since    1.0.0
+	 */
+	public function vlfc_ajax_send_data_object(){
+
+		$item = absint($_POST['item']);
+		$id_course = absint($_POST['course']);
+		
+		$course = VLFC_CPT::get_instance( $id_course ); 
+
+		if ( $course->id() > 0 ){
+
+			$content = json_decode($course->content());
+			$res = array ( 'code' =>  $content[$item]->code,
+						   'notes' => $content[$item]->notes);
+
+			echo json_encode( $res, JSON_FORCE_OBJECT );
+
+		}
+		
+
+		wp_die();
+	}
+
 
 }
