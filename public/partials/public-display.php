@@ -13,4 +13,7 @@
  */
 ?>
 
-<!-- This file should primarily consist of HTML with a little bit of PHP. -->
+<ul>
+	<li>Hola como estas <?php echo $id; ?></li>
+	<li>desde public</li>
+</ul>

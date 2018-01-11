@@ -73,7 +73,7 @@
 	<?php 
 		// Show Shortcode
 		echo __( 'Copy and paste this shortcode in a entry content:', 'video-list-for-courses' );
-		echo " <strong>[ ".VLFC_SHORTCODE." id=".$course_id." ]</strong>";
+		echo " <strong>[".VLFC_SHORTCODE." id=".$course_id."]</strong>";
 	?>
 	</div><!-- inside -->
 <?php endif; ?>

@@ -191,7 +191,7 @@ class VLFC_Video_List_For_Courses_Admin_Table extends WP_List_Table{
 	}
 
 	function column_shortcode( $item ) {
-		return 'xxx';
+		return '['.VLFC_SHORTCODE.' id='.$item->id() . ']';
 	}
 
 	function column_date( $item ) {

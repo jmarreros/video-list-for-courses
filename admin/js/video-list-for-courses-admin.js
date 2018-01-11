@@ -25,7 +25,7 @@ const template = `
 		</p>
 		<hr>
 		<div class="control-options">
-			<div><a href="#" class="remove">Remove</a> | <a href="#" class="cancel">Cancel</a></div>
+			<div><a href="#" class="remove">Remove</a> <a href="#" class="cancel">Cancel</a></div>
 			<div><a href="#" class="preview">Preview</a></div>
 		</div>
 	</div>

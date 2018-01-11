@@ -173,8 +173,23 @@ li.item .controls .control-options > div:last-child{
 
 li.item .controls .control-options::after{
 	content:"";
-	display: block;
+	display:block;
 	clear:both;
+}
+
+/*:before {
+    content: "\37";
+    display:inline-block;
+    text-decoration:none;
+}*/
+
+.control-options .cancel:before{
+	content:"|";
+	display:inline-block;
+	color:gray;
+	margin: auto 5px;
+	text-decoration: none;
+	cursor: default;
 }
 
 
