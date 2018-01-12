@@ -33,7 +33,7 @@ function vlfc_list_content( $course ){
 		echo "<ul class='course-list-items' data-id='".$course->id()."'>";
 		foreach ($content as $item) {
 			echo "<li data-id=".$item->id_item." class='course-item'>".
-					vlfc_create_link( $item->name, $item->isheader, $item->islock )
+					vlfc_create_link( $item->name, $item->isheader, $item->islock, $item->duration )
 				 ."</li>";
 		}
 		echo "</ul>";
@@ -41,7 +41,7 @@ function vlfc_list_content( $course ){
 }
 
 
-function vlfc_create_link( $name, $isheader, $islock ){
+function vlfc_create_link( $name, $isheader, $islock, $duration ){
 	$str = '';
 
 	if ( $isheader ){
@@ -50,7 +50,8 @@ function vlfc_create_link( $name, $isheader, $islock ){
 	if ( $islock ){
 		return sprintf('<a href="#" class="islock">%s</a>', $name);
 	}
-	return sprintf('<a href="#" class="islink">%s</a>', $name );
+
+	return sprintf('<a href="#" class="islink">%s %s</a>', $name, $duration );
 }
 ?>
  

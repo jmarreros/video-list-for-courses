@@ -64,6 +64,15 @@
 	width: 100%;
 }
 
+.control-duration{
+	text-align: right;
+}
+
+.control-duration input{
+	width:52px;
+	margin-left: 10px;
+}
+
 .controls .remove{
 	color:#dc3232;
 }

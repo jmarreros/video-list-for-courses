@@ -16,6 +16,9 @@ const template = `
 		<p class="control-code">
 			<label>Video Embebed code</label><textarea cols="30" rows="4"></textarea>
 		</p>
+		<p class="control-duration">
+			<label>Duration</label><input maxlength=5 type="text" value="" placeholder="00:00">
+		</p>
 		<p class="control-notes">
 			<label>Video Notes</label><textarea cols="30" rows="4"></textarea>
 		</p>
@@ -153,7 +156,7 @@ window.addEventListener('load', function(){
 			
 			if ( ! e.target ) return;
 
-			if ( e.target.matches('.item input[type="text"]') ){
+			if ( e.target.matches('.item .control-name input') ){
 				const input = e.target;
 				const item = input.parentNode.parentNode.parentNode;
 				const link = item.querySelector('.item-link');
@@ -239,6 +242,7 @@ function set_header( item , toogle = true , isheader = false ){
 	if ( toogle ) {
 		item.querySelector('.links .item-link').classList.toggle('isheader');
 		item.querySelector('.control-code').classList.toggle('hide');
+		item.querySelector('.control-duration').classList.toggle('hide');
 		item.querySelector('.control-notes').classList.toggle('hide');
 		item.querySelector('.control-check-lock').classList.toggle('hide');
 		item.querySelector('.control-options .preview').classList.toggle('hide');
@@ -276,6 +280,7 @@ function update_values( item, obj_item ){
 	item.querySelector('.links .item-link').innerText = obj_item.name;
 	item.querySelector('.control-name input').value = obj_item.name;
 	item.querySelector('.control-code textarea').value = obj_item.code;
+	item.querySelector('.control-duration input').value = (obj_item.duration) ? obj_item.duration: '';
 	item.querySelector('.control-notes textarea').value = obj_item.notes;
 
 	if ( obj_item.isheader) {
@@ -315,6 +320,8 @@ function update_ids( item, id){
 	item.querySelector('.control-check-header input').setAttribute('id', `isheader-${id}`);
 	item.querySelector('.control-code label').setAttribute('for', `code-${id}`);
 	item.querySelector('.control-code textarea').setAttribute('id', `code-${id}`);
+	item.querySelector('.control-duration label').setAttribute('for', `duration-${id}`);
+	item.querySelector('.control-duration input').setAttribute('id', `duration-${id}`);
 	item.querySelector('.control-notes label').setAttribute('for', `notes-${id}`);
 	item.querySelector('.control-notes textarea').setAttribute('id', `notes-${id}`);
 	item.querySelector('.control-check-lock label').setAttribute('for', `islock-${id}`);
@@ -340,6 +347,7 @@ function update_object(){
 					isheader: item.querySelector('.control-check-header input').checked,
 					islock: item.querySelector('.control-check-lock input').checked,
 					code: item.querySelector('.control-code textarea').value,
+					duration: item.querySelector('.control-duration input').value,
 					notes:item.querySelector('.control-notes textarea').value
 				});
 	});
