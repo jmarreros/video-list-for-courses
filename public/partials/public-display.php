@@ -28,30 +28,67 @@
 
 function vlfc_list_content( $course ){
 	$content = json_decode($course->content());
+	$str = '';
+	$flag_header = false;
 
 	if ( count($content)  > 0 ):
-		echo "<ul class='course-list-items' data-id='".$course->id()."'>";
-		foreach ($content as $item) {
-			echo "<li data-id=".$item->id_item." class='course-item'>".
-					vlfc_create_link( $item->name, $item->isheader, $item->islock, $item->duration )
-				 ."</li>";
+		echo "<ul class='course-list-items' data-id='".$course->id()."'>\n";
+		
+
+		foreach ($content as $index => $item) {
+			
+			if ( $item->isheader ){
+				$str .= "<li class='section'>\n";
+				$str .= vlfc_create_link($item, true);
+				$flag_header = true;	
+
+			} else {
+				$str .= vlfc_create_link($item , $flag_header);
+			}
+
+			if ( $flag_header && count($content) > $index + 1 ){
+				if ( $content[$index + 1 ]->isheader ){
+					$str .= "</li>\n";
+					$flag_header = false;
+				}
+			}
+
+		} // for each
+
+		if ( $flag_header ){
+			$str .= "</li>\n";
 		}
-		echo "</ul>";
+			
+		echo $str;
+		echo "</ul>\n";
 	endif;
 }
 
 
-function vlfc_create_link( $name, $isheader, $islock, $duration ){
+function vlfc_create_link ( $item, $flag_header ) {
+
+	$name = $item->name;
+	$isheader = $item->isheader;
+	$islock = $item->islock;
+	$duration = $item->duration;
+
 	$str = '';
 
+	if ( $duration ) $duration = "<span>(".$duration.")</span>";
+	
 	if ( $isheader ){
-		return sprintf('<span class="isheader">%s</span>', $name);
+		$str =  sprintf("<div>%s</div>\n", $name);
+	} elseif ($islock) {
+		$str = sprintf("<a href='#' class='islock'>%s %s</a>\n", $name, $duration );
+	} else{
+		$str = sprintf("<a href='#' class='islink'>%s %s</a>\n", $name, $duration );
 	}
-	if ( $islock ){
-		return sprintf('<a href="#" class="islock">%s</a>', $name);
+	
+	if ( ! $flag_header ) {
+		$str = "<li>".$str."</li>\n";
 	}
 
-	return sprintf('<a href="#" class="islink">%s %s</a>', $name, $duration );
+	return $str;
 }
 ?>
  
