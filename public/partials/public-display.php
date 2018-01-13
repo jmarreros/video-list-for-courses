@@ -40,8 +40,7 @@ function vlfc_list_content( $course ){
 			if ( $item->isheader ){
 				$str .= "<li class='section'>\n";
 				$str .= vlfc_create_link($item, true);
-				$flag_header = true;	
-
+				$flag_header = true;
 			} else {
 				$str .= vlfc_create_link($item , $flag_header);
 			}

@@ -145,8 +145,8 @@ class VLFC_Video_List_For_Courses_Admin {
 
 
 		$list = add_submenu_page( 'vlfc',
-						__( 'Video List Courses', 'video-list-for-courses' ),
-						__( 'Video List Courses', 'video-list-for-courses' ),
+						__( 'Courses List', 'video-list-for-courses' ),
+						__( 'Courses List', 'video-list-for-courses' ),
 						'manage_options', 
 						'vlfc',
 						array( $this, 'vlfc_admin_management_page') );
@@ -157,6 +157,14 @@ class VLFC_Video_List_For_Courses_Admin {
 						'manage_options', 
 						'vlfc-new',
 						array($this, 'vlfc_admin_management_page') );
+
+		add_submenu_page('vlfc',
+						__( 'Settings', 'video-list-for-courses' ),
+						__( 'Settings', 'video-list-for-courses' ),
+						'manage_options',
+						'vlfc-set',
+						array($this,'vlfc_show_settings' ));
+
 
 		add_action( 'load-' . $list, array( $this, 'vlfc_load_video_list_for_courses' ) );
 
@@ -192,6 +200,26 @@ class VLFC_Video_List_For_Courses_Admin {
 		}
 
 	}
+
+	/**
+	 * Shows the settings forms from the settings menu
+	 *
+	 * @since    1.0.0
+	 */
+	public function vlfc_show_settings(){
+		include_once VLFC_DIR . 'admin/partials/admin-settings.php';
+	}
+
+	/**
+	 * Register the fields for settings in admin_init hook
+	 *
+	 * @since    1.0.0
+	 */
+	public function vlfc_register_settings() {
+	  register_setting( 'settings-video-list-for-courses', 'vlfc_show_link_youtube' );
+	  register_setting( 'settings-video-list-for-courses', 'vlfc_load_css' );
+	}
+
 
 	/**
 	 * For working with bulk action, delete

@@ -135,6 +135,7 @@ class VLFC_Video_List_For_Courses {
 		//general hooks
 		$this->loader->add_action( 'init', $plugin_admin, 'vlfc_register_post_type');
 		$this->loader->add_action( 'init', $plugin_admin, 'vlfc_register_shortcode');
+		$this->loader->add_action( 'admin_init', $plugin_admin, 'vlfc_register_settings');
 		$this->loader->add_action( 'admin_menu', $plugin_admin, 'vlfc_admin_menu');
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'vlfc_enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'vlfc_enqueue_scripts' );

@@ -4,10 +4,13 @@
 function vlfc_current_option() {
 	if ( isset( $_REQUEST['option'] ) && -1 != $_REQUEST['option'] ) {
 		return $_REQUEST['option'];
-	}
-	else if ( isset( $_REQUEST['page'] ) && $_REQUEST['page'] == 'vlfc-new' ){
+	} elseif ( isset( $_REQUEST['page'] ) && $_REQUEST['page'] == 'vlfc-new' ){
 		return 'new';
 	}
+	// elseif ( isset( $_REQUEST['page'] ) && $_REQUEST['page'] == 'vlfc-settings' ){
+	// 	return 'settings';
+	// }
+
 	
 	return false;
 }
