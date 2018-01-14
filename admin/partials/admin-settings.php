@@ -4,6 +4,8 @@
     <?php settings_fields( 'settings-video-list-for-courses' ); ?>
     <?php do_settings_sections( 'settings-video-list-for-courses' ); ?>
     
+    <?php $vlfc_options = get_option('vlfc_options'); ?>
+
     <table class="form-table">
       <tr valign="top">
       <th scope="row"><?php _e( 'Links Youtube', 'video-list-for-courses' ); ?></th>
@@ -12,8 +14,8 @@
           <legend class="screen-reader-text"><span><?php _e( 'Links Youtube', 'video-list-for-courses' ); ?></span></legend>
 
           <label for="show_link_youtube">
-            <input type="checkbox" id="show_link_youtube" name="vlfc_show_link_youtube" value="1" <?php checked( '1', get_option( 'vlfc_show_link_youtube' ) ); ?>/>
-            <span><?php _e( 'Show public link in course items', 'video-list-for-courses' ) ?></span>
+            <input type="checkbox" id="show_link_youtube" name="vlfc_options[link_youtube]" <?php checked( isset($vlfc_options['link_youtube']), true ); ?>/>
+            <span><?php _e( 'Show public link in href attribute course items', 'video-list-for-courses' ) ?></span>
           </label>
 
         </fieldset>
@@ -26,7 +28,7 @@
           <legend class="screen-reader-text"><span><?php _e( 'Load CSS in front-end', 'video-list-for-courses' ); ?></span></legend>
 
           <label for="load_css">
-            <input type="checkbox" id="load_css" name="vlfc_load_css" value="1" <?php checked( '1', get_option( 'vlfc_load_css' ) ); ?>/>
+            <input type="checkbox" id="load_css" name="vlfc_options[load_css]" <?php checked( isset($vlfc_options['load_css']), true ); ?>/>
             <span><?php _e( 'Load styles file in front-end', 'video-list-for-courses' ) ?></span>
           </label>
 

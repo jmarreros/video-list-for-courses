@@ -31,22 +31,20 @@ class VLFC_Video_List_For_Courses_Activator {
 	 */
 	public static function activate() {
 
-		// TODO : Inserción de ejemplo
+		// delete_option('vlfc_options');
 
-		// $args = [
-		// 	'post_title' => 'Curso Ejemplo',
-		// 	'post_content' => 'Contenido HTML de ejemplo también :)',
-		// 	'post_status' => 'publish',
-		// 	'post_type' => 'vlfc_video_courses'
-		// ];
-		
-		// $post_id = wp_insert_post($args);
+		$vlfc_options = get_option('vlfc_options');
 
-		// if ( is_wp_error($post_id) ){
-		//   echo $post_id->get_error_message();
-		// }
+		if ( empty($vlfc_options) ){
 
-		// --- Fin insersión ejemplo ---
+			 	$options = [
+			 				'load_css'		=> 'on',
+			 				'link_youtube' 	=> 'on'
+		 			];
+
+				update_option('vlfc_options',$options);
+		}
+
 	}
 
 }

@@ -216,8 +216,8 @@ class VLFC_Video_List_For_Courses_Admin {
 	 * @since    1.0.0
 	 */
 	public function vlfc_register_settings() {
-	  register_setting( 'settings-video-list-for-courses', 'vlfc_show_link_youtube' );
-	  register_setting( 'settings-video-list-for-courses', 'vlfc_load_css' );
+	  register_setting( 'settings-video-list-for-courses', "vlfc_options" );
+	  register_setting( 'settings-video-list-for-courses', "vlfc_options" );
 	}
 
 
