@@ -11,6 +11,8 @@
  * @package    Video_List_For_Courses
  * @subpackage Video_List_For_Courses/public/partials
  */
+
+require_once VLFC_DIR . 'helpers/functions.php';
 ?>
 
 
@@ -26,10 +28,13 @@
 
 <?php
 
+
+//Function for creating the list content
 function vlfc_list_content( $course ){
 	$content = json_decode($course->content());
 	$str = '';
 	$flag_header = false;
+	$count_links = 0;
 
 	if ( count($content)  > 0 ):
 		echo "<ul class='course-list-items' data-id='".$course->id()."'>\n";
@@ -42,7 +47,8 @@ function vlfc_list_content( $course ){
 				$str .= vlfc_create_link($item, true);
 				$flag_header = true;
 			} else {
-				$str .= vlfc_create_link($item , $flag_header);
+				$count_links++;
+				$str .= vlfc_create_link($item, $flag_header, $count_links);
 			}
 
 			if ( $flag_header && count($content) > $index + 1 ){
@@ -63,24 +69,35 @@ function vlfc_list_content( $course ){
 	endif;
 }
 
-
-function vlfc_create_link ( $item, $flag_header ) {
+// Create each link
+function vlfc_create_link ( $item, $flag_header, $count_links = 0 ) {
 
 	$name = $item->name;
 	$isheader = $item->isheader;
 	$islock = $item->islock;
-	$duration = $item->duration;
-
+	$class = 'islink';
+	$url = '#';	
+	$duration = '';
+	$iconlock = '';
 	$str = '';
 
-	if ( $duration ) $duration = "<span>(".$duration.")</span>";
-	
+	$option = get_option('vlfc_options');
+
+	if ( isset($option['link_youtube']) ) $url = get_url_youtube($item->code);
+	if ( isset($option['video_duration']) && $item->duration ) $duration = "<span>(".$item->duration.")</span>";
+	if ( isset($option['number_items']) && ! $isheader ) $name = $count_links . '- ' . $name;
+	if ( isset($option['lock_icon']) && ! is_user_logged_in() ) $iconlock = '🔒';
+
 	if ( $isheader ){
 		$str =  sprintf("<div>%s</div>\n", $name);
 	} elseif ($islock) {
-		$str = sprintf("<a href='#' class='islock'>%s %s</a>\n", $name, $duration );
+		if ( ! is_user_logged_in() ) {
+			$class = 'islock';
+			$url = '#';
+		}
+		$str = sprintf("<a href='%s' class='%s'>%s %s %s</a>\n", $url, $class, $iconlock, $name, $duration );
 	} else{
-		$str = sprintf("<a href='#' class='islink'>%s %s</a>\n", $name, $duration );
+		$str = sprintf("<a href='%s' class='%s'>%s %s</a>\n", $url, $class, $name, $duration );
 	}
 	
 	if ( ! $flag_header ) {
@@ -89,5 +106,7 @@ function vlfc_create_link ( $item, $flag_header ) {
 
 	return $str;
 }
+
+
 ?>
  

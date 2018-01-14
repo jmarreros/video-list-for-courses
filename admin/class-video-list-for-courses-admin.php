@@ -90,7 +90,7 @@ class VLFC_Video_List_For_Courses_Admin {
 		$course = VLFC_CPT::get_instance( $id );
 
 		ob_start();
-        include_once VLFC_DIR."/public/partials/public-display.php";
+        include_once VLFC_DIR . "/public/partials/public-display.php";
     	return ob_get_clean();
 	}
 
@@ -216,7 +216,6 @@ class VLFC_Video_List_For_Courses_Admin {
 	 * @since    1.0.0
 	 */
 	public function vlfc_register_settings() {
-	  register_setting( 'settings-video-list-for-courses', "vlfc_options" );
 	  register_setting( 'settings-video-list-for-courses', "vlfc_options" );
 	}
 

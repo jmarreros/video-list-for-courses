@@ -1,3 +1,29 @@
-/**
- * All of the CSS for your public area
- */
+.course-list-items {
+
+}
+
+.course-list-items a{
+	display: block;
+	width: 100%;
+	text-decoration: none;
+	box-shadow: none!important;
+	margin:2px;
+	color:gray;
+}
+
+.course-list-items a:hover{
+	color:black;
+}
+
+.course-list-items a span{
+	font-size: .8em;
+}
+
+.course-list-items .section{
+	margin-bottom: 15px;
+}
+
+.course-list-items .section > div{
+	text-transform: uppercase;
+	font-weight: bold;
+}

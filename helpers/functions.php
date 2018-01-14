@@ -54,5 +54,15 @@ function current_bulk_action() {
 }
 
 
+// Get iframe embebed url
+function get_url_youtube( $str ){
 
+	preg_match('/src="([^"]+youtube[^"]+)"/', $str, $cad);
+	// 	preg_match('/src="([^"]+)"/', $str, $cad);
+
+	if ( isset($cad[1]) ) 
+		return $cad[1];
+	else 
+		return '#';
+}
 

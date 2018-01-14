@@ -35,14 +35,14 @@ class VLFC_Video_List_For_Courses_Activator {
 
 		$vlfc_options = get_option('vlfc_options');
 
-		if ( empty($vlfc_options) ){
+		if ( ! $vlfc_options ){
 
 			 	$options = [
 			 				'load_css'		=> 'on',
 			 				'link_youtube' 	=> 'on'
 		 			];
 
-				update_option('vlfc_options',$options);
+				update_option( 'vlfc_options', $options );
 		}
 
 	}
