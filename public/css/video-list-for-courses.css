@@ -1,5 +1,21 @@
-.course-list-items {
+.vlfc-list, .vlfc-detail{
+	width:50%;
+	float:left;
+}
 
+.vlfc-container{
+	width: 100%;
+}
+
+.vlfc-container:after{
+	content:"";
+	display: block;
+	clear:both;
+}
+
+.vlfc-detail{
+	min-height: 200px;
+	background-color: lightyellow;
 }
 
 .course-list-items a{

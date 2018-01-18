@@ -71,7 +71,7 @@ function vlfc_list_content( $course ){
 
 // Create each link
 function vlfc_create_link ( $item, $flag_header, $count_links = 0 ) {
-
+	$id_item = $item->id_item; 
 	$name = $item->name;
 	$isheader = $item->isheader;
 	$islock = $item->islock;
@@ -95,9 +95,9 @@ function vlfc_create_link ( $item, $flag_header, $count_links = 0 ) {
 			$class = 'islock';
 			$url = '#';
 		}
-		$str = sprintf("<a href='%s' class='%s'>%s %s %s</a>\n", $url, $class, $iconlock, $name, $duration );
+		$str = sprintf("<a data-id='%d' href='%s' class='%s'>%s %s %s</a>\n", $id_item, $url, $class, $iconlock, $name, $duration );
 	} else{
-		$str = sprintf("<a href='%s' class='%s'>%s %s</a>\n", $url, $class, $name, $duration );
+		$str = sprintf("<a data-id='%d' href='%s' class='%s'>%s %s</a>\n", $id_item, $url, $class, $name, $duration );
 	}
 	
 	if ( ! $flag_header ) {

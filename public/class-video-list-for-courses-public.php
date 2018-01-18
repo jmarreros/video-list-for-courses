@@ -77,7 +77,10 @@ class VLFC_Video_List_For_Courses_Public {
 	 */
 	public function enqueue_scripts() {
 		wp_enqueue_script( $this->plugin_name, VLFC_URL . 'public/js/video-list-for-courses.js', array( 'jquery' ), $this->version, false );
-		wp_localize_script( $this->plugin_name,'vlfc_vars',['ajaxurl'=>admin_url('admin-ajax.php')]);
+		wp_localize_script( $this->plugin_name,'vlfc_vars',[
+			'ajaxurl'=>admin_url('admin-ajax.php'),
+			'ajax_nonce' => wp_create_nonce('vlf_data_ajax')
+		]);
 	}
 
 	/**
@@ -85,20 +88,31 @@ class VLFC_Video_List_For_Courses_Public {
 	 *
 	 * @since    1.0.0
 	 */
-	public function vlfc_ajax_send_data_object(){
+	public function vlfc_ajax_get_data_object(){
 
 		$item = absint($_POST['item']);
 		$id_course = absint($_POST['course']);
-		
+		$islock = false;
+
+		check_ajax_referer( 'vlf_data_ajax', 'security' ); //nonce validation
+
 		$course = VLFC_CPT::get_instance( $id_course ); 
 
 		if ( $course->id() > 0 ){
 
+	
 			$content = json_decode($course->content());
 			$res = array ( 'code' =>  $content[$item]->code,
 						   'notes' => $content[$item]->notes);
 
-			echo json_encode( $res, JSON_FORCE_OBJECT );
+
+			$islock = $content[$item]->islock;
+
+			if ( $islock && ! is_user_logged_in() ){
+				wp_send_json_error('Access error, lock item 🔒🔒🔒');
+			}
+
+			wp_send_json_success($res);		
 
 		}
 		

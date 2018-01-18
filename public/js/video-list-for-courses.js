@@ -1,7 +1,7 @@
 (function( $ ) {
 	'use strict';
 
-	$(document).on('click','.course-item .islink',function(e){
+	$(document).on('click','.course-list-items .islink',function(e){
 	 	e.preventDefault();
 
 		$.ajax({
@@ -9,15 +9,25 @@
 			type: 'post',
 			data: {
 				action : 'vlfc_ajax_get_data',
-				item: this.parentNode.dataset.id,
-				course: this.parentNode.parentNode.dataset.id
+				security: vlfc_vars.ajax_nonce,
+				item: this.dataset.id,
+				course: document.querySelector('.course-list-items').dataset.id
 			},
 			beforeSend: function(){
 				$('.vlfc-video').html('Cargando ...');
+				$('.vlfc-notes').html('');
 			},
 			success: function(res){
-				 var data = $.parseJSON(res);
-				 console.log(data.notes);
+
+				if ( res.success ){
+					$('.vlfc-video').html(res.data.code);
+					$('.vlfc-notes').html(res.data.notes);
+				}
+				else {
+				 	$('.vlfc-video').html(res.data);
+				 	console.log(res.data);
+				}
+
 			},
 			error: function( err ){
 				 $('.vlfc-video').html('Error: ' + err.statusText);
