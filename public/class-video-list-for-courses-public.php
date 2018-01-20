@@ -102,8 +102,9 @@ class VLFC_Video_List_For_Courses_Public {
 
 	
 			$content = json_decode($course->content());
-			$res = array ( 'code' =>  $content[$item]->code,
-						   'notes' => $content[$item]->notes);
+			$res = array ( 'name' => $content[$item]->name,
+						   'code' =>  $content[$item]->code,
+						   'notes' => $content[$item]->notes );
 
 
 			$islock = $content[$item]->islock;

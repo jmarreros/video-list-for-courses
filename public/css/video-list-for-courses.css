@@ -27,6 +27,10 @@
 	color:gray;
 }
 
+.course-list-items .current{
+	font-weight: bold;
+}
+
 .course-list-items a:hover{
 	color:black;
 }

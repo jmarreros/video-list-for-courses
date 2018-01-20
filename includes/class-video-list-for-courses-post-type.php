@@ -140,7 +140,7 @@ class VLFC_CPT{
 			'post_title' => $this->title(),
 			'post_content' => $this->content(),
 			'post_status' => 'publish',
-			'post_type' => 'vlfc_video_courses'
+			'post_type' => self::post_type
 		];
 
 		// new course
