@@ -26,7 +26,7 @@
 					if ( res.success ){
 						$('.course-list-items .islink').removeClass('current');
 						$(e.currentTarget).addClass('current');
-						validate_next_prev();
+						vlfc_validate_next_prev();
 
 						$('.vlfc-name').html(res.data.name);
 						$('.vlfc-video').html(res.data.code);
@@ -48,10 +48,10 @@
 
 
 		// default first-item
-		$( ".course-list-items .islink" ).first().trigger('click');
-		$('#prev').hide();		
+		$( ".course-list-items .islink" ).first().addClass('first-item').trigger('click');
+		$( ".course-list-items .islink" ).last().addClass('last-item');
 
-		//TODO, revisar consistencia
+
 		$('#prev').click( function(e) {
 			e.preventDefault();
 			$('.course-list-items .current').prev('.islink').trigger('click');
@@ -62,29 +62,22 @@
 			$('.course-list-items .current').next('.islink').trigger('click');
 		});
 
-		function validate_next_prev(){
+		function vlfc_validate_next_prev(){
+			$('#prev').show();
+			$('#next').show();
+
+			if ( $('.course-list-items .current').hasClass('first-item') ){
+				$('#prev').hide();
+			} 
+
+			if ( $('.course-list-items .current').hasClass('last-item') ){
+				$('#next').hide();
+			}
 			
-			// if ( $( ".course-list-items .current" ).prev('.islink').length > 0  ){
-			// 	$('#prev').show();
-			// } else {
-			// 	$('#prev').hide();
-			// }
-
-			// if ( $( ".course-list-items .current" ).next('.islink').length > 0 ){
-			// 	$('#next').show();
-			// } else{
-			// 	$('#next').hide();
-			// }
-
 		}
 
+
 	});
-
-	// function next( current ){
-	// 	current.next('.islink.current').trigger('click');
-	// }
-
-	// function prev( current ){}
 
 
 
