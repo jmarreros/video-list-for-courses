@@ -100,9 +100,9 @@ function vlfc_create_link ( $item, $flag_header, $count_links = 0 ) {
 			$class = 'islock';
 			$url = '#';
 		}
-		$str = sprintf("<a data-id='%d' href='%s' class='%s'>%s %s %s</a>\n", $id_item, $url, $class, $iconlock, $name, $duration );
+		$str = sprintf("<a data-id='%d' data-number='%d' href='%s' class='%s'>%s %s %s</a>\n", $id_item, $count_links, $url, $class, $iconlock, $name, $duration );
 	} else{
-		$str = sprintf("<a data-id='%d' href='%s' class='%s'>%s %s</a>\n", $id_item, $url, $class, $name, $duration );
+		$str = sprintf("<a data-id='%d' data-number='%d' href='%s' class='%s'>%s %s</a>\n", $id_item, $count_links, $url, $class, $name, $duration );
 	}
 	
 	if ( ! $flag_header ) {

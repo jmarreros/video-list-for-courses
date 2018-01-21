@@ -47,20 +47,22 @@
 		}); // click
 
 
-		// default first-item
-		$( ".course-list-items .islink" ).first().addClass('first-item').trigger('click');
-		$( ".course-list-items .islink" ).last().addClass('last-item');
+		$('#next').click( function(e) {
+			e.preventDefault();
+			vlfc_sel_item(1);
+		});
 
 
 		$('#prev').click( function(e) {
 			e.preventDefault();
-			$('.course-list-items .current').prev('.islink').trigger('click');
+			vlfc_sel_item(-1);
 		});
 
-		$('#next').click( function(e) {
-			e.preventDefault();
-			$('.course-list-items .current').next('.islink').trigger('click');
-		});
+
+		// default first-item
+		$( ".course-list-items .islink" ).first().addClass('first-item').trigger('click');
+		$( ".course-list-items .islink" ).last().addClass('last-item');
+
 
 		function vlfc_validate_next_prev(){
 			$('#prev').show();
@@ -76,9 +78,13 @@
 			
 		}
 
+		function vlfc_sel_item( add ) {
+			var sel = $('.course-list-items .current').data('number') + add;
+			var el = $('.course-list-items .islink[data-number="' + sel + '"]');			
+			if ( el ) el.trigger('click');
+		}
 
-	});
-
+	}); //ready
 
 
 
