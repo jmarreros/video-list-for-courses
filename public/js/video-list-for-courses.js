@@ -1,14 +1,12 @@
 (function( $ ) {
 	'use strict';
 
-	
-
 	$( document ).ready(function() {
 
 		$(document).on('click','.course-list-items .islink',function(e){
-	 	e.preventDefault();
+		 	e.preventDefault();
 
-		$.ajax({
+			$.ajax({
 				url : vlfc_vars.ajaxurl,
 				type: 'post',
 				data: {
@@ -18,11 +16,10 @@
 					course: document.querySelector('.course-list-items').dataset.id
 				},
 				beforeSend: function(){
-					$('.vlfc-video').html('Cargando ...');
+					$('.vlfc-video').html('<img src="' + vlfc_vars.assets_path + 'spin.svg' + '" width=70 />');
 					$('.vlfc-notes').html('');
 				},
 				success: function(res){
-
 					if ( res.success ){
 						$('.course-list-items .islink').removeClass('current');
 						$(e.currentTarget).addClass('current');

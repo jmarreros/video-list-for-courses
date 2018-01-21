@@ -77,9 +77,11 @@ class VLFC_Video_List_For_Courses_Public {
 	 */
 	public function enqueue_scripts() {
 		wp_enqueue_script( $this->plugin_name, VLFC_URL . 'public/js/video-list-for-courses.js', array( 'jquery' ), $this->version, false );
+
 		wp_localize_script( $this->plugin_name,'vlfc_vars',[
 			'ajaxurl'=>admin_url('admin-ajax.php'),
-			'ajax_nonce' => wp_create_nonce('vlf_data_ajax')
+			'ajax_nonce' => wp_create_nonce('vlf_data_ajax'),
+			'assets_path' => VLFC_URL.'public/assets/'
 		]);
 	}
 

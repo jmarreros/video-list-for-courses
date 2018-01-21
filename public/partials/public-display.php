@@ -17,9 +17,6 @@ require_once VLFC_DIR . 'helpers/functions.php';
 
 
 <div class="vlfc-container">
-	<div class="vlfc-list">
-		<?php vlfc_list_content( $course ); ?>
-	</div>
 	<div class="vlfc-detail">
 		<div class="vlfc-name"></div>
 		<div class="vlfc-video"></div>
@@ -28,6 +25,9 @@ require_once VLFC_DIR . 'helpers/functions.php';
 			<a id="prev" href="#"><?php _e('Previous', 'video-list-for-courses') ?></a>
 			<a id="next" href="#"><?php _e('Next', 'video-list-for-courses') ?></a>
 		</div>
+	</div>
+	<div class="vlfc-list">
+		<?php vlfc_list_content( $course ); ?>
 	</div>
 </div>
 

@@ -90,6 +90,9 @@ ul.list-items{
 	width: 100%;
 }
 
+ul.list-items a:focus{
+	box-shadow: none;
+}
 
 ul.list-items.empty{
 	min-height: 36px;
