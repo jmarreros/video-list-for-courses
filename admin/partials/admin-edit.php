@@ -95,8 +95,8 @@
 
 
 
-<!------ Lateral Box ------>
-<!-- ------------------- --> 
+<!--  Lateral Box  -->
+
 <div id="postbox-container-1" class="postbox-container">
 
 	<div id="submitdiv" class="postbox">
@@ -169,8 +169,8 @@
 
 </div><!-- #postbox-container-1 -->
 
-<!------ End Lateral Box ------>
-<!-- ----------------------- --> 
+<!-- End Lateral Box -->
+
 
 
 
