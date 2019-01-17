@@ -13,15 +13,12 @@
 	width:39%;
 	float:left;
 	background-color: white;
-	padding: 20px 12px 20px 24px;
-	border-radius: 6px;
-} 
+}
 
 .vlfc-detail{
 	width:60%;
 	float:right;
 	background-color: white;
-	border-radius: 6px;
 }
 
 .vlfc-name{
@@ -36,6 +33,7 @@
 	padding-top: 25px;
 	height: 0;
 	text-align: center;
+	background:black;
 }
 .vlfc-video iframe {
 	position: absolute;
@@ -43,6 +41,11 @@
 	left: 0;
 	width: 100%;
 	height: 100%;
+}
+
+.vlfc-video .spin{
+	margin-top:20%;
+	width:16%;
 }
 
 .vlfc-notes{
@@ -74,22 +77,46 @@
 	float: right;
 }
 
+
+.entry-content ul.course-list-items li{
+	list-style-type: none;
+	margin:0;
+	margin-top:20px;
+}
+
+.entry-content ul.course-list-items li:first-child{
+	margin-top:0;
+}
+
+.entry-content ul.course-list-items li > div{
+	background-color:#dddddc;
+}
+
+.entry-content ul.course-list-items li > *{
+	padding:12px 10px;
+}
+
 .course-list-items a{
 	display: block;
 	width: 100%;
 	text-decoration: none;
 	box-shadow: none!important;
-	margin:2px;
 	color:gray;
+	border-bottom:1px solid #d6d6d6;
 }
 
 .course-list-items .current{
-	font-weight: bold;
+	border:1px solid #4289b2;
+	border-left:10px solid #4289b2;
 }
 
+.course-list-items  a:hover{
+	border-color:#d6d6d6;
+}
 
 .course-list-items a:hover{
 	color:black;
+	background-color:#f5f5f3;
 }
 
 .course-list-items a span{
@@ -103,6 +130,80 @@
 .course-list-items .section > div{
 	text-transform: uppercase;
 	font-weight: bold;
+}
+
+.course-header{
+	padding:20px;
+}
+
+.course-header h1{
+	font-size:20px;
+}
+
+.course-header img{
+	float:left;
+	margin-right: 10px;
+}
+
+.vlfc-container{
+	margin-top:0;
+}
+
+.page-template-page_cursos .entry-content{
+	max-width: 100%;
+	padding-top:0;
+	/* background-color: #161616; */
+	background-color: #192d38;
+}
+
+.page-template-page_cursos .site-inner,
+.page-template-page_cursos .content article{
+	margin-bottom:0;
+	padding-bottom:0;
+}
+
+.page-template-page_cursos .vlfc-list{
+	width:29%;
+	overflow-y: scroll;
+	height: 100vh;
+}
+
+.page-template-page_cursos .vlfc-detail{
+	width:70%;
+}
+
+.page-template-page_cursos.header-image .site-title > a{
+	background-image: url(/wp-content/themes/decodecms/images/logo.svg);
+	background-position: 10px;
+	min-height: 60px;
+}
+
+.page-template-page_cursos.header-image .site-description{
+	left:-9999px;
+}
+
+.page-template-page_cursos .site-header > .wrap:first-child{
+	background-position: 90% -40px;
+}
+
+.page-template-page_cursos .title-area{
+	padding:0;
+}
+
+.page-template-page_cursos .nav-primary .genesis-nav-menu a{
+	padding:14px 24px;
+}
+
+.page-template-page_cursos .widget_search{
+	top:-38px;
+}
+
+.page-template-page_cursos .social-icons{
+	display: none;
+}
+
+.page-template-page_cursos .dc-social{
+	text-align: right;
 }
 
 @media (max-width: 768px){

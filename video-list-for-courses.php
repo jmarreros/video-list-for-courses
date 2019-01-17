@@ -31,6 +31,7 @@ define( 'VLFC_NAME', 'video-list-for-courses' );
 define( 'VLFC_DIR', plugin_dir_path( __FILE__ ) );
 define( 'VLFC_URL', plugin_dir_url( __FILE__ ) );
 define( 'VLFC_SHORTCODE', 'video_course' );
+define( 'VLFC_THUMBNAIL', 'vlfc_thumbnail' );
 
 /**
  * The code that runs during plugin activation and desactivation
@@ -57,7 +58,7 @@ require VLFC_DIR . 'includes/class-video-list-for-courses.php';
 
 function run_video_list_for_courses() {
 
-	
+
 	$plugin = new VLFC_Video_List_For_Courses();
 	$plugin->run();
 

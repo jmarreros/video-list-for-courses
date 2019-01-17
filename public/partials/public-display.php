@@ -18,7 +18,6 @@ require_once VLFC_DIR . 'helpers/functions.php';
 
 <div class="vlfc-container">
 	<div class="vlfc-detail">
-		<div class="vlfc-name"></div>
 		<div class="vlfc-video"></div>
 		<div class="vlfc-notes"></div>
 		<div class="vlfc-footer">
@@ -41,12 +40,18 @@ function vlfc_list_content( $course ){
 	$flag_header = false;
 	$count_links = 0;
 
+	echo "<header class='course-header'>";
+	echo "<img src='".$course->thumbnail()."' width=36 height=36 />";
+	echo "<h1>".$course->title()."</h1>";
+	echo "</header>";
+
+
 	if ( count($content)  > 0 ):
 		echo "<ul class='course-list-items' data-id='".$course->id()."'>\n";
-		
+
 
 		foreach ($content as $index => $item) {
-			
+
 			if ( $item->isheader ){
 				$str .= "<li class='section'>\n";
 				$str .= vlfc_create_link($item, true);
@@ -68,7 +73,7 @@ function vlfc_list_content( $course ){
 		if ( $flag_header ){
 			$str .= "</li>\n";
 		}
-			
+
 		echo $str;
 		echo "</ul>\n";
 	endif;
@@ -76,12 +81,12 @@ function vlfc_list_content( $course ){
 
 // Create each link
 function vlfc_create_link ( $item, $flag_header, $count_links = 0 ) {
-	$id_item = $item->id_item; 
+	$id_item = $item->id_item;
 	$name = $item->name;
 	$isheader = $item->isheader;
 	$islock = $item->islock;
 	$class = 'islink';
-	$url = '#';	
+	$url = '#';
 	$duration = '';
 	$iconlock = '';
 	$str = '';
@@ -104,7 +109,7 @@ function vlfc_create_link ( $item, $flag_header, $count_links = 0 ) {
 	} else{
 		$str = sprintf("<a data-id='%d' data-number='%d' href='%s' class='%s'>%s %s</a>\n", $id_item, $count_links, $url, $class, $name, $duration );
 	}
-	
+
 	if ( ! $flag_header ) {
 		$str = "<li>".$str."</li>\n";
 	}
@@ -114,4 +119,3 @@ function vlfc_create_link ( $item, $flag_header, $count_links = 0 ) {
 
 
 ?>
- 

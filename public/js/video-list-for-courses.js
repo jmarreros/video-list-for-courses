@@ -16,7 +16,7 @@
 					course: document.querySelector('.course-list-items').dataset.id
 				},
 				beforeSend: function(){
-					$('.vlfc-video').html('<img src="' + vlfc_vars.assets_path + 'spin.svg' + '" width=70 />');
+					$('.vlfc-video').html('<img class="spin" src="' + vlfc_vars.assets_path + 'spin.svg' + '" />');
 					$('.vlfc-notes').html('');
 				},
 				success: function(res){
@@ -67,17 +67,17 @@
 
 			if ( $('.course-list-items .current').hasClass('first-item') ){
 				$('#prev').hide();
-			} 
+			}
 
 			if ( $('.course-list-items .current').hasClass('last-item') ){
 				$('#next').hide();
 			}
-			
+
 		}
 
 		function vlfc_sel_item( add ) {
 			var sel = $('.course-list-items .current').data('number') + add;
-			var el = $('.course-list-items .islink[data-number="' + sel + '"]');			
+			var el = $('.course-list-items .islink[data-number="' + sel + '"]');
 			if ( el ) el.trigger('click');
 		}
 

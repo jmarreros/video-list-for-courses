@@ -114,7 +114,7 @@ class VLFC_Video_List_For_Courses_Admin {
 	 */
 	public function vlfc_enqueue_scripts() {
 		if ( is_page_vlfc() ){
-			//wp_enqueue_script( 'vlfc_sortable', VLFC_URL . 'admin/js/sortable.min.js', null , $this->version, false );	
+			//wp_enqueue_script( 'vlfc_sortable', VLFC_URL . 'admin/js/sortable.min.js', null , $this->version, false );
 			wp_enqueue_script( $this->plugin_name, VLFC_URL . 'admin/js/video-list-for-courses-admin.js', array( 'jquery' ), $this->version, false );
 
 			$params = array (
@@ -134,12 +134,12 @@ class VLFC_Video_List_For_Courses_Admin {
 		global $_wp_last_object_menu;
 
 		$_wp_last_object_menu++;
-		
+
 		add_menu_page( __( 'Video List Courses', 'video-list-for-courses' ),
 					   __( 'Video Courses', 'video-list-for-courses' ),
-					   'manage_options', 
+					   'manage_options',
 					   'vlfc',
-					   array( $this, 'vlfc_admin_management_page' ), 
+					   array( $this, 'vlfc_admin_management_page' ),
 					   'dashicons-playlist-video',
 					   $_wp_last_object_menu++);
 
@@ -147,14 +147,14 @@ class VLFC_Video_List_For_Courses_Admin {
 		$list = add_submenu_page( 'vlfc',
 						__( 'Courses List', 'video-list-for-courses' ),
 						__( 'Courses List', 'video-list-for-courses' ),
-						'manage_options', 
+						'manage_options',
 						'vlfc',
 						array( $this, 'vlfc_admin_management_page') );
 
 		add_submenu_page( 'vlfc',
 						__( 'Add New Video Course', 'video-list-for-courses' ),
 						__( 'Add New', 'video-list-for-courses' ),
-						'manage_options', 
+						'manage_options',
 						'vlfc-new',
 						array($this, 'vlfc_admin_management_page') );
 
@@ -227,7 +227,7 @@ class VLFC_Video_List_For_Courses_Admin {
 	 */
 	public function vlfc_load_video_list_for_courses(){
 		$bulk_action = current_bulk_action();
-		
+
 		if ( 'delete' == $bulk_action ){
 
 			check_admin_referer('bulk-courses'); // validate nonce, "courses" plural from the constructor table
@@ -278,7 +278,7 @@ class VLFC_Video_List_For_Courses_Admin {
 	 */
 	public function vlfc_new_course(){
 		$this->option_save_course( 0 ); // 0 new course
-	} 
+	}
 
 	/**
 	 *  Edit a Course
@@ -298,7 +298,7 @@ class VLFC_Video_List_For_Courses_Admin {
 	public function vlfc_duplicate_course(){
 		$post_id = vlfc_current_post();
 		$this->option_save_course( $post_id, true ); // $post_id , true for duplicating
-	} 
+	}
 
 
 	/**
@@ -312,16 +312,18 @@ class VLFC_Video_List_For_Courses_Admin {
 		// validate nonce
 		$nonce_name = 'vlfc-save-course_' . $course->id();
 		$this->validate_nonce( $nonce_name );
-		
+
 		if ( $duplicate ){
 			// change values
 			$course->set_id(0);
 			$course->set_title( $course->title() . ' - Copy');
+			$course->set_thumbnail( $course->thumbnail() );
 		}
 		else{
-			// fill values		
+			// fill values
 			$course->set_title( $_REQUEST['course_title'] );
-			$course->set_content( $_REQUEST['course_content'] );			
+			$course->set_content( $_REQUEST['course_content'] );
+			$course->set_thumbnail( $_REQUEST['vlfc-thumbnail'] );
 		}
 
 		// insert or update
@@ -348,7 +350,7 @@ class VLFC_Video_List_For_Courses_Admin {
 		$this->validate_nonce( $nonce_name );
 
 		//return a post object , or false, second parameter to force delete
-	    $course = VLFC_CPT::delete_course( $course_id ); 
+	    $course = VLFC_CPT::delete_course( $course_id );
 
 	    $link = $this->get_link_redirection_delete( $course );
 
@@ -364,7 +366,7 @@ class VLFC_Video_List_For_Courses_Admin {
 
 
 	/**
-	 * Shows the messages, success and failed, 
+	 * Shows the messages, success and failed,
 	 * based in the Hook: vlfc_admin_messages
 	 *
 	 * @since    1.0.0
@@ -399,7 +401,7 @@ class VLFC_Video_List_For_Courses_Admin {
 	private function validate_nonce( $nonce_name ) {
 		$course_wpnonce = $_REQUEST['_wpnonce'];
 
-		if ( ! isset( $course_wpnonce ) || 
+		if ( ! isset( $course_wpnonce ) ||
 			 ! wp_verify_nonce( $course_wpnonce, $nonce_name ) ) {
 			die("Security check, not valid nonce 🖐");
 		}
@@ -414,11 +416,11 @@ class VLFC_Video_List_For_Courses_Admin {
 	private function get_link_redirection_save( $course_id ) {
 
 		if ( ! is_wp_error( $course_id ) ) {
-			$url = admin_url( 'admin.php?page=vlfc&post=' . absint( $course_id ) ); 
+			$url = admin_url( 'admin.php?page=vlfc&post=' . absint( $course_id ) );
 			$link = add_query_arg( array( 'option' => 'edit', 'state' => 'success' ), $url );
 		}
 		else {
-			$url = admin_url( 'admin.php?page=vlfc-new' ); 
+			$url = admin_url( 'admin.php?page=vlfc-new' );
 			$link = add_query_arg( array( 'state' => 'failed' , 'message' => urlencode($course_id->get_error_message()) ), $url );
 		}
 
@@ -439,12 +441,12 @@ class VLFC_Video_List_For_Courses_Admin {
 			$link = add_query_arg( array( 'state' => 'success', 'message' => urlencode($message) ), $url );
 		}
 		else {
-			$link = add_query_arg( array( 'state' => 'failed', 'message' => urlencode($message) ), $url );			
+			$link = add_query_arg( array( 'state' => 'failed', 'message' => urlencode($message) ), $url );
 		}
 
 		return $link;
 	}
 
-	
+
 
 }

@@ -13,7 +13,7 @@
 
 .delete.submitdelete{
 	background: transparent;
- 	border:none; 	
+ 	border:none;
  	cursor: pointer;
  }
 
@@ -118,7 +118,7 @@ li.item .links .item-link{
 	float: left;
 	width: 95%;
 }
-	
+
 li.item .links .item-link:focus{
 	box-shadow: none;
 }
@@ -243,6 +243,11 @@ li.item .controls .control-options::after{
 
 #video-container .title img{
 	margin-left: 10px;
+}
+
+#vlfc-thumbnai{
+	width:100%;
+	padding:6px 10px;
 }
 
 @media ( max-width: 768px ){
