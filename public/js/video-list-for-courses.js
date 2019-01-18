@@ -27,7 +27,9 @@
 
 						$('.vlfc-name').html(res.data.name);
 						$('.vlfc-video').html(res.data.code);
-						$('.vlfc-notes').html(res.data.notes);
+						if ( res.data.notes ){
+							$('.vlfc-notes').html('<div>' + res.data.notes + '</div>');
+						}
 					}
 					else {
 					 	$('.vlfc-video').html(res.data);
@@ -80,6 +82,16 @@
 			var el = $('.course-list-items .islink[data-number="' + sel + '"]');
 			if ( el ) el.trigger('click');
 		}
+
+
+		$('.vlfc-toggle').on('click', function(){
+
+			$('.vlfc-list').toggle('fast', function(){
+				$('.vlfc-toggle > div').toggleClass('arrow-left');
+				$('.vlfc-toggle > div').toggleClass('arrow-right');
+			});
+
+		});
 
 	}); //ready
 

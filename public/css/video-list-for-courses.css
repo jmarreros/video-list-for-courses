@@ -1,24 +1,26 @@
 .vlfc-container{
 	width: 100%;
-	margin:26px auto;
-}
-
-.vlfc-container:after{
-	content:"";
-	display: block;
-	clear:both;
-}
-
-.vlfc-list{
-	width:39%;
-	float:left;
-	background-color: white;
+	display: flex;
+	flex-direction: row;
+	align-items: stretch;
+	background-color: #124257;
 }
 
 .vlfc-detail{
-	width:60%;
-	float:right;
+	/* background-color: #192d38; */
+	background-color: #192d38;
+	flex-grow: 2;
+}
+
+.vlfc-list{
 	background-color: white;
+}
+
+.vlfc-toggle{
+	color:white;
+	padding:0 4px;
+	margin:auto;
+	cursor:pointer;
 }
 
 .vlfc-name{
@@ -48,25 +50,30 @@
 	width:16%;
 }
 
-.vlfc-notes{
+.vlfc-notes > div{
 	padding: 12px;
+	background:white;
 }
 
 .vlfc-footer{
 	padding: 12px;
 	text-align: right;
+	background-color:#000;
 }
 
 .vlfc-footer:after{
 	content: "";
 	display: block;
 	width: 100%;
+	clear:both;
 }
 
 .vlfc-footer #prev,
 .vlfc-footer #next{
-	font-size: .8em;
+	font-size: 1em;
 	margin-bottom: 18px;
+	border:none;
+	color:white;
 }
 
 .vlfc-footer #prev{
@@ -145,14 +152,27 @@
 	margin-right: 10px;
 }
 
-.vlfc-container{
-	margin-top:0;
+
+.arrow-right {
+	width: 0;
+	height: 0;
+	border-top: 12px solid transparent;
+	border-bottom: 12px solid transparent;
+	border-left: 12px solid white;
 }
+
+.arrow-left {
+	width: 0;
+	height: 0;
+	border-top: 12px solid transparent;
+	border-bottom: 12px solid transparent;
+	border-right:12px solid white;
+}
+
 
 .page-template-page_cursos .entry-content{
 	max-width: 100%;
 	padding-top:0;
-	/* background-color: #161616; */
 	background-color: #192d38;
 }
 
@@ -163,13 +183,9 @@
 }
 
 .page-template-page_cursos .vlfc-list{
-	width:29%;
+	/* width:29%; */
 	overflow-y: scroll;
 	height: 100vh;
-}
-
-.page-template-page_cursos .vlfc-detail{
-	width:70%;
 }
 
 .page-template-page_cursos.header-image .site-title > a{
@@ -206,9 +222,42 @@
 	text-align: right;
 }
 
+
+
 @media (max-width: 768px){
 	.vlfc-list,
 	.vlfc-detail{
 		width: 100%;
+	}
+
+	.vlfc-container{
+		flex-direction: column-reverse;
+	}
+
+	.arrow-left {
+		border-left: 12px solid transparent;
+		border-right: 12px solid transparent;
+		border-bottom: 12px solid white;
+	  }
+
+	  .arrow-right {
+		border-left: 12px solid transparent;
+		border-right: 12px solid transparent;
+		border-top: 12px solid white;
+	  }
+
+	  .vlfc-toggle{
+		  padding-bottom:4px;
+		  padding-top:4px;
+	  }
+
+}
+
+@media (max-width: 960px){
+	.page-template-page_cursos.header-image .site-title > a{
+		background-position: center;
+	}
+	.page-template-page_cursos.header-image .site-description{
+		position: absolute;
 	}
 }
