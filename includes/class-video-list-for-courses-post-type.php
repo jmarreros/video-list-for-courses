@@ -31,6 +31,9 @@ class VLFC_CPT{
 	private $title;
 	private $content;
 	private $thumbnail_url;
+	private $order;
+	private $description;
+	private $showlist;
 
 
 	public static function count() {
@@ -72,7 +75,10 @@ class VLFC_CPT{
 				$this->set_id( $post->ID );
 				$this->set_title( $post->post_title );
 				$this->set_content( $post->post_content );
+				$this->set_description( $post->post_excerpt );
 				$this->set_thumbnail( get_post_meta($id, VLFC_THUMBNAIL, true) );
+				$this->set_order( get_post_meta($id, VLFC_ORDER, true) );
+				$this->set_showlist( get_post_meta($id, VLFC_SHOWLIST, true) );
 			}
 		}
 		else {
@@ -80,6 +86,9 @@ class VLFC_CPT{
 			$this->set_title('');
 			$this->set_content('');
 			$this->set_thumbnail('');
+			$this->set_order(1);
+			$this->set_description('');
+			$this->set_showlist(false);
 		}
 	}
 
@@ -100,6 +109,19 @@ class VLFC_CPT{
 		return $this->thumbnail_url;
 	}
 
+	public function order(){
+		return $this->order;
+	}
+
+	public function description(){
+		return $this->description;
+	}
+
+	public function showlist(){
+		return $this->showlist;
+	}
+
+
 	// set values
 	public function set_id( $id ){
 		$this->id = $id;
@@ -118,6 +140,18 @@ class VLFC_CPT{
 
 	public function set_thumbnail( $url ){
 		$this->thumbnail_url = $url;
+	}
+
+	public function set_order($order){
+		$this->order = intval($order);
+	}
+
+	public function set_description($description){
+		$this->description = $description;
+	}
+
+	public function set_showlist($val){
+		$this->showlist = filter_var($val, FILTER_VALIDATE_BOOLEAN );
 	}
 
 
@@ -141,6 +175,7 @@ class VLFC_CPT{
 			'ID' => $this->id(),
 			'post_title' => $this->title(),
 			'post_content' => $this->content(),
+			'post_excerpt' => $this->description(),
 			'post_status' => 'publish',
 			'post_type' => self::post_type
 		];
@@ -155,6 +190,8 @@ class VLFC_CPT{
 		if ( $id_course ) {
 			$this->set_id($id_course);
 			$this->save_thumbnail();
+			$this->save_order();
+			$this->save_showlist();
 		}
 
 		return $id_course;
@@ -167,6 +204,20 @@ class VLFC_CPT{
 		}
 	}
 
+	// save order
+	public function save_order(){
+		if ( $this->order ){
+			return update_post_meta($this->id(), VLFC_ORDER, $this->order);
+		}
+	}
+
+	// save showlist
+	public function save_showlist(){
+		return update_post_meta($this->id(), VLFC_SHOWLIST, $this->showlist);
+	}
+
+
+	// Delete a course
 	public static function delete_course( $course_id ) {
 		return wp_delete_post( $course_id, true );
 	}

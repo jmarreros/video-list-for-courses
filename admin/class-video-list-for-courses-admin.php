@@ -313,12 +313,18 @@ class VLFC_Video_List_For_Courses_Admin {
 			$course->set_id(0);
 			$course->set_title( $course->title() . ' - Copy');
 			$course->set_thumbnail( $course->thumbnail() );
+			$course->set_order( $course->order() );
+			$course->set_description( $course->description() );
+			$course->set_showlist( false );
 		}
 		else{
 			// fill values
 			$course->set_title( $_REQUEST['course_title'] );
 			$course->set_content( $_REQUEST['course_content'] );
 			$course->set_thumbnail( $_REQUEST['vlfc-thumbnail'] );
+			$course->set_order( $_REQUEST['vlfc-order'] );
+			$course->set_description( $_REQUEST['vlfc-description'] );
+			$course->set_showlist( $_REQUEST['vlfc-show-list'] );
 		}
 
 		// insert or update

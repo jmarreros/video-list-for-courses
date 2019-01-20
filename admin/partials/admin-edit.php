@@ -64,7 +64,20 @@
 		autocomplete="off"
 		required
 		type="text"
+		placeholder="<?php echo esc_attr( __( 'Enter the title', 'video-list-for-courses' ) ); ?>"
 	/>
+
+	<label class="screen-reader-text" id="description-prompt-text" for="description">
+		<?php echo esc_html( __( 'Enter description here', 'video-list-for-courses' ) ); ?>
+	</label>
+
+	<textarea
+		name="vlfc-description"
+		id = "vlfc-description"
+		value="<?php echo $course->initial() ? '' : $course->description(); ?>"
+		placeholder="<?php echo esc_attr( __( 'Enter the description', 'video-list-for-courses' ) ); ?>"
+	><?php echo $course->description()?$course->description():'' ?></textarea>
+
 
 </div><!-- #titlewrap -->
 
@@ -166,11 +179,30 @@
 
 	</div><!-- #submitdiv -->
 
+	<!-- Thumbnail box -->
 	<div id="thumbnail" class="postbox">
 		<h3><?php echo esc_html( __( 'Thumbnail', 'video-list-for-courses' ) ); ?></h3>
 
 		<div class="inside">
 			<input type="url" name="vlfc-thumbnail" id="vlfc-thumbnai" value="<?php echo $course->thumbnail() ?>" placeholder="<?php echo esc_attr( __( 'thumbnail url', 'video-list-for-courses' )) ?>" />
+		</div>
+	</div>
+
+	<!-- order box -->
+	<div id="order" class="postbox">
+		<h3><?php echo esc_html( __( 'Order', 'video-list-for-courses' ) ); ?></h3>
+
+		<div class="inside">
+			<input type="number" name="vlfc-order" id="vlfc-order" value="<?php echo $course->order() ?>" />
+		</div>
+	</div>
+
+	<!-- Show in list -->
+		<div id="group" class="postbox">
+		<h3><?php echo esc_html( __( 'Show in list', 'video-list-for-courses' ) ); ?></h3>
+
+		<div class="inside">
+			<input type="checkbox" name="vlfc-show-list" id="vlfc-show-list" <?php echo $course->showlist()?'checked':'' ?> /> <label for="vlfc-show-list"><?php _e( 'Show in list shortcode', 'video-list-for-courses' ) ?></label>
 		</div>
 	</div>
 

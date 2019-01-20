@@ -32,6 +32,9 @@ define( 'VLFC_DIR', plugin_dir_path( __FILE__ ) );
 define( 'VLFC_URL', plugin_dir_url( __FILE__ ) );
 define( 'VLFC_SHORTCODE', 'video_course' );
 define( 'VLFC_THUMBNAIL', 'vlfc_thumbnail' );
+define( 'VLFC_SHOWLIST', 'vlfc_showlist' );
+define( 'VLFC_ORDER', 'vlfc_order' );
+
 
 /**
  * The code that runs during plugin activation and desactivation

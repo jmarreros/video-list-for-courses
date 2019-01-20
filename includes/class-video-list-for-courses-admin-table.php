@@ -46,6 +46,7 @@ class VLFC_Video_List_For_Courses_Admin_Table extends WP_List_Table{
 			'cb' => '',
 			'title' => __( 'Courses', 'video-list-for-courses' ),
 			'shortcode' => __( 'Shortcode', 'video-list-for-courses' ),
+			'order' => __( 'Order', 'video-list-for-courses' ),
 			'author' => __( 'Author', 'video-list-for-courses' ),
 			'date' => __( 'Date', 'video-list-for-courses' )
 		);
@@ -62,6 +63,7 @@ class VLFC_Video_List_For_Courses_Admin_Table extends WP_List_Table{
 			'title' => array( 'title', true ),
 			'author' => array( 'author', false ),
 			'date' => array( 'date', false ),
+			'order' => array( 'order', false )
 		);
 
 		return $columns;
@@ -105,6 +107,8 @@ class VLFC_Video_List_For_Courses_Admin_Table extends WP_List_Table{
 				$args['orderby'] = 'title';
 			} elseif ( 'author' == $_REQUEST['orderby'] ) {
 				$args['orderby'] = 'author';
+			} elseif ( 'order' == $_REQUEST['orderby'] ) {
+				$args['orderby'] = 'order';
 			} elseif ( 'date' == $_REQUEST['orderby'] ) {
 				$args['orderby'] = 'date';
 			}
@@ -165,13 +169,17 @@ class VLFC_Video_List_For_Courses_Admin_Table extends WP_List_Table{
 											esc_html( __( 'Edit', 'video-list-for-courses' ) ) ),
 						'duplicate' => sprintf('<a href="%1$s">%2$s</a>',
 											esc_url( $duplicate_link ),
-											esc_html( __( 'Duplicate', 'video-list-for-courses' ) ) ) 
+											esc_html( __( 'Duplicate', 'video-list-for-courses' ) ) )
 						);
 
 
 		$output .= $this->row_actions( $actions );
 
 		return $output;
+	}
+
+	function column_order( $item ){
+		return get_post_meta($item->id(), VLFC_ORDER, true);
 	}
 
 	function column_author( $item ) {
