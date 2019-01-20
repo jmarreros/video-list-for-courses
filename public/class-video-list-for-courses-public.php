@@ -64,10 +64,8 @@ class VLFC_Video_List_For_Courses_Public {
 	 *
 	 * @since    1.0.0
 	 */
-	public function enqueue_styles() {
-
-		wp_enqueue_style( $this->plugin_name, VLFC_URL . 'public/css/video-list-for-courses.css', array(), $this->version, 'all' );
-
+	public function vlfc_register_styles() {
+		wp_register_style( $this->plugin_name, VLFC_URL . 'public/css/video-list-for-courses.css', array(), $this->version, 'all' );
 	}
 
 	/**
@@ -75,8 +73,8 @@ class VLFC_Video_List_For_Courses_Public {
 	 *
 	 * @since    1.0.0
 	 */
-	public function enqueue_scripts() {
-		wp_enqueue_script( $this->plugin_name, VLFC_URL . 'public/js/video-list-for-courses.js', array( 'jquery' ), $this->version, false );
+	public function vlfc_register_scripts() {
+		wp_register_script( $this->plugin_name, VLFC_URL . 'public/js/video-list-for-courses.js', array( 'jquery' ), $this->version, false );
 
 		wp_localize_script( $this->plugin_name,'vlfc_vars',[
 			'ajaxurl'=>admin_url('admin-ajax.php'),
@@ -98,11 +96,11 @@ class VLFC_Video_List_For_Courses_Public {
 
 		check_ajax_referer( 'vlf_data_ajax', 'security' ); //nonce validation
 
-		$course = VLFC_CPT::get_instance( $id_course ); 
+		$course = VLFC_CPT::get_instance( $id_course );
 
 		if ( $course->id() > 0 ){
 
-	
+
 			$content = json_decode($course->content());
 			$res = array ( 'name' => $content[$item]->name,
 						   'code' =>  $content[$item]->code,
@@ -115,10 +113,10 @@ class VLFC_Video_List_For_Courses_Public {
 				wp_send_json_error('Access error, lock item 🔒🔒🔒');
 			}
 
-			wp_send_json_success($res);		
+			wp_send_json_success($res);
 
 		}
-		
+
 
 		wp_die();
 	}

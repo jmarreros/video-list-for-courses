@@ -26,7 +26,13 @@
 						vlfc_validate_next_prev();
 
 						$('.vlfc-name').html(res.data.name);
-						$('.vlfc-video').html(res.data.code);
+
+						if ( res.data.code ){
+							$('.vlfc-video').html(res.data.code);
+						} else {
+							$('.vlfc-video').html('<img class="spin" src="' + vlfc_vars.assets_path + 'locked-white.svg' + '" />')
+						}
+
 						if ( res.data.notes ){
 							$('.vlfc-notes').html('<div>' + res.data.notes + '</div>');
 						}

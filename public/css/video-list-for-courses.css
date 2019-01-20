@@ -23,6 +23,10 @@
 	cursor:pointer;
 }
 
+a.islock{
+	cursor: default;
+}
+
 .vlfc-name{
 	text-align: center;
 	margin: 10px auto;
@@ -220,6 +224,14 @@
 
 .page-template-page_cursos .dc-social{
 	text-align: right;
+}
+
+.page-template-page_cursos a.islock:before{
+	content:'';
+	display: inline-block;
+	font-family:FontAwesome;
+	font-size:16px;
+	content: "\f023";
 }
 
 

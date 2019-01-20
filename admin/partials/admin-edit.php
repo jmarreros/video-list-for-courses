@@ -100,7 +100,7 @@
 <div id="postbox-container-1" class="postbox-container">
 
 	<div id="submitdiv" class="postbox">
-	<h3><?php echo esc_html( __( 'Status', 'video-list-for-courses' ) ); ?></h3>
+	<h3><?php echo esc_html( __( 'Actions', 'video-list-for-courses' ) ); ?></h3>
 
 	<div class="inside">
 	<div class="submitbox" id="submitpost">
@@ -109,7 +109,8 @@
 
 			<div id="duplicate-action">
 			<?php
-				if ( ! $course->initial() ) :
+				//--> Disable duplicate
+				if ( false && ! $course->initial() ) :
 					$nonce_duplicate = wp_create_nonce( 'vlfc-save-course_' . $course_id );
 					$action_duplicate = 'vlfc_duplicate_action';
 			?>

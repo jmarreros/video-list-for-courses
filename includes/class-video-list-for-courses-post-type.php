@@ -22,6 +22,7 @@
 class VLFC_CPT{
 
 	const post_type = 'vlfc_video_courses';
+	const taxonomy = 'vlfc_groups';
 
 	private static $found_items = 0;
 	private static $current = null;
@@ -31,18 +32,6 @@ class VLFC_CPT{
 	private $content;
 	private $thumbnail_url;
 
-	public static function register_post_type() {
-		register_post_type( self::post_type, array(
-			'labels' => array(
-				'name' => __( 'Video List Courses cpt', 'video-list-for-courses' ),
-				'singular_name' => __( 'Video Course cpt', 'video-list-for-courses' ),
-			),
-			'rewrite' => false,
-			'query_var' => false,
-		) );
-
-		add_post_type_support( self::post_type, 'thumbnail' );
-	}
 
 	public static function count() {
 		return self::$found_items;
@@ -183,3 +172,30 @@ class VLFC_CPT{
 	}
 
 }
+
+
+// public static function register_post_type() {
+	// 	register_post_type( self::post_type, array(
+	// 		'labels' => array(
+	// 			'name' => __( 'Video List Courses cpt', 'video-list-for-courses' ),
+	// 			'singular_name' => __( 'Video Course cpt', 'video-list-for-courses' ),
+	// 		),
+	// 		'rewrite' => false,
+	// 		'query_var' => false,
+	// 	) );
+
+	// 	add_post_type_support( self::post_type, 'thumbnail' );
+	// }
+
+	// public static function register_taxonomy(){
+	// 	register_taxonomy( self::taxonomy, 'vlfc' ,array(
+	// 		'hierarchical' => false,
+	// 		'labels' => array(
+	// 			'name' => __( 'Groups', 'video-list-for-courses' ),
+	// 			'singular_name' => __( 'Group', 'video-list-for-courses' ),
+	// 		),
+	// 		'show_ui' => true,
+	// 		'query_var' => true,
+	// 		'rewrite' => array( 'slug' => 'group' ),
+	// 	  ));
+	// }

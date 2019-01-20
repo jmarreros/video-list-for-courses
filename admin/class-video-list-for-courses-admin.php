@@ -60,17 +60,9 @@ class VLFC_Video_List_For_Courses_Admin {
 
 	}
 
-	/**
-	 * Register the custom post type
-	 *
-	 * @since    1.0.0
-	 */
-	public function vlfc_register_post_type(){
-		VLFC_CPT::register_post_type();
-	}
 
 	/**
-	 * Register the custom post type
+	 * Register the shortcode
 	 *
 	 * @since    1.0.0
 	 */
@@ -88,6 +80,9 @@ class VLFC_Video_List_For_Courses_Admin {
 		$id = $atts['id'];
 
 		$course = VLFC_CPT::get_instance( $id );
+
+		wp_enqueue_style($this->plugin_name);
+		wp_enqueue_script($this->plugin_name);
 
 		ob_start();
         include_once VLFC_DIR . "/public/partials/public-display.php";
@@ -450,3 +445,22 @@ class VLFC_Video_List_For_Courses_Admin {
 
 
 }
+
+
+/**
+	 * Register the custom post type
+	 *
+	 * @since    1.0.0
+	 */
+	// public function vlfc_register_post_type(){
+	// 	VLFC_CPT::register_post_type();
+	// }
+
+	/**
+	 * Register the custom taxonomy
+	 *
+	 * @since    1.0.0
+	 */
+	// public function vlfc_register_taxonomy(){
+	// 	VLFC_CPT::register_taxonomy();
+	// }
