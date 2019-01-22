@@ -60,37 +60,6 @@ class VLFC_Video_List_For_Courses_Admin {
 
 	}
 
-
-	/**
-	 * Register the shortcode
-	 *
-	 * @since    1.0.0
-	 */
-	public function vlfc_register_shortcode(){
-		add_shortcode( VLFC_SHORTCODE, array( $this, 'vlfc_add_shortcode' ) );
-	}
-
-
-	/**
-	*  To show the shortcode transformation
-	*
-	* @since    1.0.0
-	*/
-	public function vlfc_add_shortcode( $atts ){
-		$id = $atts['id'];
-
-		$course = VLFC_CPT::get_instance( $id );
-
-		wp_enqueue_style($this->plugin_name);
-		wp_enqueue_script($this->plugin_name);
-
-		ob_start();
-        include_once VLFC_DIR . "/public/partials/public-display.php";
-    	return ob_get_clean();
-	}
-
-
-
 	/**
 	 * Register the stylesheets for the admin area.
 	 *

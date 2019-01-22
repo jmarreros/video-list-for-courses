@@ -83,6 +83,65 @@ class VLFC_Video_List_For_Courses_Public {
 		]);
 	}
 
+
+
+	/**
+	 * Register the shortcode specific course VLFC_SHORTCODE
+	 *
+	 * @since    1.0.0
+	 */
+	public function vlfc_register_shortcode_course(){
+		add_shortcode( VLFC_SHORTCODE, array( $this, 'vlfc_add_shortcode_course' ) );
+	}
+
+	/**
+	*  To show the shortcode specific course VLFC_SHORTCODE
+	*
+	* @since    1.0.0
+	*/
+	public function vlfc_add_shortcode_course( $atts ){
+		$id = $atts['id'];
+
+		$course = VLFC_CPT::get_instance( $id );
+
+		wp_enqueue_style($this->plugin_name);
+		wp_enqueue_script($this->plugin_name);
+
+		ob_start();
+        include_once VLFC_DIR . "/public/partials/public-show-course.php";
+    	return ob_get_clean();
+	}
+
+
+
+	/**
+	 * Register the shortcode list courses VLFC_SHORTCODE_LIST
+	 *
+	 * @since    1.0.0
+	 */
+	public function vlfc_register_shortcode_list_courses(){
+		add_shortcode( VLFC_SHORTCODE_LIST, array( $this, 'vlfc_add_shortcode_list_courses' ) );
+	}
+
+	/**
+	*  To show the shortcode list of courses VLFC_SHORTCODE_LIST
+	*
+	* @since    1.0.0
+	*/
+	public function vlfc_add_shortcode_list_courses(  ){
+
+		wp_enqueue_style($this->plugin_name);
+		wp_enqueue_script($this->plugin_name);
+
+		$courses = VLFC_CPT::list_courses(); // Get all list courses
+
+		ob_start();
+		include_once VLFC_DIR . "/public/partials/public-list-courses.php";
+
+		return ob_get_clean();
+	}
+
+
 	/**
 	 * Function to send Ajax data
 	 *

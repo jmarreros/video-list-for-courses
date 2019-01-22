@@ -222,6 +222,41 @@ class VLFC_CPT{
 		return wp_delete_post( $course_id, true );
 	}
 
+	// List all courses, return associative array
+	public static function list_courses(){
+		$courses = array();
+		$i = 0;
+
+		$args = array(
+			'post_type' => 'vlfc_video_courses',
+			'orderby'   => 'meta_value_num',
+			'meta_key' => VLFC_ORDER,
+			'meta_query' => [
+                'key' => VLFC_SHOWLIST,
+                'value' => 1,
+                'compare' => '=',
+                'type' => 'NUMERIC'
+            ]
+		);
+
+		$query = new WP_Query( $args );
+
+		while ($query->have_posts()){
+			$query->the_post();
+			$id = get_the_ID();
+
+			// Fill var $courses to return
+			$courses[$i]['id'] = $id;
+			$courses[$i]['description'] = get_the_excerpt();
+			$courses[$i]['image'] = get_post_meta($id, VLFC_THUMBNAIL, true );
+			$i++;
+		}
+
+		wp_reset_query();
+
+		return $courses;
+	}
+
 }
 
 
