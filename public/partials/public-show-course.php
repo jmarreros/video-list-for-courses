@@ -92,7 +92,7 @@ function vlfc_create_link ( $item, $flag_header, $count_links = 0 ) {
 	$iconlock = '';
 	$str = '';
 
-	$option = get_option('vlfc_options');
+	$option = get_option(VLFC_OPTIONS);
 
 	if ( isset($option['link_youtube']) ) $url = get_url_youtube($item->code);
 	if ( isset($option['video_duration']) && $item->duration ) $duration = "<span>(".$item->duration.")</span>";

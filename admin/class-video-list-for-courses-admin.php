@@ -180,7 +180,7 @@ class VLFC_Video_List_For_Courses_Admin {
 	 * @since    1.0.0
 	 */
 	public function vlfc_register_settings() {
-	  register_setting( 'settings-video-list-for-courses', "vlfc_options" );
+	  register_setting( 'settings-video-list-for-courses', VLFC_OPTIONS );
 	}
 
 
@@ -285,6 +285,8 @@ class VLFC_Video_List_For_Courses_Admin {
 			$course->set_order( $course->order() );
 			$course->set_description( $course->description() );
 			$course->set_showlist( false );
+			$course->set_linkpage('');
+			$course->set_label('');
 		}
 		else{
 			// fill values
@@ -294,6 +296,9 @@ class VLFC_Video_List_For_Courses_Admin {
 			$course->set_order( $_REQUEST['vlfc-order'] );
 			$course->set_description( $_REQUEST['vlfc-description'] );
 			$course->set_showlist( $_REQUEST['vlfc-show-list'] );
+			$course->set_linkpage( $_REQUEST['vlfc-link-page'] );
+			$course->set_label( $_REQUEST['vlfc-label'] );
+
 		}
 
 		// insert or update

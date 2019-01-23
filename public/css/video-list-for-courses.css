@@ -173,6 +173,66 @@ a.islock{
 	border-right:12px solid white;
 }
 
+.vlfc-courses-container{
+	width:100%;
+	display:flex;
+	flex-direction: row;
+}
+
+.vlfc-courses-container .vlfc-course{
+	flex-grow: 1;
+	flex-shrink: 1;
+	/* border-radius: 6px; */
+	display: block;
+	margin-right: 2%;
+	box-shadow: 0 0 2px #8c8c8c;
+	margin-bottom: 16px;
+}
+
+.vlfc-courses-container .vlf-img{
+	position: relative;
+	background-color: #d3e7f8;
+	padding:12px 10px;
+	text-align: center;
+}
+
+.vlfc-courses-container .vlf-img img{
+	max-width: 180px;
+}
+
+
+.vlfc-courses-container .vlf-label{
+	font-family: arial;
+	display: block;
+	position: absolute;
+	text-transform: uppercase;
+	font-size: 10px;
+	color: white;
+	padding: 3px 5px;
+	border-radius: 3px;
+	top: 6px;
+	right: -4px;
+}
+
+.vlfc-courses-container .vlf-label.gratis{
+	background-color: #63bc03;
+}
+
+
+.vlfc-courses-container:hover p{
+	color: black;
+}
+
+.vlfc-courses-container .vlf-text{
+	border-top: 1px solid #d1d1d1;
+	padding: 10px;
+	font-size: 15px;
+	line-height: 20px;
+}
+
+.vlfc-courses-container .vlf-text h2{
+	font-size:18px;
+}
 
 .page-template-page_cursos .entry-content{
 	max-width: 100%;

@@ -34,6 +34,8 @@ class VLFC_CPT{
 	private $order;
 	private $description;
 	private $showlist;
+	private $linkpage;
+	private $label;
 
 
 	public static function count() {
@@ -79,6 +81,8 @@ class VLFC_CPT{
 				$this->set_thumbnail( get_post_meta($id, VLFC_THUMBNAIL, true) );
 				$this->set_order( get_post_meta($id, VLFC_ORDER, true) );
 				$this->set_showlist( get_post_meta($id, VLFC_SHOWLIST, true) );
+				$this->set_linkpage( get_post_meta($id, VLFC_LINKPAGE, true) );
+				$this->set_label( get_post_meta($id, VLFC_LABEL, true) );
 			}
 		}
 		else {
@@ -89,6 +93,8 @@ class VLFC_CPT{
 			$this->set_order(1);
 			$this->set_description('');
 			$this->set_showlist(false);
+			$this->set_linkpage('');
+			$this->set_label('');
 		}
 	}
 
@@ -119,6 +125,14 @@ class VLFC_CPT{
 
 	public function showlist(){
 		return $this->showlist;
+	}
+
+	public function linkpage(){
+		return $this->linkpage;
+	}
+
+	public function label(){
+		return $this->label;
 	}
 
 
@@ -152,6 +166,14 @@ class VLFC_CPT{
 
 	public function set_showlist($val){
 		$this->showlist = filter_var($val, FILTER_VALIDATE_BOOLEAN );
+	}
+
+	public function set_linkpage($url){
+		$this->linkpage = $url;
+	}
+
+	public function set_label($val){
+		$this->label = $val;
 	}
 
 
@@ -192,6 +214,8 @@ class VLFC_CPT{
 			$this->save_thumbnail();
 			$this->save_order();
 			$this->save_showlist();
+			$this->save_linkpage();
+			$this->save_label();
 		}
 
 		return $id_course;
@@ -216,6 +240,20 @@ class VLFC_CPT{
 		return update_post_meta($this->id(), VLFC_SHOWLIST, $this->showlist);
 	}
 
+	// save linkpage
+	public function save_linkpage(){
+		if ( $this->linkpage ){
+			return update_post_meta($this->id(), VLFC_LINKPAGE, $this->linkpage);
+		}
+	}
+
+	// save label
+	public function save_label(){
+		if ( $this->label ){
+			return update_post_meta($this->id(), VLFC_LABEL, $this->label);
+		}
+	}
+
 
 	// Delete a course
 	public static function delete_course( $course_id ) {
@@ -231,6 +269,7 @@ class VLFC_CPT{
 			'post_type' => 'vlfc_video_courses',
 			'orderby'   => 'meta_value_num',
 			'meta_key' => VLFC_ORDER,
+			'order' => 'ASC',
 			'meta_query' => [
                 'key' => VLFC_SHOWLIST,
                 'value' => 1,
@@ -244,11 +283,16 @@ class VLFC_CPT{
 		while ($query->have_posts()){
 			$query->the_post();
 			$id = get_the_ID();
+			$courses[$i] = new stdClass();
 
 			// Fill var $courses to return
-			$courses[$i]['id'] = $id;
-			$courses[$i]['description'] = get_the_excerpt();
-			$courses[$i]['image'] = get_post_meta($id, VLFC_THUMBNAIL, true );
+			$courses[$i]->id = $id;
+			$courses[$i]->title = get_the_title();
+			$courses[$i]->description = get_the_excerpt();
+			$courses[$i]->image = get_post_meta($id, VLFC_THUMBNAIL, true );
+			$courses[$i]->linkpage = get_post_meta($id, VLFC_LINKPAGE, true );
+			$courses[$i]->label = get_post_meta($id, VLFC_LABEL, true );
+
 			$i++;
 		}
 

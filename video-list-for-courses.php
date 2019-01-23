@@ -27,6 +27,7 @@ if ( ! defined( 'WPINC' ) ) {
  * Currently plugin version an plugin name.
 */
 define( 'VLFC_VERSION', '1.0.0' );
+define( 'VLFC_OPTIONS', 'vlfc_options');
 define( 'VLFC_NAME', 'video-list-for-courses' );
 define( 'VLFC_DIR', plugin_dir_path( __FILE__ ) );
 define( 'VLFC_URL', plugin_dir_url( __FILE__ ) );
@@ -35,6 +36,8 @@ define( 'VLFC_SHORTCODE_LIST', 'video_course_list' );
 define( 'VLFC_THUMBNAIL', 'vlfc_thumbnail' );
 define( 'VLFC_SHOWLIST', 'vlfc_showlist' );
 define( 'VLFC_ORDER', 'vlfc_order' );
+define( 'VLFC_LINKPAGE', 'vlfc_linkpage' );
+define( 'VLFC_LABEL', 'vlfc_label' );
 
 
 /**

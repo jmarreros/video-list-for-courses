@@ -33,7 +33,7 @@ class VLFC_Video_List_For_Courses_Activator {
 
 		// delete_option('vlfc_options');
 
-		$vlfc_options = get_option('vlfc_options');
+		$vlfc_options = get_option(VLFC_OPTIONS);
 
 		if ( ! $vlfc_options ){
 
@@ -42,7 +42,7 @@ class VLFC_Video_List_For_Courses_Activator {
 			 				'link_youtube' 	=> 'on'
 		 			];
 
-				update_option( 'vlfc_options', $options );
+				update_option( VLFC_OPTIONS, $options );
 		}
 
 	}

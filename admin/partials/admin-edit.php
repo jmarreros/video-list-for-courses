@@ -198,11 +198,29 @@
 	</div>
 
 	<!-- Show in list -->
-		<div id="group" class="postbox">
+	<div id="group" class="postbox">
 		<h3><?php echo esc_html( __( 'Show in list', 'video-list-for-courses' ) ); ?></h3>
 
 		<div class="inside">
 			<input type="checkbox" name="vlfc-show-list" id="vlfc-show-list" <?php echo $course->showlist()?'checked':'' ?> /> <label for="vlfc-show-list"><?php _e( 'Show in list shortcode', 'video-list-for-courses' ) ?></label>
+		</div>
+	</div>
+
+	<!-- Show in list -->
+	<div id="linkpage" class="postbox">
+		<h3><?php echo esc_html( __( 'Link in list', 'video-list-for-courses' ) ); ?></h3>
+
+		<div class="inside">
+			<input type="text" name="vlfc-link-page" id="vlfc-link-page" value="<?php echo $course->linkpage() ?>" />
+		</div>
+	</div>
+
+	<!-- Label -->
+	<div id="label" class="postbox">
+		<h3><?php echo esc_html( __( 'Label', 'video-list-for-courses' ) ); ?></h3>
+
+		<div class="inside">
+			<input type="text" name="vlfc-label" id="vlfc-label" value="<?php echo $course->label() ?>" />
 		</div>
 	</div>
 
