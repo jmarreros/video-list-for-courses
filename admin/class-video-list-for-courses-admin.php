@@ -393,21 +393,33 @@ class VLFC_Video_List_For_Courses_Admin {
 			}
 
 			// Get content file uploaded
-			$content = file_get_contents($file_name);
+			$import = file_get_contents($file_name);
 			unlink($file_name); //remove file
 
+			$import = json_decode($import);
 
-			echo $content;
+			$course = VLFC_CPT::get_instance();
+
+			$course->set_title( $import->title );
+			$course->set_thumbnail( $import->thumbnail_url );
+			$course->set_content( wp_slash($import->content) );
+			$course->set_order( $import->order );
+			$course->set_description( $import->description );
+			$course->set_showlist( $import->showlist );
+			$course->set_linkpage( $import->linkpage );
+			$course->set_label( $import->label );
+
+			// insert
+			$course_id = $course->save_course();
+
+			// Get link redirection
+			$link = $this->get_link_redirection_import(true );
+
+			wp_safe_redirect( $link );
+			exit;
 		}
-
-
-		// $link = $this->get_link_redirection_import( true );
-		// wp_safe_redirect( $link );
-		exit;
 	}
-	/*
-	-----------------------------------------------
-	*/
+
 
 
 	/**
@@ -493,7 +505,12 @@ class VLFC_Video_List_For_Courses_Admin {
 		return $link;
 	}
 
-
+	/**
+	*  If course was imported, then send success message
+	*  if it's false, report the error, finally it return the link
+	*
+	* @since    1.0.0
+	*/
 	private function get_link_redirection_import($imported){
 		$url = admin_url( 'admin.php?page=vlfc-import' );
 
