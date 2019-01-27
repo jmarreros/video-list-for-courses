@@ -187,7 +187,16 @@ a.islock{
 	margin-right: 2%;
 	box-shadow: 0 0 2px #8c8c8c;
 	margin-bottom: 16px;
+	text-decoration: none;
+	border:none;
 }
+
+.vlfc-courses-container .vlfc-course:hover {
+	background-color:#f9f9f9;
+	box-shadow: 0 0 4px #8c8c8c;
+}
+
+
 
 .vlfc-courses-container .vlf-img{
 	position: relative;
@@ -234,8 +243,18 @@ a.islock{
 	font-size:18px;
 }
 
-.page-template-page_cursos .entry-content{
+.page-template-page_cursos .breadcrumb{
+	display: none;
+}
+
+.page-template-page_cursos main.content,
+.page-template-page_cursos .site-inner{
 	max-width: 100%;
+	padding:0;
+}
+
+.page-template-page_cursos .entry-content{
+	padding:20px;
 	padding-top:0;
 	background-color: #192d38;
 }
@@ -284,6 +303,7 @@ a.islock{
 
 .page-template-page_cursos .dc-social{
 	text-align: right;
+	margin-top:40px;
 }
 
 .page-template-page_cursos a.islock:before{
@@ -312,16 +332,27 @@ a.islock{
 		border-bottom: 12px solid white;
 	  }
 
-	  .arrow-right {
+	.arrow-right {
 		border-left: 12px solid transparent;
 		border-right: 12px solid transparent;
 		border-top: 12px solid white;
-	  }
+	}
 
-	  .vlfc-toggle{
-		  padding-bottom:4px;
-		  padding-top:4px;
-	  }
+	.vlfc-toggle{
+		padding-bottom:4px;
+		padding-top:4px;
+	}
+
+	.vlfc-courses-container{
+		flex-direction: column;
+		justify-content: center;
+	}
+
+	.vlfc-courses-container .vlfc-course{
+		margin:auto;
+		margin-bottom: 32px;
+		width:80%;
+	}
 
 }
 

@@ -122,6 +122,13 @@ class VLFC_Video_List_For_Courses_Admin {
 						'vlfc-new',
 						array($this, 'vlfc_admin_management_page') );
 
+		add_submenu_page( 'vlfc',
+						__( 'Import', 'video-list-for-courses' ),
+						__( 'Import', 'video-list-for-courses' ),
+						'manage_options',
+						'vlfc-import',
+						array($this, 'vlfc_admin_management_page') );
+
 		add_submenu_page('vlfc',
 						__( 'Settings', 'video-list-for-courses' ),
 						__( 'Settings', 'video-list-for-courses' ),
@@ -155,6 +162,9 @@ class VLFC_Video_List_For_Courses_Admin {
 					$course = VLFC_CPT::get_instance( $post_id );
 					include_once VLFC_DIR . 'admin/partials/admin-edit.php';
 				}
+				break;
+			case 'import':
+				include_once VLFC_DIR . 'admin/partials/admin-import.php';
 				break;
 			default: // List courses
 				$list_table = new VLFC_Video_List_For_Courses_Admin_Table();
@@ -335,6 +345,66 @@ class VLFC_Video_List_For_Courses_Admin {
 	} // -- vlfc_delete_course --
 
 
+	/**
+	 *  Export a course wp_posts and wp_post_meta tables
+	 *
+	 * @since    1.0.0
+	 */
+	public function vlfc_export_course(){
+		$course_id = vlfc_current_post();
+
+		// validate nonce
+		$nonce_name = 'vlfc-export-course_' . $course_id;
+		$this->validate_nonce( $nonce_name );
+
+		$course = VLFC_CPT::get_instance( $course_id );
+
+		// Validation CPT exists
+		if ( $course->initial() ){
+			exit("Not valid CPT id 👈");
+		}
+
+		$file_name = $course->title;
+		$course = json_encode($course);
+
+		include_once VLFC_DIR . 'admin/partials/admin-export.php';
+
+		exit;
+	}
+
+
+	/**
+	 *  Export a course wp_posts and wp_post_meta tables
+	 *
+	 * @since    1.0.0
+	 */
+	public function vlfc_import_course(){
+
+		if( isset($_POST["submit"]) ){
+			$tmp_dir = get_temp_dir();
+			$file_name = $tmp_dir . basename($_FILES["fileToUpload"]["name"]);
+			$file_type = strtolower(pathinfo($file_name,PATHINFO_EXTENSION));
+
+			// Validation
+			if ( $file_type != 'json' || ! move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $file_name) ){
+				$link = $this->get_link_redirection_import( false );
+				wp_safe_redirect( $link );
+				exit;
+			}
+
+			// Get content file uploaded
+			$content = file_get_contents($file_name);
+			unlink($file_name); //remove file
+
+
+			echo $content;
+		}
+
+
+		// $link = $this->get_link_redirection_import( true );
+		// wp_safe_redirect( $link );
+		exit;
+	}
 	/*
 	-----------------------------------------------
 	*/
@@ -354,7 +424,7 @@ class VLFC_Video_List_For_Courses_Admin {
 
 		switch ( $_REQUEST['state'] ) {
 			case 'success':
-					$message = __( "Course Saved.", "video-list-for-courses" );
+					$message = __( "Saved.", "video-list-for-courses" );
 					$message = isset( $_REQUEST['message'] ) && ! empty($_REQUEST['message']) ? $_REQUEST['message'] : $message ;
 					echo sprintf( '<div id="message" class="updated notice notice-success is-dismissible"><p>%s</p></div>', esc_html( $message ) );
 					break;
@@ -391,8 +461,9 @@ class VLFC_Video_List_For_Courses_Admin {
 	private function get_link_redirection_save( $course_id ) {
 
 		if ( ! is_wp_error( $course_id ) ) {
+			$message = __( "Course saved.", "video-list-for-courses" );
 			$url = admin_url( 'admin.php?page=vlfc&post=' . absint( $course_id ) );
-			$link = add_query_arg( array( 'option' => 'edit', 'state' => 'success' ), $url );
+			$link = add_query_arg( array( 'option' => 'edit', 'state' => 'success', 'message' => urlencode($message) ), $url );
 		}
 		else {
 			$url = admin_url( 'admin.php?page=vlfc-new' );
@@ -423,24 +494,21 @@ class VLFC_Video_List_For_Courses_Admin {
 	}
 
 
+	private function get_link_redirection_import($imported){
+		$url = admin_url( 'admin.php?page=vlfc-import' );
+
+		if ( $imported ) {
+			$message = __( "The course was imported", "video-list-for-courses" );
+			$link = add_query_arg( array( 'state' => 'success', 'message' => urlencode($message) ), $url );
+		}
+		else {
+			$message = __( "The course was not imported", "video-list-for-courses" );
+			$link = add_query_arg( array( 'state' => 'failed', 'message' => urlencode($message) ), $url );
+		}
+
+		return $link;
+	}
+
+
 
 }
-
-
-/**
-	 * Register the custom post type
-	 *
-	 * @since    1.0.0
-	 */
-	// public function vlfc_register_post_type(){
-	// 	VLFC_CPT::register_post_type();
-	// }
-
-	/**
-	 * Register the custom taxonomy
-	 *
-	 * @since    1.0.0
-	 */
-	// public function vlfc_register_taxonomy(){
-	// 	VLFC_CPT::register_taxonomy();
-	// }

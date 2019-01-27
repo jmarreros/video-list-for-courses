@@ -7,11 +7,11 @@ function vlfc_current_option() {
 	} elseif ( isset( $_REQUEST['page'] ) && $_REQUEST['page'] == 'vlfc-new' ){
 		return 'new';
 	}
-	// elseif ( isset( $_REQUEST['page'] ) && $_REQUEST['page'] == 'vlfc-settings' ){
-	// 	return 'settings';
-	// }
+	elseif ( isset( $_REQUEST['page'] ) && $_REQUEST['page'] == 'vlfc-import' ){
+		return 'import';
+	}
 
-	
+
 	return false;
 }
 
@@ -33,7 +33,7 @@ function is_page_vlfc(){
 
 	if ( isset($_REQUEST['page']) ){
 		$page = $_REQUEST['page'];
-		return ($page == 'vlfc' || $page == 'vlfc-new');	
+		return ($page == 'vlfc' || $page == 'vlfc-new');
 	}
 	return false;
 
@@ -43,13 +43,13 @@ function is_page_vlfc(){
 function current_bulk_action() {
     if ( isset( $_REQUEST['filter_action'] ) && ! empty( $_REQUEST['filter_action'] ) )
         return false;
- 
+
     if ( isset( $_REQUEST['action'] ) && -1 != $_REQUEST['action'] )
         return $_REQUEST['action'];
- 
+
     if ( isset( $_REQUEST['action2'] ) && -1 != $_REQUEST['action2'] )
         return $_REQUEST['action2'];
- 
+
     return false;
 }
 
@@ -60,9 +60,9 @@ function get_url_youtube( $str ){
 	preg_match('/src="([^"]+youtube[^"]+)"/', $str, $cad);
 	// 	preg_match('/src="([^"]+)"/', $str, $cad);
 
-	if ( isset($cad[1]) ) 
+	if ( isset($cad[1]) )
 		return $cad[1];
-	else 
+	else
 		return '#';
 }
 

@@ -27,15 +27,15 @@ class VLFC_CPT{
 	private static $found_items = 0;
 	private static $current = null;
 
-	private $id;
-	private $title;
-	private $content;
-	private $thumbnail_url;
-	private $order;
-	private $description;
-	private $showlist;
-	private $linkpage;
-	private $label;
+	public $id;
+	public $title;
+	public $content;
+	public $thumbnail_url;
+	public $order;
+	public $description;
+	public $showlist;
+	public $linkpage;
+	public $label;
 
 
 	public static function count() {

@@ -147,6 +147,8 @@ class VLFC_Video_List_For_Courses {
 		$this->loader->add_action( 'admin_post_vlfc_new_action', $plugin_admin, 'vlfc_new_course' );
 		$this->loader->add_action( 'admin_post_vlfc_delete_action', $plugin_admin, 'vlfc_delete_course' );
 		$this->loader->add_action( 'admin_post_vlfc_duplicate_action', $plugin_admin, 'vlfc_duplicate_course' );
+		$this->loader->add_action( 'admin_post_vlfc_export_action', $plugin_admin, 'vlfc_export_course' );
+		$this->loader->add_action( 'admin_post_vlfc_import_action', $plugin_admin, 'vlfc_import_course' );
 
 	}
 

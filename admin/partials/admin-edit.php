@@ -35,7 +35,7 @@
 	do_action( 'vlfc_admin_messages' );
 ?>
 
-<form method="get"
+<form method="post"
 	action="<?php echo admin_url('admin-post.php'); ?>"
 	id="vlfc-admin-form-element" >
 
@@ -136,6 +136,22 @@
 
 			<?php endif; ?>
 			</div><!-- #duplicate-action -->
+
+
+			<div id="export-action"><!-- #export-action -->
+			<?php
+				if ( ! $course->initial() ) :
+					$nonce_export = wp_create_nonce( 'vlfc-export-course_' . $course_id );
+					$action_export = 'vlfc_export_action';
+			?>
+				<input type="submit"
+								name="vlfc-export"
+								class="export button"
+								value="<?php echo esc_attr( __( 'Export', 'video-list-for-courses' ) ); ?>"
+								<?php echo "onclick=\"this.form._wpnonce.value = '$nonce_export'; this.form.action.value = '$action_export'; return true;\""; ?>
+						/>
+			<?php endif; ?>
+			</div><!-- #export-action -->
 
 		</div><!-- #minor-publishing-actions -->
 
